@@ -1,13 +1,4 @@
-function initMaps() {
-  var mapOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 8
-  };
-  var map = new google.maps.Map(document.getElementById("map-canvas"),
-    mapOptions);
-  console.log(map)
-};
-function getDataClient(url, placesCallback, connectionClosedCallback) {
+function getDataClient(url, connectionClosedCallback) {
   var serverUnavailable = function () {
     $('#places').text("Temporary unavailable");
     connectionClosedCallback();
@@ -18,7 +9,7 @@ function getDataClient(url, placesCallback, connectionClosedCallback) {
   }
 
   var socket = io.connect(url);
-  socket.on('allPlaces', placesCallback);
+  
   socket.on('disconnect', function() {
     serverUnavailable();
   });
@@ -26,19 +17,24 @@ function getDataClient(url, placesCallback, connectionClosedCallback) {
   return {
     requestAllPlaces : function(url) {
       socket.emit('getAllPlaces');
+    },
+    onPlaces : function(callback) {
+      socket.on('allPlaces', callback);
     }
   };
 };
-function startDataClient() {
-  dataClient = getDataClient('http://localhost:29999',
-    function(places) {
-      console.log(JSON.stringify(places))
-    },
-    function() {}
-    );
-  dataClient.requestAllPlaces()  
-};
+
 function onLoad() {
-  initMaps();
-  startDataClient();
+  map = initMap();
+  dataClient = getDataClient(
+    'http://localhost:29999',
+    function() {}
+  );
+  dataClient.onPlaces(function(places) {
+      console.log(JSON.stringify(places))
+      places.forEach(function(place) {
+    map.putPlaceMarker(place);
+});
+  });
+  dataClient.requestAllPlaces();
 }
