@@ -1,0 +1,32 @@
+html {
+  width: 100%;
+  height: 100%
+}
+body {
+  top: 0;
+  padding-top: 40px;
+  width: 100%;
+  height: 100%;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+#map-canvas { 
+  height: 100%; 
+  width: 100%
+}
+#details-sidebar {
+  margin-top: 10px;
+  width: 250px;
+  height: 100%;
+  z-index: 1000;
+  position: fixed;
+  background-color: #F9F6C8;
+}
+#menu-bar {
+  top: 0;
+  background-color: #79C605;
+  position: fixed;
+  right: 0;
+  left: 0;
+  height: 40px;
+}
