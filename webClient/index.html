@@ -11,6 +11,8 @@
 
   <title>Around the world</title>
   <link href="css/styles.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
 
   <script src="js/jquery-1.11.1.min.js"></script>
   <script src="http://localhost:29999/socket.io/socket.io.js"></script>
@@ -19,6 +21,7 @@
   <script type="text/javascript"
   src="http://maps.googleapis.com/maps/api/js?key=">
   </script>
+  <script src="js/bootstrap.min.js"></script>
 
 </head>
 
@@ -27,8 +30,36 @@
   <div id="menu-bar">
   </div>
 
-  <div id="details-sidebar">
-  </div>
+  <div id="details-sidebar" class="details-sidebar-right">
+
+    <h4>I  am the name</h4>
+
+
+    <div class = "tabbable">
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#desc" data-toggle="tab">Desc</a></li>
+        <li><a href="#links" data-toggle="tab">Links</a></li>
+        <li><a href="#pics" data-toggle="tab">Pics</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="desc">
+          I am description
+        </div><!-- /desc -->
+        <div class="tab-pane" id="links">
+          I am links
+        </div><!-- /links -->
+        <div class="tab-pane" id="pics">
+          I am pics
+        </div><!-- /pics -->
+      </div><!-- /tab-content -->
+
+    </div><!-- /tabbable -->
+
+  </div><!-- /details-sidebar -->
+
+
 
   <div id="map-canvas"/>
 

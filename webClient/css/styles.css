@@ -16,12 +16,22 @@ body {
 }
 #details-sidebar {
   margin-top: 10px;
-  width: 250px;
+  width: 300px;
   height: 100%;
   z-index: 1000;
   position: fixed;
   background-color: #F9F6C8;
+  border-color: #B8D4A7;
+  border-width: 1px;
+  border-radius: 4px 4px 0 0;
+  border-style: solid;
+  padding: 10px;
 }
+
+.details-sidebar-right {
+  right: 0;
+}
+
 #menu-bar {
   top: 0;
   background-color: #79C605;
@@ -29,4 +39,7 @@ body {
   right: 0;
   left: 0;
   height: 40px;
+  border-color: #B8D4A7;
+  border-width: 1px;
+  border-style: solid;
 }
