@@ -25,7 +25,7 @@ function getDataClient(url, connectionClosedCallback) {
 };
 
 function onLoad() {
-  $('#details-sidebar').hide();
+  //$('#details-sidebar').hide();
 
   map = initMap();
   dataClient = getDataClient(
