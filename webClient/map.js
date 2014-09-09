@@ -7,13 +7,8 @@ function initMap() {
     mapOptions);
   return {
     putPlaceMarker: function(place) {
-      var latlng = place.location.split(/\s*,\s*/);
-      var lat = parseFloat(latlng[0]),
-      lng = parseFloat(latlng[1])
-      console.log(lat)
-      console.log(lng)
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat, lng),
+        position: new google.maps.LatLng(place.location.lat, place.location.lng),
         map: map,
         title: place.name
       });
