@@ -1,4 +1,5 @@
 function initMap() {
+  var userCallbacks = new Array();
   var mapOptions = {
     center: new google.maps.LatLng(46.414, -118.101),
     zoom: 3
@@ -12,7 +13,15 @@ function initMap() {
         map: map,
         title: place.name
       });
-      console.log(marker)
+      google.maps.event.addListener(marker, 'click', function() {
+        var callback = userCallbacks["onPlaceClick"];
+        if(callback) {
+          userCallbacks["onPlaceClick"](marker.title);
+        }
+      });
+    },
+    onPlaceClick: function(callback) {
+      userCallbacks["onPlaceClick"] = callback
     }
   }
 };

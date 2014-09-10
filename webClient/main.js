@@ -9,7 +9,7 @@ function getDataClient(url, connectionClosedCallback) {
   }
 
   var socket = io.connect(url);
-  
+
   socket.on('disconnect', function() {
     serverUnavailable();
   });
@@ -25,17 +25,23 @@ function getDataClient(url, connectionClosedCallback) {
 };
 
 function onLoad() {
+  var places = new Array();
+
   $('#details-sidebar').hide();
 
   map = initMap();
+  map.onPlaceClick(function(placeTitle) {
+    var place = places[placeTitle];
+    showDetails(place);    
+  });
   dataClient = getDataClient(
     'http://localhost:29999',
     function() {}
     );
-  dataClient.onPlaces(function(places) {
-    places.forEach(function(place) {
+  dataClient.onPlaces(function(dbPlaces) {
+    dbPlaces.forEach(function(place) {
       map.putPlaceMarker(place);
-      showDetails(place);
+      places[place.name] = place;
     });
   });
   dataClient.requestAllPlaces();
