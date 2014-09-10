@@ -23,11 +23,14 @@ function getDataClient(url, connectionClosedCallback) {
     }
   };
 };
-
+function hideDetailsSidebar() {
+  console.log("Hide");
+  $('#details-sidebar').hide();  
+};
 function onLoad() {
   var places = new Array();
 
-  $('#details-sidebar').hide();
+  hideDetailsSidebar();
 
   map = initMap();
   map.onPlaceClick(function(placeTitle) {
