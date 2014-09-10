@@ -43,6 +43,8 @@ function onLoad() {
 
 function showDetails(place) {
   showPics(place.data.pics)
+  $('#place-name').text(place.name)
+  $('#place-desc').text(place.data.notes)
   $('#details-sidebar').show();
 }
 function showPics(pics) {
