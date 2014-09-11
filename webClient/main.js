@@ -29,6 +29,7 @@ function hideDetailsSidebar() {
 function onLoad() {
   var places = new Array();
 
+  setupSearchForm();
   hideDetailsSidebar();
 
   map = initMap();
@@ -48,7 +49,12 @@ function onLoad() {
   });
   dataClient.requestAllPlaces();
 }
-
+function setupSearchForm() {
+  $('#search-form').submit(function(e) {
+    e.preventDefault();
+    search($('#search-input').val());
+  });
+}
 function showDetails(place) {
   showPics(place.data.pics)
   $('#place-name').text(place.name)
@@ -77,4 +83,7 @@ function resizeAndCropPics() {
       img.width(100)
     }
   });
+}
+function search(searchInput) {
+  console.log("Search " + searchInput);
 }

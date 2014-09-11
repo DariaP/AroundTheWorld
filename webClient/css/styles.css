@@ -64,7 +64,9 @@ body {
   color: white;
   font-size:20px;
 }
-
+#search-input {
+  width: 350px;
+}
 
 .tab-pane {
   padding-top: 10px;
