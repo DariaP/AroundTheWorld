@@ -9,9 +9,12 @@ body {
   margin-left: 0px;
   margin-top: 0px;
 }
-#map-canvas { 
+.map-container { 
   height: 100%; 
   width: 100%
+}
+#map {
+  padding-top: 0;
 }
 #details-sidebar {
   margin-top: 10px;
@@ -31,6 +34,7 @@ body {
 .details-sidebar-right {
   right: 0;
 }
+
 #my-maps-button {
   padding-top: 7px;
   background-color: Transparent;

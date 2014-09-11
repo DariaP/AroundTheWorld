@@ -32,19 +32,19 @@
 
 <body onload="onLoad()">
 
-
+<div class = "tabbable map-container">
   <nav class="navbar navbar-default" role="navigation" style="margin-bottom:0;">
     <div class="container-fluid">
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#"><span class="glyphicon glyphicon-globe"></span> Map</a></li>
+          <li class="active"><a href="#map" data-toggle="tab"><span class="glyphicon glyphicon-globe"></span> Map</a></li>
           <li><button type="button" class="btn btn-default navbar-btn" id="my-maps-button">
             <span class="glyphicon glyphicon-th-list"></span> My maps</button>
           </li>
 
-          <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> New</a></li>
+          <li><a href="#new" data-toggle="tab"><span class="glyphicon glyphicon-map-marker"></span> New</a></li>
 
         </ul>
         <form class="navbar-form navbar-left" role="search">
@@ -57,7 +57,8 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-
+<div class="tab-content map-container">
+<div class="tab-pane active map-container" id="map">
   <div id="details-sidebar">
     <button type="button" class="close" onClick="hideDetailsSidebar()"><span aria-hidden="true">&times;</span></button>
     <h4 id="place-name">I  am the name</h4>
@@ -82,8 +83,14 @@
 
 
 
-  <div id="map-canvas">
+  <div id="map-canvas" class="map-container">
   </div>
+
+</div>
+<div class="tab-pane" id="new">
+</div>
+</div>
+</div><!-- /tabbable -->
 
   <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
   <div id="blueimp-gallery" class="blueimp-gallery">
