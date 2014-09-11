@@ -24,7 +24,6 @@ function getDataClient(url, connectionClosedCallback) {
   };
 };
 function hideDetailsSidebar() {
-  console.log("Hide");
   $('#details-sidebar').hide();  
 };
 function onLoad() {
