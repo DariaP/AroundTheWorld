@@ -1,11 +1,19 @@
 function initMap() {
+
+
   var userCallbacks = new Array();
   var mapOptions = {
     center: new google.maps.LatLng(46.414, -118.101),
     zoom: 3
   };
-  var map = new google.maps.Map(document.getElementById("map-canvas"),
-    mapOptions);
+  var map = new google.maps.Map(
+    document.getElementById("map-canvas"),
+    mapOptions
+  );
+
+  var input = document.getElementById('search-input');
+  var searchBox = new google.maps.places.SearchBox(input);
+
   return {
     putPlaceMarker: function(place) {
       var marker = new google.maps.Marker({
