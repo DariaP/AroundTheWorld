@@ -29,14 +29,17 @@ function hideDetailsSidebar() {
 function onLoad() {
   var places = new Array();
 
-  setupSearchForm();
   hideDetailsSidebar();
 
   map = initMap();
+
+  setupSearchForm(map);
+
   map.onPlaceClick(function(placeTitle) {
     var place = places[placeTitle];
     showDetails(place);    
   });
+
   dataClient = getDataClient(
     'http://localhost:29999',
     function() {}
@@ -49,10 +52,10 @@ function onLoad() {
   });
   dataClient.requestAllPlaces();
 }
-function setupSearchForm() {
+function setupSearchForm(map) {
   $('#search-form').submit(function(e) {
     e.preventDefault();
-    search($('#search-input').val());
+    map.search($('#search-input').val());
   });
 }
 function showDetails(place) {
@@ -83,7 +86,4 @@ function resizeAndCropPics() {
       img.width(100)
     }
   });
-}
-function search(searchInput) {
-  console.log("Search " + searchInput);
 }
