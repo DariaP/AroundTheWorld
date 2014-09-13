@@ -20,6 +20,12 @@ function getDataClient(url, connectionClosedCallback) {
     },
     onPlaces : function(callback) {
       socket.on('allPlaces', callback);
+    },
+    addPlace: function(place) {
+      socket.emit('addPlace', place);
+    },
+    onPlaceAdded: function(callback) {
+      socket.on('placeAdded', callback);
     }
   };
 };
@@ -28,7 +34,7 @@ function hideDetailsSidebar() {
 };
 function onLoad() {
   var places = new Array();
-
+ 
   hideDetailsSidebar();
 
   map = initMap();
@@ -51,11 +57,33 @@ function onLoad() {
     });
   });
   dataClient.requestAllPlaces();
+
+  setupNewPlaceForm(dataClient);
 }
 function setupSearchForm(map) {
   $('#search-form').submit(function(e) {
     e.preventDefault();
     map.search($('#search-input').val());
+  });
+}
+function setupNewPlaceForm(dataClient) {
+  var newPlacesForm = $('#new-place-form');
+  newPlacesForm.submit(function(e) {
+    e.preventDefault();
+
+    var latlng = newPlacesForm.find("#new-location").val().split(/[, ]+/),
+        pics = newPlacesForm.find("#new-pics").val().split(/[, \n]+/);
+    dataClient.addPlace({
+      name: newPlacesForm.find("#new-name").val(),
+      location: {
+        lat: latlng[0],
+        lng: latlng[1]
+      },
+      data: {
+        notes: newPlacesForm.find("#new-notes").val(),
+        pics: pics
+      }
+    });
   });
 }
 function showDetails(place) {

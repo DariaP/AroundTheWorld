@@ -8,13 +8,17 @@ function initNetwork(dbApi) {
 
   server.on('connection', function (clientSocket) {
     console.log("New connection")
-    clientSocket.on('getAllPlaces', function (task) {
+    clientSocket.on('getAllPlaces', function () {
       console.log("All places")
       dbApi.getAllPlaces(
       	function(places) {
           clientSocket.emit('allPlaces', places);
         }
       );
+    });
+
+    clientSocket.on('addPlace', function (place) {
+      dbApi.addPlace(place);
     });
   });
 }
@@ -34,6 +38,10 @@ function initDb(callback) {
       	places.find({}, {}).toArray ( function (err, res) {
             getAllPlacesCallback(res);
       	})
+      },
+      addPlace: function(place) {
+        places.insert(place);
+
       },
       close: function() {
         db.close();      	
