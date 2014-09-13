@@ -13,6 +13,14 @@ body {
   height: 100%; 
   width: 100%
 }
+#navbar {
+  margin-bottom: 0;
+}
+#navbar-search-input {
+  width: 350px;
+}
+
+
 #map {
   padding-top: 0;
 }
@@ -62,9 +70,6 @@ body {
 #menu-bar a{
   color: white;
   font-size:20px;
-}
-#search-input {
-  width: 350px;
 }
 
 .tab-pane {

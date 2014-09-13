@@ -11,7 +11,7 @@ function initMap() {
     document.getElementById("map-canvas"),
     mapOptions
     );
-  var searchInput = document.getElementById('search-input');
+  var searchInput = document.getElementById('navbar-search-input');
   var autocomplete = new google.maps.places.Autocomplete(searchInput);
 
   var placeInfoWindow = new google.maps.InfoWindow();
