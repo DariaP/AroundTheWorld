@@ -1,6 +1,6 @@
 function jqueryWrapper() {
   function detailsSidebar() {
-    return $('#details-sidebar');
+    return $('#place-details-sidebar');
   };
   function detailsSidebarPicsDiv() {
     return detailsSidebar().find("#links");
@@ -22,16 +22,16 @@ function jqueryWrapper() {
     },
     newPlaceForm : newPlaceForm,
     newPlaceName : function() {
-      return newPlaceForm().find("#new-name");
+      return newPlaceForm().find("#new-place-name");
     },
     newPlaceLocation : function() {
-      return newPlaceForm().find("#new-location");
+      return newPlaceForm().find("#new-place-location");
     },
     newPlacePics : function() {
-      return newPlaceForm().find("#new-pics");
+      return newPlaceForm().find("#new-place-pics");
     },
     newPlaceNotes : function() {
-      return newPlaceForm().find("#new-notes");
+      return newPlaceForm().find("#new-place-notes");
     },
     placeName : function() {
       return $('#place-name');

@@ -13,18 +13,27 @@ body {
   height: 100%; 
   width: 100%
 }
-#navbar {
+nav#navbar {
   margin-bottom: 0;
 }
-#navbar-search-input {
+input#navbar-search-input {
   width: 350px;
 }
+button.link-style-button {
+  padding-top: 7px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
 
-
-#map {
+div#map-tab {
   padding-top: 0;
 }
-#details-sidebar {
+
+div#place-details-sidebar {
   margin-top: 10px;
   width: 370px;
   z-index: 1000;
@@ -38,41 +47,10 @@ body {
   padding-right: 5px;
   padding-bottom: 10px;
 }
-
-.details-sidebar-right {
+.fixed-right {
   right: 0;
 }
-.link-style-button {
-  padding-top: 7px;
-  background-color: Transparent;
-  background-repeat:no-repeat;
-  border: none;
-  cursor:pointer;
-  overflow: hidden;
-  outline:none;
-}
-#menu-bar {
-  top: 0;
-  background-color: #39428B;
-  position: fixed;
-  right: 0;
-  left: 0;
-  height: 40px;
-  border-color: #B8D4A7;
-  border-width: 1px;
-  border-style: solid;
-  color: white;
-  font-size:25px;
-  padding-top: 3px;
-  padding-left: 10px;
-}
-
-#menu-bar a{
-  color: white;
-  font-size:20px;
-}
-
-.tab-pane {
+div.details-tab-pane {
   padding-top: 10px;
 }
 div.pic-frame {
@@ -81,4 +59,7 @@ div.pic-frame {
   overflow: hidden;
   float: left;
   margin: 5px;
+}
+div#new-place-tab {
+  padding-top: 10px;
 }

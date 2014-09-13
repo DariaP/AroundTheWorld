@@ -1,12 +1,12 @@
 function onLoad() {
 
   var jquery = jqueryWrapper(),
-  places = [],
-  map = initMap(),
-  dataClient = initDataClient(
-    'http://localhost:29999',
-    function() {}
-    );
+      places = [],
+      map = initMap(),
+      dataClient = initDataClient(
+        'http://localhost:29999',
+        function() {}
+      );
   
   hideDetailsSidebar();
   setupSearchForm();
@@ -44,7 +44,7 @@ function onLoad() {
       e.preventDefault();
 
       var latlng = jquery.newPlaceLocation().val().split(/[, ]+/),
-      pics = jquery.newPlacePics().val().split(/[, \n]+/);
+          pics = jquery.newPlacePics().val().split(/[, \n]+/);
       dataClient.addPlace({
         name: jquery.newPlaceName().val(),
         location: {
@@ -81,11 +81,11 @@ function onLoad() {
   function resizeAndCropPics() {
     jquery.detailsSidebarPics().
     each(function(){
-      var img = $(this)
+      var img = $(this);
       if (img[0].width > img[0].height) {
-        img.height(100)
+        img.height(100);
       } else {
-        img.width(100)
+        img.width(100);
       }
     });
   }
