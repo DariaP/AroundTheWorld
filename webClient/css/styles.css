@@ -34,8 +34,7 @@ body {
 .details-sidebar-right {
   right: 0;
 }
-
-#my-maps-button {
+.link-style-button {
   padding-top: 7px;
   background-color: Transparent;
   background-repeat:no-repeat;

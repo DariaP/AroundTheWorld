@@ -1,6 +1,6 @@
 function initMap() {
   var mapMarkers = [],
-      searchMarkers = [];
+  searchMarkers = [];
 
   var userCallbacks = new Array();
   var mapOptions = {
@@ -16,7 +16,6 @@ function initMap() {
 
   var placeInfoWindow = new google.maps.InfoWindow();
   var placesSearchService = new google.maps.places.PlacesService(map);
-
   function placeFoundCallback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < results.length; i++) {
@@ -46,8 +45,10 @@ function initMap() {
     searchMarkers.push(marker);
 
     google.maps.event.addListener(marker, 'click', function() {
-      placeInfoWindow.setContent(place.name);
-      placeInfoWindow.open(map, this);
+      if (userCallbacks["contextMenuContent"]) {
+        placeInfoWindow.setContent(userCallbacks["contextMenuContent"](place.name));
+        placeInfoWindow.open(map, this);
+      }
     });
   }
 
@@ -68,6 +69,9 @@ function initMap() {
     },
     onPlaceClick: function(callback) {
       userCallbacks["onPlaceClick"] = callback
+    },
+    contextMenuContent: function(getContent) {
+      userCallbacks["contextMenuContent"] = getContent
     },
     search: function(searchText) {
       removeMarkers(searchMarkers);

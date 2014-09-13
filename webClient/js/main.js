@@ -34,7 +34,7 @@ function hideDetailsSidebar() {
 };
 function onLoad() {
   var places = new Array();
- 
+  
   hideDetailsSidebar();
 
   map = initMap();
@@ -44,6 +44,10 @@ function onLoad() {
   map.onPlaceClick(function(placeTitle) {
     var place = places[placeTitle];
     showDetails(place);    
+  });
+  map.contextMenuContent(function(title) {
+    return "<h5 align='center'>" + title + "</h5><button type='button' class='btn btn-default link-style-button' id='add-place-button'>" +
+    "<span class='glyphicon glyphicon-plus'></span> Add place</button>";
   });
 
   dataClient = getDataClient(
@@ -72,7 +76,7 @@ function setupNewPlaceForm(dataClient) {
     e.preventDefault();
 
     var latlng = newPlacesForm.find("#new-location").val().split(/[, ]+/),
-        pics = newPlacesForm.find("#new-pics").val().split(/[, \n]+/);
+    pics = newPlacesForm.find("#new-pics").val().split(/[, \n]+/);
     dataClient.addPlace({
       name: newPlacesForm.find("#new-name").val(),
       location: {
@@ -94,7 +98,7 @@ function showDetails(place) {
 }
 function showPics(pics) {
   var detailsSidebar = $('#details-sidebar'),
-      picsHtml = ""
+  picsHtml = ""
   pics.forEach(function(pic) {
     picsHtml += "<div class='pic-frame'><a href=\"" + pic + "\" title=\"" + pic + "\" data-gallery>"
     picsHtml += "<img src=\"" + pic + "\" alt=\"" + pic + "\" >" 
