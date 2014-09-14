@@ -2,7 +2,9 @@ function onLoad() {
 
   var jquery = jqueryWrapper(),
       places = [],
-      map = initMap(),
+      map = initMap(
+        document.getElementById("map-canvas")
+      ),
       dataClient = initDataClient(
         'http://localhost:29999',
         function() {}
@@ -16,6 +18,8 @@ function onLoad() {
     var place = places[placeTitle];
     showDetails(place);    
   });
+
+  map.setAutocomplete(document.getElementById('navbar-search-input'));
 
   // TODO: use angular?
   map.contextMenuContent(function(title) {

@@ -1,21 +1,18 @@
-function initMap() {
+function initMap(canvas) {
   var mapMarkers = [],
-  searchMarkers = [];
+      searchMarkers = [],
+      userCallbacks = new Array(),
+      mapOptions = {
+        center: new google.maps.LatLng(46.414, -118.101),
+        zoom: 3
+      },
+      map = new google.maps.Map(
+        canvas,
+        mapOptions
+      ),
+      placeInfoWindow = new google.maps.InfoWindow(),
+      placesSearchService = new google.maps.places.PlacesService(map);
 
-  var userCallbacks = new Array();
-  var mapOptions = {
-    center: new google.maps.LatLng(46.414, -118.101),
-    zoom: 3
-  };
-  var map = new google.maps.Map(
-    document.getElementById("map-canvas"),
-    mapOptions
-    );
-  var searchInput = document.getElementById('navbar-search-input');
-  var autocomplete = new google.maps.places.Autocomplete(searchInput);
-
-  var placeInfoWindow = new google.maps.InfoWindow();
-  var placesSearchService = new google.maps.places.PlacesService(map);
   function placeFoundCallback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < results.length; i++) {
@@ -35,7 +32,6 @@ function initMap() {
     }
   }
   function createSearchMarker(place) {
-    
     var marker = new google.maps.Marker({
       map: map,
       position: place.geometry.location,
@@ -72,6 +68,9 @@ function initMap() {
     },
     contextMenuContent: function(getContent) {
       userCallbacks["contextMenuContent"] = getContent
+    },
+    setAutocomplete: function(input) {
+      var autocomplete = new google.maps.places.Autocomplete(input);
     },
     search: function(searchText) {
       removeMarkers(searchMarkers);
