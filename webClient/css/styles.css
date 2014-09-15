@@ -38,14 +38,17 @@ div#place-details-sidebar {
   width: 370px;
   z-index: 1000;
   position: fixed;
-  background-color: #F9F6C8;
-  border-color: #B8D4A7;
+  background-color: #fff;
+  border-color: #e7e7e7;
   border-width: 1px;
-  border-radius: 4px 4px 0 0;
+  border-radius: 6px 6px 6px 6px;
   border-style: solid;
   padding-left: 10px;
   padding-right: 5px;
   padding-bottom: 10px;
+}
+div#place-details-sidebar a {
+  color: #555;
 }
 .fixed-right {
   right: 0;
