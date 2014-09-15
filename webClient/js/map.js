@@ -42,7 +42,7 @@ function initMap(canvas) {
 
     google.maps.event.addListener(marker, 'click', function() {
       if (userCallbacks["contextMenuContent"]) {
-        placeInfoWindow.setContent(userCallbacks["contextMenuContent"](place.name));
+        placeInfoWindow.setContent(userCallbacks["contextMenuContent"](place));
         placeInfoWindow.open(map, this);
       }
     });

@@ -22,9 +22,12 @@ function onLoad() {
   map.setAutocomplete(document.getElementById('navbar-search-input'));
 
   // TODO: use angular?
-  map.contextMenuContent(function(title) {
-    return "<h5 align='center'>" + title + "</h5><button type='button' class='btn btn-default link-style-button' id='add-place-button'>" +
-    "<span class='glyphicon glyphicon-plus'></span> Add place</button>";
+  map.contextMenuContent(function(place) {
+    return "<h5 align='center'>" + place.name + "</h5>" + 
+    "<button type='button' class='btn btn-default link-style-button' id='add-place-button' onclick='addSearchResult(" + JSON.stringify(place) + ")'>" +
+    "<span class='glyphicon glyphicon-plus'></span>" +
+    " Add place" +
+     "</button>";
   });
   
   dataClient.onPlaces(function(dbPlaces) {
@@ -111,4 +114,20 @@ function onLoad() {
 
 function hideDetailsSidebar() {
   jqueryWrapper().detailsSidebar().hide();
+};
+
+function addSearchResult(place) {
+  var jquery = jqueryWrapper();
+  console.log(place);
+  jquery.newPlaceName().val(place.name);
+  jquery.newPlaceLocation().val(place.geometry.location.B + ", " + place.geometry.location.k);
+  jquery.newPlaceNotes().val(place.formatted_address);
+  openNewPlaceTab();
+};
+function openNewPlaceTab() {
+  var jquery = jqueryWrapper();
+  jquery.mapTab().removeClass("active");
+  jquery.mapTabHead().removeClass("active");
+  jquery.newPlaceTab().addClass("active");
+  jquery.newPlaceTabHead().addClass("active");
 };

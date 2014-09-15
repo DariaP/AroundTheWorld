@@ -38,6 +38,18 @@ function jqueryWrapper() {
     },
     placeNotes : function() {
       return $('#place-desc');
+    },
+    newPlaceTab : function() {
+      return $('#new-place-tab');
+    },
+    newPlaceTabHead : function() {
+      return $("li:has(a[href='#new-place-tab'])");
+    },
+    mapTab : function() {
+      return $('#map-tab');
+    },
+    mapTabHead : function() {
+      return $("li:has(a[href='#map-tab'])");
     }
   }
 }
