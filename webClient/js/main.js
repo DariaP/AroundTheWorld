@@ -24,6 +24,9 @@ function onLoad() {
   // TODO: use angular?
   map.contextMenuContent(function(place) {
     return "<h5 align='center'>" + place.name + "</h5>" + 
+    "<div width='100%'>" +
+    "<a target='_blank' class='bootstrap-style-link' href='https://www.google.com/maps/place/" + place.formatted_address + "'>View on gmaps</a>" +
+    "</div>" +
     "<button type='button' class='btn btn-default link-style-button' id='add-place-button' onclick='addSearchResult(" + JSON.stringify(place) + ")'>" +
     "<span class='glyphicon glyphicon-plus'></span>" +
     " Add place" +
