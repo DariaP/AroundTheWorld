@@ -8,11 +8,21 @@ function initNetwork(dbApi) {
 
   server.on('connection', function (clientSocket) {
     console.log("New connection")
+
     clientSocket.on('getAllPlaces', function () {
       console.log("All places")
       dbApi.getAllPlaces(
       	function(places) {
           clientSocket.emit('allPlaces', places);
+        }
+      );
+    });
+
+    clientSocket.on('getAllMaps', function () {
+      console.log("All maps")
+      dbApi.getAllMaps(
+        function(maps) {
+          clientSocket.emit('allMaps', maps);
         }
       );
     });
@@ -31,6 +41,7 @@ function initDb(callback) {
     if (err) { throw err; }
 
     var places = new mongodb.Collection(client, config.placesCollection),
+        maps = new mongodb.Collection(client, config.mapsCollection),
         connections = new mongodb.Collection(client, config.connectionsCollection);
 
     var dbApi = {
@@ -42,6 +53,12 @@ function initDb(callback) {
       addPlace: function(place) {
         places.insert(place);
 
+      },
+      getAllMaps: function(getAllMapsCallback) {
+        maps.find({}, {}).toArray ( function (err, res) {
+            console.log(res);
+            getAllMapsCallback(res);
+        })
       },
       close: function() {
         db.close();      	

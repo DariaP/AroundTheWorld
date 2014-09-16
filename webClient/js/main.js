@@ -10,10 +10,11 @@ function onLoad() {
         function() {}
       );
   
-  //hideDetailsSidebar();
-  //hideMapsSidebar();
+  hideDetailsSidebar();
+  hideMapsSidebar();
   setupSearchForm();
   setupNewPlaceForm();
+  setupMyMapsButton();
 
   map.onPlaceClick(function(placeTitle) {
     var place = places[placeTitle];
@@ -70,6 +71,25 @@ function onLoad() {
     });
   }
 
+  function setupMyMapsButton() {
+    var showDetailsSidebar = function() {
+      var jquery = jqueryWrapper();
+      jquery.detailsSidebar().show();
+      if (jquery.mapsSidebar().is(":visible")) {
+        jquery.sidebarSep().show();
+      }
+    };
+    jquery.myMapsButton().click(function(e) {
+      dataClient.onMaps(function(dbMaps) {
+        dbMaps.forEach(function(map) {
+          console.log(map);
+        });
+      });
+      dataClient.requestAllMaps();
+      showMapsSidebar();
+    });
+  }
+
   function showDetails(place) {
     getPicsHtml(place.data.pics, function(html) {
       jquery.detailsSidebarPicsDiv().html(html);
@@ -120,14 +140,6 @@ function hideDetailsSidebar() {
   var jquery = jqueryWrapper();
   jquery.detailsSidebar().hide();
   jquery.sidebarSep().hide();
-};
-
-function showDetailsSidebar() {
-  var jquery = jqueryWrapper();
-  jquery.detailsSidebar().show();
-  if (jquery.mapsSidebar().is(":visible")) {
-    jquery.sidebarSep().show();
-  }
 };
 
 function hideMapsSidebar() {

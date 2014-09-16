@@ -56,6 +56,9 @@ function jqueryWrapper() {
     },
     mapTabHead : function() {
       return $("li:has(a[href='#map-tab'])");
+    },
+    myMapsButton : function() {
+      return $("button#navbar-my-maps-button");
     }
   }
 }

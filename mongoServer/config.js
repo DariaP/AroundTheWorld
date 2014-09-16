@@ -6,6 +6,7 @@ var config = {
   mongoPort: 27017,
   mongoTravelDb: 'Travel',
   placesCollection: "places",
+  mapsCollection: "maps",
   connectionsCollection: "connections"
 };
 

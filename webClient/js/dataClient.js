@@ -20,6 +20,12 @@ function initDataClient(url, connectionClosedCallback) {
     onPlaces : function(callback) {
       socket.on('allPlaces', callback);
     },
+    requestAllMaps : function(url) {
+      socket.emit('getAllMaps');
+    },
+    onMaps : function(callback) {
+      socket.on('allMaps', callback);
+    },
     addPlace: function(place) {
       socket.emit('addPlace', place);
     },
