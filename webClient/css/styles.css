@@ -49,11 +49,7 @@ div.sidebar {
 .fixed-right {
   right: 0;
 }
-.scrollable {
-  width: 100%;
-  height: 100%;
-  overflow: scroll; 
-}
+
 div#place-details-sidebar {
   width: 370px;
   height: 250px;
@@ -61,13 +57,20 @@ div#place-details-sidebar {
 div#place-details-sidebar a {
   color: #555;
 }
-div#maps-sidebar {
-  width: 370px;
-  height: 300px;
+div#place-details-sidebar .tabbable {
+  height: 100%;
 }
-ul#maps-list {
-  list-style: none;
+div#place-details-sidebar .tab-content {
+  height: 165px;
 }
+div#place-details-sidebar #place-pics {
+  height: 100%;
+}
+.scrollable {
+  height: 100%;
+  overflow: scroll; 
+}
+
 div.details-tab-pane {
   padding-top: 10px;
 }
@@ -77,6 +80,14 @@ div.pic-frame {
   overflow: hidden;
   float: left;
   margin: 5px;
+}
+
+div#maps-sidebar {
+  width: 370px;
+  height: 300px;
+}
+ul#maps-list {
+  list-style: none;
 }
 div#new-place-tab {
   padding-top: 10px;
