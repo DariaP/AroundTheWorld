@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#map-tab" data-toggle="tab"><span class="glyphicon glyphicon-globe"></span> Map</a></li>
-            <li><button type="button" class="btn btn-default navbar-btn link-style-button" id="navbar-my-maps-button">
+            <li><button type="button" class="btn btn-default navbar-btn link-style-button" id="navbar-my-maps-button" onclick="showMapsSidebar()">
               <span class="glyphicon glyphicon-th-list"></span> My maps</button>
             </li>
 
@@ -66,27 +66,37 @@
 
     <div class="tab-content map-container">
       <div class="tab-pane active map-container" id="map-tab">
-        <div id="place-details-sidebar">
-          <button type="button" class="close" onClick="hideDetailsSidebar()"><span aria-hidden="true">&times;</span></button>
-          <h4 id="place-name"></h4>
 
-          <div class = "tabbable">
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="active"><a href="#place-pics" data-toggle="tab">Pics</a></li>
-              <li><a href="#place-desc" data-toggle="tab">Notes</a></li>
-            </ul>
+        <div id="sidebar" class="sidebar">
+          <div id="place-details-sidebar">
+            <button type="button" class="close" onClick="hideDetailsSidebar()"><span aria-hidden="true">&times;</span></button>
+            <div class="scrollable">
+              <h4 id="place-name"></h4>
 
-            <div class="tab-content">
-              <div class="tab-pane details-tab-pane active" id="place-pics">
-                <div id="links"></div>
-              </div><!-- /pics -->
-              <div class="tab-pane details-tab-pane" id="place-desc"></div>
-            </div><!-- /tab-content -->
+              <div class = "tabbable">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active"><a href="#place-pics" data-toggle="tab">Pics</a></li>
+                  <li><a href="#place-desc" data-toggle="tab">Notes</a></li>
+                </ul>
 
-          </div><!-- /tabbable -->
+                <div class="tab-content">
+                  <div class="tab-pane details-tab-pane active" id="place-pics">
+                    <div id="links"></div>
+                  </div><!-- /pics -->
+                  <div class="tab-pane details-tab-pane" id="place-desc"></div>
+                </div><!-- /tab-content -->
+              </div><!-- /scrollable -->
+            </div><!-- /tabbable -->
 
-        </div><!-- /details-sidebar -->
-
+          </div><!-- /details-sidebar -->
+          <hr id="sidebar-sep">
+          <div class="scrollable">
+            <div id="maps-sidebar">
+              <button type="button" class="close" onClick="hideMapsSidebar()"><span aria-hidden="true">&times;</span></button>
+              <h4>Maps</h4>
+            </div>
+          </div><!-- /scrollable -->
+        </div><!-- /sidebar -->
         <div id="map-canvas" class="map-container">
         </div>
 

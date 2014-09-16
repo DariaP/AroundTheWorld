@@ -15,10 +15,16 @@ function jqueryWrapper() {
     searchInput : function() {
       return $('#navbar-search-input');
     },
+    mapsSidebar : function() {
+      return $('#maps-sidebar');
+    },
     detailsSidebar : detailsSidebar,
     detailsSidebarPicsDiv : detailsSidebarPicsDiv,
     detailsSidebarPics : function() {
       return detailsSidebarPicsDiv().find("img");
+    },
+    sidebarSep : function() {
+      return $('#sidebar-sep');
     },
     newPlaceForm : newPlaceForm,
     newPlaceName : function() {

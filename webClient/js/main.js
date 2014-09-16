@@ -10,7 +10,8 @@ function onLoad() {
         function() {}
       );
   
-  hideDetailsSidebar();
+  //hideDetailsSidebar();
+  //hideMapsSidebar();
   setupSearchForm();
   setupNewPlaceForm();
 
@@ -74,7 +75,7 @@ function onLoad() {
       jquery.detailsSidebarPicsDiv().html(html);
       jquery.placeName().text(place.name);
       jquery.placeNotes().text(place.data.notes);
-      jquery.detailsSidebar().show();
+      showDetailsSidebar();
     });
   }
   function getPicsHtml(pics, callback) {
@@ -116,7 +117,31 @@ function onLoad() {
 };
 
 function hideDetailsSidebar() {
-  jqueryWrapper().detailsSidebar().hide();
+  var jquery = jqueryWrapper();
+  jquery.detailsSidebar().hide();
+  jquery.sidebarSep().hide();
+};
+
+function showDetailsSidebar() {
+  var jquery = jqueryWrapper();
+  jquery.detailsSidebar().show();
+  if (jquery.mapsSidebar().is(":visible")) {
+    jquery.sidebarSep().show();
+  }
+};
+
+function hideMapsSidebar() {
+  var jquery = jqueryWrapper();
+  jquery.mapsSidebar().hide();
+  jquery.sidebarSep().hide();
+};
+
+function showMapsSidebar() {
+  var jquery = jqueryWrapper();
+  jquery.mapsSidebar().show();
+  if (jquery.detailsSidebar().is(":visible")) {
+    jquery.sidebarSep().show();
+  }
 };
 
 function addSearchResult(place) {
