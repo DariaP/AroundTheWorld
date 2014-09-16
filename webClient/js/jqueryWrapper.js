@@ -18,6 +18,9 @@ function jqueryWrapper() {
     mapsSidebar : function() {
       return $('#maps-sidebar');
     },
+    sidebar: function() {
+      return $('#sidebar');
+    },
     detailsSidebar : detailsSidebar,
     detailsSidebarPicsDiv : detailsSidebarPicsDiv,
     detailsSidebarPics : function() {

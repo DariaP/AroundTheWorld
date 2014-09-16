@@ -137,18 +137,25 @@ var showDetailsSidebar = function() {
   if (jquery.mapsSidebar().is(":visible")) {
     jquery.sidebarSep().show();
   }
+  jquery.sidebar().show();
 };
 
 function hideDetailsSidebar() {
   var jquery = jqueryWrapper();
   jquery.detailsSidebar().hide();
   jquery.sidebarSep().hide();
+  if (!jquery.mapsSidebar().is(":visible")) {
+    jquery.sidebar().hide();
+  }
 };
 
 function hideMapsSidebar() {
   var jquery = jqueryWrapper();
   jquery.mapsSidebar().hide();
   jquery.sidebarSep().hide();
+  if (!jquery.detailsSidebar().is(":visible")) {
+    jquery.sidebar().hide();
+  }
 };
 
 function showMapsSidebar() {
@@ -157,6 +164,7 @@ function showMapsSidebar() {
   if (jquery.detailsSidebar().is(":visible")) {
     jquery.sidebarSep().show();
   }
+  jquery.sidebar().show();
 };
 
 function addSearchResult(place) {
