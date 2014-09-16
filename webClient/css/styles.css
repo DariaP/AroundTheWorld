@@ -65,7 +65,9 @@ div#maps-sidebar {
   width: 370px;
   height: 300px;
 }
-
+ul#maps-list {
+  list-style: none;
+}
 div.details-tab-pane {
   padding-top: 10px;
 }

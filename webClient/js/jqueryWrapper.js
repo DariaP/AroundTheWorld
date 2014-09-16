@@ -59,6 +59,9 @@ function jqueryWrapper() {
     },
     myMapsButton : function() {
       return $("button#navbar-my-maps-button");
+    },
+    mapsList : function() {
+      return $("ul#maps-list");
     }
   }
 }

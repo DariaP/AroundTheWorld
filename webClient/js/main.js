@@ -81,12 +81,14 @@ function onLoad() {
     };
     jquery.myMapsButton().click(function(e) {
       dataClient.onMaps(function(dbMaps) {
+        var mapsListHtml = "";
         dbMaps.forEach(function(map) {
-          console.log(map);
+          mapsListHtml += "<li><a href='#'' class='bootstrap-style-link' onclick=''>" + map.name + "</a></li>";
         });
+        jquery.mapsList().html(mapsListHtml);
+        showMapsSidebar();
       });
       dataClient.requestAllMaps();
-      showMapsSidebar();
     });
   }
 
