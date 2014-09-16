@@ -72,13 +72,6 @@ function onLoad() {
   }
 
   function setupMyMapsButton() {
-    var showDetailsSidebar = function() {
-      var jquery = jqueryWrapper();
-      jquery.detailsSidebar().show();
-      if (jquery.mapsSidebar().is(":visible")) {
-        jquery.sidebarSep().show();
-      }
-    };
     jquery.myMapsButton().click(function(e) {
       dataClient.onMaps(function(dbMaps) {
         var mapsListHtml = "";
@@ -135,6 +128,14 @@ function onLoad() {
         img.width(100);
       }
     });
+  }
+};
+
+var showDetailsSidebar = function() {
+  var jquery = jqueryWrapper();
+  jquery.detailsSidebar().show();
+  if (jquery.mapsSidebar().is(":visible")) {
+    jquery.sidebarSep().show();
   }
 };
 
