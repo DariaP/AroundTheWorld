@@ -27,6 +27,16 @@ function initNetwork(dbApi) {
       );
     });
 
+    clientSocket.on('getPlacesOnMap', function (request) {
+      console.log("Places on map " + JSON.stringify(request.map));
+      dbApi.getPlacesOnMap(
+        request.map,
+        function(places) {
+          clientSocket.emit('placesOnMap', {map : request.map, places : places});
+        }
+      );
+    });
+
     clientSocket.on('addPlace', function (place) {
       dbApi.addPlace(place);
     });
@@ -56,9 +66,14 @@ function initDb(callback) {
       },
       getAllMaps: function(getAllMapsCallback) {
         maps.find({}, {}).toArray ( function (err, res) {
-            console.log(res);
             getAllMapsCallback(res);
         })
+      },
+      getPlacesOnMap: function(map, callback) {
+        places.find({parentMaps: { $all : [map]} }, {}).toArray ( function (err, res) {
+            console.log(res);
+            callback(res);
+        });
       },
       close: function() {
         db.close();      	

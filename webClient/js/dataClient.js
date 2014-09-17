@@ -14,17 +14,23 @@ function initDataClient(url, connectionClosedCallback) {
   });
 
   return {
-    requestAllPlaces : function(url) {
+    requestAllPlaces : function() {
       socket.emit('getAllPlaces');
     },
     onPlaces : function(callback) {
       socket.on('allPlaces', callback);
     },
-    requestAllMaps : function(url) {
+    requestAllMaps : function() {
       socket.emit('getAllMaps');
     },
     onMaps : function(callback) {
       socket.on('allMaps', callback);
+    },
+    requestPlacesOnMap : function(map) {
+      socket.emit('getPlacesOnMap', {map : map});
+    },
+    onPlacesOnMap : function(callback) {
+      socket.on('placesOnMap', callback);
     },
     addPlace: function(place) {
       socket.emit('addPlace', place);

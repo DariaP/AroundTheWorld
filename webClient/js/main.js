@@ -73,17 +73,30 @@ function onLoad() {
 
   function setupMyMapsButton() {
     jquery.myMapsButton().click(function(e) {
+      dataClient.onPlacesOnMap(function(places) {
+        console.log("Places on map " + places.map + ": " + JSON.stringify(places.places));
+      });
       dataClient.onMaps(function(dbMaps) {
         var mapsListHtml = "";
         dbMaps.forEach(function(map) {
-          mapsListHtml += "<li><a href='#'' class='bootstrap-style-link' onclick=''>" + map.name + "</a></li>";
+          mapsListHtml += "<li><a href='#'' class='bootstrap-style-link' id='" + map.name + "'>" + map.name + "</a></li>";
         });
         jquery.mapsList().html(mapsListHtml);
         showMapsSidebar();
+        jquery.mapsSidebarLinks().each(function() {
+          var link = $(this);
+          link.bind('click', function(e) {
+            e.preventDefault();
+            dataClient.requestPlacesOnMap(link.attr('id'));
+          });
+        });
       });
       dataClient.requestAllMaps();
     });
   }
+  //function setupMapLink(map) {
+  //  jquery.getMapLink()
+  //};
 
   function showDetails(place) {
     getPicsHtml(place.data.pics, function(html) {
