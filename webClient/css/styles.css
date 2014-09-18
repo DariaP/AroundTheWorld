@@ -52,7 +52,10 @@ div.sidebar {
 
 div#place-details-sidebar {
   width: 370px;
-  height: 250px;
+}
+#add-place-to-map-dropdown {
+  margin-top : 5px;
+  margin-bottom : 5px;
 }
 div#place-details-sidebar a {
   color: #555;

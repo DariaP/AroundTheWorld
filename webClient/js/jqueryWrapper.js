@@ -29,6 +29,9 @@ function jqueryWrapper() {
     detailsSidebarPics : function() {
       return detailsSidebarPicsDiv().find("img");
     },
+    addPlaceOnMapDropdownList : function() {
+      return $("#add-place-to-map-dropdown-list");
+    },
     sidebarSep : function() {
       return $('#sidebar-sep');
     },
