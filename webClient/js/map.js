@@ -56,6 +56,7 @@ function initMap(canvas) {
         title: place.name,
         icon: getPin("FE7569")
       });
+      mapMarkers.push(marker);
       google.maps.event.addListener(marker, 'click', function() {
         var callback = userCallbacks["onPlaceClick"];
         if(callback) {
@@ -79,6 +80,9 @@ function initMap(canvas) {
         query: searchText
       };
       placesSearchService.textSearch(request, placeFoundCallback);
+    },
+    cleanMapMarkers: function() {
+      removeMarkers(mapMarkers);
     }
   }
 };

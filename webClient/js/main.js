@@ -36,14 +36,18 @@ function onLoad() {
   });
   
   dataClient.onPlaces(function(dbPlaces) {
-    dbPlaces.forEach(function(place) {
-      map.putPlaceMarker(place);
-      places[place.name] = place;
-    });
+    resetPlaces(dbPlaces);
   });
   dataClient.requestAllPlaces();
 
-
+  function resetPlaces(newPlaces) {
+    map.cleanMapMarkers();
+    places = [];
+    newPlaces.forEach(function(place) {
+      map.putPlaceMarker(place);
+      places[place.name] = place;
+    });
+  };
   function setupSearchForm() {
     jquery.searchForm().submit(function(e) {
       e.preventDefault();
@@ -73,8 +77,8 @@ function onLoad() {
 
   function setupMyMapsButton() {
     jquery.myMapsButton().click(function(e) {
-      dataClient.onPlacesOnMap(function(places) {
-        console.log("Places on map " + places.map + ": " + JSON.stringify(places.places));
+      dataClient.onPlacesOnMap(function(dbPlacesForMap) {     
+        resetPlaces(dbPlacesForMap.places);
       });
       dataClient.onMaps(function(dbMaps) {
         var mapsListHtml = "";
