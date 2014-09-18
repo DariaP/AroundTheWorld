@@ -151,7 +151,14 @@ function onLoad() {
     });
   }
   function getMapsDropdownList(callback) {
-    callback('<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Some map</a></li>');
+    dataClient.onMaps(function(dbMaps) {
+      var mapsDropdownListHtml = "";
+      dbMaps.forEach(function(map) {
+        mapsDropdownListHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">' + map.name + '</a></li>';
+      });
+      callback(mapsDropdownListHtml);
+    });
+    dataClient.requestAllMaps();
   }
 };
 
