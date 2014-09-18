@@ -108,8 +108,7 @@ function onLoad() {
       jquery.placeName().text(place.name);
       jquery.placeNotes().text(place.data.notes);
       getMapsDropdownList(function(html) {
-        var oldHtml = jquery.addPlaceOnMapDropdownList().html();
-        jquery.addPlaceOnMapDropdownList().html(oldHtml + html)
+        jquery.addPlaceOnMapDropdownList().html(html)
         showDetailsSidebar();        
       });
     });
@@ -152,7 +151,8 @@ function onLoad() {
   }
   function getMapsDropdownList(callback) {
     dataClient.onMaps(function(dbMaps) {
-      var mapsDropdownListHtml = "";
+      var mapsDropdownListHtml = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">New map</a></li>' +
+                                 '<li role="presentation" class="divider"></li>';
       dbMaps.forEach(function(map) {
         mapsDropdownListHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">' + map.name + '</a></li>';
       });
