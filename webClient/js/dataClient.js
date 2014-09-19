@@ -35,6 +35,9 @@ function initDataClient(url, connectionClosedCallback) {
     addPlace: function(place) {
       socket.emit('addPlace', place);
     },
+    addPlaceOnMap: function (place, map) {
+      socket.emit('addPlaceOnMap', { place: place, map: map});
+    },
     onPlaceAdded: function(callback) {
       socket.on('placeAdded', callback);
     }

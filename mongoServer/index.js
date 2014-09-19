@@ -40,6 +40,10 @@ function initNetwork(dbApi) {
     clientSocket.on('addPlace', function (place) {
       dbApi.addPlace(place);
     });
+
+    clientSocket.on('addPlaceOnMap', function (data) {
+      dbApi.addPlaceOnMap(data.place, data.map);
+    });
   });
 }
 
@@ -64,6 +68,12 @@ function initDb(callback) {
         places.insert(place);
 
       },
+      addPlaceOnMap: function (place, map) {
+        places.update(
+          { name: place },
+          { $push: { parentMaps: map }}
+        );
+      },
       getAllMaps: function(getAllMapsCallback) {
         maps.find({}, {}).toArray ( function (err, res) {
             getAllMapsCallback(res);
@@ -71,8 +81,7 @@ function initDb(callback) {
       },
       getPlacesOnMap: function(map, callback) {
         places.find({parentMaps: { $all : [map]} }, {}).toArray ( function (err, res) {
-            console.log(res);
-            callback(res);
+          callback(res);
         });
       },
       close: function() {

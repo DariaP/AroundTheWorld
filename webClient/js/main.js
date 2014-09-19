@@ -86,7 +86,6 @@ function onLoad() {
           mapsListHtml += "<li><a href='#'' class='bootstrap-style-link' id='" + map.name + "'>" + map.name + "</a></li>";
         });
         jquery.mapsList().html(mapsListHtml);
-        showMapsSidebar();
         jquery.mapsSidebarLinks().each(function() {
           var link = $(this);
           link.bind('click', function(e) {
@@ -94,6 +93,7 @@ function onLoad() {
             dataClient.requestPlacesOnMap(link.attr('id'));
           });
         });
+        showMapsSidebar();
       });
       dataClient.requestAllMaps();
     });
@@ -109,6 +109,14 @@ function onLoad() {
       jquery.placeNotes().text(place.data.notes);
       getMapsDropdownList(function(html) {
         jquery.addPlaceOnMapDropdownList().html(html)
+        jquery.addPlaceOnMapDropdownListLinks().each(function() {
+          var link = $(this);
+          link.bind('click', function(e) {
+            e.preventDefault();
+            console.log("Add place " + place.name + " on map " + link.text());
+            dataClient.addPlaceOnMap(place.name, link.text());
+          });
+        });
         showDetailsSidebar();        
       });
     });
@@ -151,10 +159,13 @@ function onLoad() {
   }
   function getMapsDropdownList(callback) {
     dataClient.onMaps(function(dbMaps) {
-      var mapsDropdownListHtml = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">New map</a></li>' +
-                                 '<li role="presentation" class="divider"></li>';
+      var mapsDropdownListHtml = '<li role="presentation">' +
+        '<a role="menuitem" tabindex="-1" href="#" id = "add-to-new-map">New map</a></li>' +
+        '<li role="presentation" class="divider"></li>';
       dbMaps.forEach(function(map) {
-        mapsDropdownListHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">' + map.name + '</a></li>';
+        mapsDropdownListHtml += '<li role="presentation">' + 
+          '<a role="menuitem" tabindex="-1" href="#">' + 
+          map.name + '</a></li>';
       });
       callback(mapsDropdownListHtml);
     });

@@ -32,6 +32,9 @@ function jqueryWrapper() {
     addPlaceOnMapDropdownList : function() {
       return $("#add-place-to-map-dropdown-list");
     },
+    addPlaceOnMapDropdownListLinks : function() {
+      return $("#add-place-to-map-dropdown-list").find('a');
+    },
     sidebarSep : function() {
       return $('#sidebar-sep');
     },
