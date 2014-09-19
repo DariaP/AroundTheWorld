@@ -13,6 +13,11 @@ function initDataClient(url, connectionClosedCallback) {
     serverUnavailable();
   });
 
+  var allMapsHandler = function(maps) {};
+  socket.on('allMaps', function(maps) {
+    allMapsHandler(maps);
+  })
+
   return {
     requestAllPlaces : function() {
       socket.emit('getAllPlaces');
@@ -24,7 +29,7 @@ function initDataClient(url, connectionClosedCallback) {
       socket.emit('getAllMaps');
     },
     onMaps : function(callback) {
-      socket.on('allMaps', callback);
+      allMapsHandler = callback;
     },
     requestPlacesOnMap : function(map) {
       socket.emit('getPlacesOnMap', {map : map});
