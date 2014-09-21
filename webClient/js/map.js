@@ -94,15 +94,39 @@ $(function() {
   }
   });
 
+  var PlacesMap = Backbone.Collection.extend({
+    model: Place,
 
-  var Map = new GMapView;
-
-  var place = new Place({
-    location: {lat: 0, lng: 0}
+    fetch: function(options) {
+      this.add(new Place({
+        location: {lat: 0, lng: 0}
+      }));
+    }    
   });
 
-  var placeMapView = new PlaceMapView({
-    model: place, 
-    map: Map.map
+  var PageView = Backbone.View.extend({
+
+    
+    currentMap: {},
+
+    initialize: function() {
+      this.worldMap = new GMapView;
+      this.openMap(new PlacesMap);
+      this.currentMap.fetch();
+    },
+
+    openMap: function(map) {
+      this.currentMap = map;
+
+      this.listenTo(this.currentMap, 'add', this.addPlaceOnMap);
+    },
+
+    addPlaceOnMap: function(place) {
+      var view = new PlaceMapView({model: place, map: this.worldMap.map});
+    },
   });
+
+
+  var page = new PageView;
+
 })
