@@ -34,6 +34,7 @@ div#map-tab {
 }
 
 div.sidebar {
+  visibility: hidden;
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 5px;
