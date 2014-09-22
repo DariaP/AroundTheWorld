@@ -34,7 +34,7 @@ div#map-tab {
 }
 
 div.sidebar {
-  visibility: hidden;
+  /*visibility: hidden;*/
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 5px;
@@ -52,6 +52,7 @@ div.sidebar {
 }
 
 div#place-details-sidebar {
+  visibility: hidden;
   width: 370px;
 }
 #add-place-to-map-dropdown {
@@ -87,6 +88,7 @@ div.pic-frame {
 }
 
 div#maps-sidebar {
+  visibility: hidden;
   width: 370px;
   height: 300px;
 }

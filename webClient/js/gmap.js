@@ -2,16 +2,13 @@ var GMapView = Backbone.View.extend({
 
   el: $("map-canvas"),
 
-  events: {
-  },
-
-  map: {},
   mapOptions: {
-    center: new google.maps.LatLng(46.414, -118.101),
+    center: new google.maps.LatLng(0, 0),
     zoom: 3
   },
 
-  initialize: function() {
+  initialize: function(options) {
+    this.events = options.events;
     this.map = new google.maps.Map(
       document.getElementById("map-canvas"),
       this.mapOptions
@@ -27,11 +24,10 @@ var PlaceMapView = Backbone.View.extend({
 
   initialize: function(options) {
     this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
+    this.listenTo(this.model, 'destroy', this.clear);
 
-    console.log(options);
-    console.log(options.map);
-    this.map = options.map;
+    this.map = options.worldMap.map;
+    this.events = options.worldMap.events;
     this.render();
   },
 
@@ -42,6 +38,11 @@ var PlaceMapView = Backbone.View.extend({
       map: this.map,
       title: this.model.name,
       icon: this.getPin("FE7569")
+    });
+
+    var that = this;
+    google.maps.event.addListener(this.marker, 'click', function() {
+      that.events.trigger("placeMarkerClick", that.model);
     });
   },
 

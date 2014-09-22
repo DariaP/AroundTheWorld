@@ -11,20 +11,22 @@ var Place = Backbone.Model.extend({
   }
 });
 
-var PlaceView = Backbone.View.extend({
-
-  id: "place-details-sidebar",
+var PlaceDetailsView = Backbone.View.extend({
 
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
+
+    this.render();
   },
-  
+
   render: function() {
-    this.$("#place-name").text(this.model.name);
-    this.$("#place-desc").text(this.model.name);
-    this.$("#links").html(renderPics(this.model.pics));
-    this.$el.show();
+    var place = this.model.attributes;
+
+    $("#place-name").text(place.name);
+    $("#place-desc").text(place.notes);
+    $("#links").html(this.renderPics(this.model.pics));
+    $("#place-details-sidebar").css('visibility', 'visible');
+
     return this;
   },
 

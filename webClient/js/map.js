@@ -4,6 +4,7 @@ var PlacesMap = Backbone.Collection.extend({
 
   fetch: function(options) {
     this.add(new Place({
+      name: "Center of the World",
       location: {lat: 0, lng: 0}
     }));
   }    

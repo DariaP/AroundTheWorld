@@ -1,11 +1,18 @@
 var PageView = Backbone.View.extend({
 
-  
-  currentMap: {},
-
   initialize: function() {
-    this.worldMap = new GMapView;
+    this.events = {};
+    _.extend(this.events, Backbone.Events);
+
+    var that = this;
+    this.events.on("placeMarkerClick", function(place) {
+      that.showPlaceDetails(place);
+    });
+
+    this.worldMap = new GMapView({events: this.events});
+
     this.openMap(new PlacesMap);
+
     this.currentMap.fetch();
   },
 
@@ -16,8 +23,12 @@ var PageView = Backbone.View.extend({
   },
 
   addPlaceOnMap: function(place) {
-    var view = new PlaceMapView({model: place, map: this.worldMap.map});
+    var view = new PlaceMapView({model: place, worldMap: this.worldMap});
   },
+
+  showPlaceDetails: function(place) {
+    var view = new PlaceDetailsView({model: place});
+  }
 });
 
 
