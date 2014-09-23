@@ -22,11 +22,12 @@
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/underscore-min.js"></script>
-  <script src="js/backbone-min.js"></script>
+  <script src="js/backbone.js"></script>
 
   <script src='js/place.js'></script>
   <script src='js/gmap.js'></script>
   <script src='js/map.js'></script>
+  <script src='js/mapsList.js'></script>
   <script src='js/pageView.js'></script>
 
 </head>
@@ -41,10 +42,9 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#map-tab" data-toggle="tab"><span class="glyphicon glyphicon-globe"></span> Map</a></li>
-            <li><button type="button" class="btn btn-default navbar-btn link-style-button" id="navbar-my-maps-button">
-              <span class="glyphicon glyphicon-th-list"></span> My maps</button>
+            <li id="my-maps-nav">
+              <a href="#map-tab" data-toggle="tab"><span class="glyphicon glyphicon-th-list"></span> My maps</a>
             </li>
-
             <li><a href="#new-place-tab" data-toggle="tab"><span class="glyphicon glyphicon-map-marker"></span> New</a></li>
 
           </ul>
@@ -70,7 +70,7 @@
 
         <div id="sidebar" class="sidebar">
           <div id="place-details-sidebar">
-            <button type="button" class="close" onClick="hideDetailsSidebar()"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
 
             <div class = "tabbable">
               <h4 id="place-name"></h4>
@@ -104,7 +104,7 @@
           <hr id="sidebar-sep">
           
           <div id="maps-sidebar">
-            <button type="button" class="close" onClick="hideMapsSidebar()"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
             <div class="scrollable">
               <h4 align="center">My maps</h4>
               <ul id="maps-list"></ul>

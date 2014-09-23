@@ -1,5 +1,5 @@
 
-var PlacesMap = Backbone.Collection.extend({
+var PlacesList = Backbone.Collection.extend({
   model: Place,
 
   fetch: function(options) {
@@ -8,4 +8,28 @@ var PlacesMap = Backbone.Collection.extend({
       location: {lat: 0, lng: 0}
     }));
   }    
+});
+
+var PlacesMap = Backbone.Model.extend({
+
+  name: "",
+
+  initialize: function(options) {
+    this.places = new PlacesList();
+  }
+});
+
+var PlacesMapListView = Backbone.View.extend({
+  tagName:  "li",
+
+  initialize: function() {
+    this.listenTo(this.model, 'change', this.render);
+    this.model.places.fetch();
+  },
+ 
+  render: function() {
+    var name = this.model.attributes.name;
+    this.$el.html("<a href='#'' class='bootstrap-style-link' id='" + name + "'>" + name + "</a>");
+    return this;
+  },
 });
