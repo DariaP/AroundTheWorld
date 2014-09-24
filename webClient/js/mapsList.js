@@ -25,5 +25,6 @@ var MapsListSidebarView = Backbone.View.extend({
     var view = new PlacesMapListView({model: map});
     this.$el.append(view.render().el);
     this.$el.css('visibility', 'visible');
+    $("#maps-sidebar").css('visibility', 'visible');
   }
 });
