@@ -1,3 +1,4 @@
+
 var PageView = Backbone.View.extend({
 
   el: 'body',
@@ -7,6 +8,9 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
+    this.placeSidebar = this.$('#place-details-sidebar');
+    this.placeSidebar.hide();
+
     this.maps = new MapsList;
     this.openMap(new PlacesMap);
   
@@ -40,6 +44,8 @@ var PageView = Backbone.View.extend({
 
   showPlaceDetails: function(place) {
     var view = new PlaceDetailsView({model: place});
+    this.$('#place-details').html(view.render().el);
+    this.placeSidebar.show();
   },
 
   showMapsSidebar: function() {

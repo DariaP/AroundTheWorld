@@ -51,7 +51,6 @@ div.sidebar {
 }
 
 div#place-details-sidebar {
-  visibility: hidden;
   width: 370px;
 }
 #add-place-to-map-dropdown {

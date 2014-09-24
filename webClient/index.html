@@ -71,32 +71,7 @@
           <div id="place-details-sidebar" class="sidebar">
             <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
 
-            <div class = "tabbable">
-              <h4 id="place-name"></h4>
-
-              <div class="dropdown" id="add-place-to-map-dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                  Add to map
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  id = "add-place-to-map-dropdown-list">
-                </ul>
-              </div>
-
-              <ul class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#place-pics" data-toggle="tab">Pics</a></li>
-                <li><a href="#place-desc" data-toggle="tab">Notes</a></li>
-              </ul>
-
-              <div class="tab-content">
-                <div class="tab-pane details-tab-pane active" id="place-pics">
-                  <div class="scrollable">
-                    <div id="links"></div>
-                  </div><!-- /scrollable -->
-                </div><!-- /pics -->
-                <div class="tab-pane details-tab-pane" id="place-desc"></div>
-              </div><!-- /tab-content -->
-
+            <div class = "tabbable" id="place-details">
             </div><!-- /tabbable -->
 
           </div><!-- /details-sidebar -->
@@ -179,6 +154,34 @@
 
   <script type="text/template" id="map-template">
     <a href='#' class='bootstrap-style-link' id='<%- name %>'><%- name %></a>
+  </script>
+
+  <script type="text/template" id="place-details-template">
+
+    <h4 id="place-name"><%- name %></h4>
+
+    <div class="dropdown" id="add-place-to-map-dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        Add to map
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  id = "add-place-to-map-dropdown-list">
+      </ul>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#place-pics" data-toggle="tab">Pics</a></li>
+      <li><a href="#place-desc" data-toggle="tab">Notes</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane details-tab-pane active" id="place-pics">
+        <div class="scrollable">
+          <div id="links"><%- picsHtml %></div>
+        </div><!-- /scrollable -->
+      </div><!-- /pics -->
+      <div class="tab-pane details-tab-pane" id="place-desc"><%- notes %></div>
+    </div><!-- /tab-content -->
   </script>
 
 </body>

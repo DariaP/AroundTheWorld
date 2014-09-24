@@ -14,23 +14,23 @@ var Place = Backbone.Model.extend({
 var PlaceDetailsView = Backbone.View.extend({
 
   initialize: function() {
-    this.listenTo(this.model, 'change', this.render);
 
-    this.render();
+    this.template = _.template($('#place-details-template').html()),
+
+    this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
     var place = this.model.attributes;
 
-    $("#place-name").text(place.name);
-    $("#place-desc").text(place.notes);
-    $("#links").html(this.renderPics(this.model.pics));
-    $("#place-details-sidebar").css('visibility', 'visible');
+    this.model.attributes.picsHtml = this.renderPics(this.model.pics);
+    this.$el.html(this.template(this.model.toJSON()));
 
     return this;
   },
 
   renderPics: function(pics) {
-    return "<p>I am the pics</p>";
-  }
+    return "I am the pics";
+  },
+
 });
