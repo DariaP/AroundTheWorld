@@ -3,16 +3,16 @@ var PageView = Backbone.View.extend({
   el: 'body',
 
   events: {
-    "click #my-maps-nav": "openMyMapsView"
+    "click #my-maps-nav": "showMapsSidebar"
   },
 
   initialize: function() {
-    //debugger;
     this.maps = new MapsList;
     this.openMap(new PlacesMap);
-
+  
     this.worldMap = new GMapView({events: this.initGmapEvents()});
-    
+    this.mapsSidebar = new MapsListSidebarView({maps: this.maps});
+
     this.showCurrentMap();
   },
 
@@ -42,8 +42,8 @@ var PageView = Backbone.View.extend({
     var view = new PlaceDetailsView({model: place});
   },
 
-  openMyMapsView: function() {
-    var view = new MapsListSidebarView({maps: this.maps});
+  showMapsSidebar: function() {
+    this.mapsSidebar.render();
   }
 });
 
