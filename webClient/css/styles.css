@@ -87,7 +87,6 @@ div.pic-frame {
 }
 
 div#maps-sidebar {
-  visibility: hidden;
   width: 370px;
   height: 300px;
 }

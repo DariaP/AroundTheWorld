@@ -14,17 +14,32 @@ var MapsList = Backbone.Collection.extend({
 var MapsListSidebarView = Backbone.View.extend({
   el: '#maps-sidebar',
 
+  events: {
+    "click .close": "hide"
+  },
+
   initialize: function(options) {
+
+  	this.list = this.$('#maps-list');
+
     this.maps = options.maps;
     this.listenTo(this.maps, 'add', this.addMapToList);
+
+    this.hide();
   },
+
   render: function() {
-  	this.$el.find('#maps-list').html('');
+  	this.list.html('');
   	this.maps.fetch();
   },
+
   addMapToList: function(map) {
     var view = new PlacesMapListView({model: map});
-    this.$('#maps-list').append(view.render().el);
-    this.$el.css('visibility', 'visible');
+    this.list.append(view.render().el);
+    this.$el.show();
+  },
+  
+  hide: function() {
+    this.$el.hide();  	
   }
 });
