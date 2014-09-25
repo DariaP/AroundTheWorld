@@ -30,7 +30,7 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   renderPics: function(pics) {
-    return "I am the pics";
+    return "<p>I am the pics</p>";
   },
 
 });
