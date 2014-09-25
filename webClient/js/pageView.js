@@ -1,3 +1,25 @@
+var PlaceSidebarView = Backbone.View.extend({
+
+  el: '#place-details-sidebar',
+
+  events: {
+    "click .close": "hide"
+  },
+
+  initialize: function() {
+    this.hide();
+  },
+
+  show: function(place) {
+    var view = new PlaceDetailsView({model: place});
+    this.$('#place-details').html(view.render().el);
+    this.$el.show();
+  },
+
+  hide: function() {
+    this.$el.hide();    
+  }
+});
 
 var PageView = Backbone.View.extend({
 
@@ -8,8 +30,7 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.placeSidebar = this.$('#place-details-sidebar');
-    this.placeSidebar.hide();
+    this.placeSidebar = new PlaceSidebarView();
 
     this.maps = new MapsList;
     this.openMap(new PlacesMap);
@@ -25,7 +46,7 @@ var PageView = Backbone.View.extend({
         gmapEvents = {};
     _.extend(gmapEvents, Backbone.Events);
     gmapEvents.on("placeMarkerClick", function(place) {
-      that.showPlaceDetails(place);
+      that.placeSidebar.show(place);
     });
     return gmapEvents;
   },
@@ -40,12 +61,6 @@ var PageView = Backbone.View.extend({
 
   addPlaceOnMap: function(place) {
     var view = new PlaceMapView({model: place, worldMap: this.worldMap});
-  },
-
-  showPlaceDetails: function(place) {
-    var view = new PlaceDetailsView({model: place});
-    this.$('#place-details').html(view.render().el);
-    this.placeSidebar.show();
   },
 
   showMapsSidebar: function() {
