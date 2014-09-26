@@ -2,23 +2,21 @@ var mongodb = require('mongodb'),
     config = require('./config.js').config
  
 function initNetwork(dbApi) {
+  var express = require('express'),
+      cors = require('cors');
 
-  var http = require("http"),
-      url = require("url");
-  var server = http.createServer(function(request, response) {
-    var parsedReq = url.parse(request.url, true);
-    var command = parsedReq.pathname.substr(1),
-        params = parsedReq.query;
+  var app = express();
 
-    if (dbApi[command]) {
-      dbApi[command](params, function(result) {
-        response.writeHead(200, {"Content-Type": "application/json"});
-        response.end(JSON.stringify([result]));
-      });
-    }
-  });
+  app.use(cors());
 
-  server.listen(8089);
+  app.get('/getAllPlaces', function (req, res) {
+    //req.query
+    dbApi.getAllPlaces(function(places) {
+      res.send(places);
+    })
+  })
+
+  app.listen(8089);
 }
 
 function initDb(callback) {
@@ -46,7 +44,7 @@ function initDb(callback) {
       return place;
     }
     var dbApi = {
-      getAllPlaces: function(params, callback) {
+      getAllPlaces: function(callback) {
       	places.find({}, {}).toArray ( function (err, res) {
           callback(res);
       	})

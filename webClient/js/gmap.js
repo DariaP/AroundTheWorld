@@ -32,9 +32,10 @@ var PlaceMapView = Backbone.View.extend({
   },
 
   render: function() {
+    var location = this.model.attributes.location;
     this.clear();
     this.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(this.model.location.lat, this.model.location.lng),
+      position: new google.maps.LatLng(location.lat, location.lng),
       map: this.map,
       title: this.model.name,
       icon: this.getPin("FE7569")
