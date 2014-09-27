@@ -11,17 +11,19 @@
 
   <title>Around the world</title>
 
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-  <link rel="stylesheet" href="css/bootstrap-image-gallery.min.css">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="css/lib/blueimp-gallery.min.css">
+  <link rel="stylesheet" href="css/lib/bootstrap-image-gallery.min.css">
+  <link rel="stylesheet" href="css/styles.css">
 
-  <script src="js/jquery-1.11.1.min.js"></script>
+  <script src="js/lib/jquery-1.11.1.min.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
+  <script src="js/lib/underscore-min.js"></script>
+  <script src="js/lib/backbone-min.js"></script>
+  <script src="js/lib/jquery.blueimp-gallery.min.js"></script>
+  <script src="js/lib/bootstrap-image-gallery.min.js"></script>
+
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/underscore-min.js"></script>
-  <script src="js/backbone.js"></script>
 
   <script src='js/place.js'></script>
   <script src='js/gmap.js'></script>
@@ -74,7 +76,7 @@
             </div><!-- /tabbable -->
 
           </div><!-- /details-sidebar -->
-          
+
           <div id="maps-sidebar" class="sidebar fixed-right">
             <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
             <div class="scrollable">
@@ -82,7 +84,7 @@
               <ul id="maps-list"></ul>
             </div><!-- /scrollable -->
           </div>
-          
+
         <div id="map-canvas" class="map-container">
         </div>
 
@@ -147,9 +149,6 @@
     </div>
   </div>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-  <script src="js/bootstrap-image-gallery.min.js"></script>
 
   <script type="text/template" id="map-template">
     <a href='#' class='bootstrap-style-link' id='<%- name %>'><%- name %></a>
