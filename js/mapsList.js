@@ -1,13 +1,7 @@
 
 var MapsList = Backbone.Collection.extend({
   model: PlacesMap,
-
-  fetch: function(options) {
-  	this.reset([]);
-    this.add(new PlacesMap({
-      name: "My First Map"
-    }));
-  }    
+  url: 'http://localhost:8089/getAllMaps'
 });
 
 
@@ -38,7 +32,7 @@ var MapsListSidebarView = Backbone.View.extend({
     this.list.append(view.render().el);
     this.$el.show();
   },
-  
+
   hide: function() {
     this.$el.hide();  	
   }
