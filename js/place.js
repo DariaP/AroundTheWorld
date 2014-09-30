@@ -23,14 +23,33 @@ var PlaceDetailsView = Backbone.View.extend({
   render: function() {
     var place = this.model.attributes;
 
-    this.model.attributes.picsHtml = this.renderPics(this.model.pics);
-    this.$el.html(this.template(this.model.toJSON()));
-
-    return this;
+//how to handle async
+    this.on("picsReady", this.onPicsReady)
+    this.renderPics(this.model.attributes.pics);
   },
+
+  onPicsReady: function(picsHtml) {
+    this.model.attributes.picsHtml = picsHtml;
+    this.$el.html(this.template(this.model.toJSON()));
+    this.trigger("ready");
+  },
+ 
+//sep?
 
   renderPics: function(pics) {
-    return "<p>I am the pics</p>";
-  },
+    var that = this;
+    function renderPicsHelper(i, html) {
+      if (i == pics.length) {
+        that.trigger("picsReady", html);
+      } else {
+        var picModel = new Pic({src: pics[i]});
+        picModel.on("ready", function() {
+          var picHtml = new PicView({model: picModel}).render().$el.html();
+          renderPicsHelper(i + 1, html + picHtml);
+        });
+      }
+    };
 
+    renderPicsHelper(0, "");
+  }
 });

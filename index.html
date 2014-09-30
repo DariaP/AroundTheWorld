@@ -25,6 +25,7 @@
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 
+  <script src='js/pic.js'></script>
   <script src='js/place.js'></script>
   <script src='js/gmap.js'></script>
   <script src='js/map.js'></script>
@@ -180,6 +181,12 @@
       </div><!-- /pics -->
       <div class="tab-pane details-tab-pane" id="place-desc"><%- notes %></div>
     </div><!-- /tab-content -->
+  </script>
+
+  <script type="text/template" id="pic-link-template">
+    <div class='pic-frame'><a href='<%- src %>' title='<%- src %>' data-gallery>
+    <img <%- shorterSide %>=100px src='<%- src %>' alt='<%- src %>' >
+    </a></div>
   </script>
 
 </body>

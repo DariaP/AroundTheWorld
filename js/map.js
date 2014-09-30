@@ -2,14 +2,6 @@
 var PlacesList = Backbone.Collection.extend({
   model: Place,
   url: 'http://localhost:8089/getAllPlaces'
-
-  /*fetch: function(options) {
-    this.add(new Place({
-      name: "Center of the World",
-      location: {lat: 0, lng: 0},
-      notes: "This is the center of the World"
-    }));
-  } */   
 });
 
 var PlacesMap = Backbone.Model.extend({
