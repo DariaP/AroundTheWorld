@@ -38,7 +38,7 @@ var PageView = Backbone.View.extend({
     this.placeSidebar = new PlaceSidebarView();
 
     this.maps = new MapsList;
-    this.openMap(new PlacesMap);
+    this.openMap(new Map);
   
     this.worldMap = new GMapView({events: this.initGmapEvents()});
     this.mapsSidebar = new MapsListSidebarView({maps: this.maps});

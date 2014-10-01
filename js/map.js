@@ -4,7 +4,7 @@ var PlacesList = Backbone.Collection.extend({
   url: 'http://localhost:8089/getAllPlaces'
 });
 
-var PlacesMap = Backbone.Model.extend({
+var Map = Backbone.Model.extend({
 
   name: "",
 
@@ -13,21 +13,30 @@ var PlacesMap = Backbone.Model.extend({
   }
 });
 
-var PlacesMapListView = Backbone.View.extend({
+var MapAsListItemView = Backbone.View.extend({
 
   tagName:  "li",
 
   initialize: function() {
-
     this.template = _.template($('#map-template').html()),
-
     this.listenTo(this.model, 'change', this.render);
-    this.model.places.fetch();
   },
  
   render: function() {
-    var name = this.model.attributes.name;
     this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
+});
+
+var MapAsDropdownItemView = Backbone.View.extend({
+
+  initialize: function() {
+    this.template = _.template($('#dropdown-map-template').html()),
+    this.listenTo(this.model, 'change', this.render);
+  },
+ 
+  render: function() {
+    this.setElement(this.template(this.model.toJSON()));
     return this;
   },
 });

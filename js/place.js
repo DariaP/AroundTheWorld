@@ -23,7 +23,8 @@ var PlaceDetailsView = Backbone.View.extend({
   render: function() {
     var place = this.model.attributes;
 
-//how to handle async
+// how to handle async
+// show then load?
     this.on("picsReady", this.onPicsReady)
     this.renderPics(this.model.attributes.pics);
   },
@@ -31,6 +32,14 @@ var PlaceDetailsView = Backbone.View.extend({
   onPicsReady: function(picsHtml) {
     this.model.attributes.picsHtml = picsHtml;
     this.$el.html(this.template(this.model.toJSON()));
+
+// create new list every time?
+    var mapsDropdown = new MapsListDropdownView({
+      maps: new MapsList(),
+      elem: this.$('#add-place-to-map-dropdown-list')
+    })
+    mapsDropdown.render();
+
     this.trigger("ready");
   },
  

@@ -1,6 +1,6 @@
 
 var MapsList = Backbone.Collection.extend({
-  model: PlacesMap,
+  model: Map,
   url: 'http://localhost:8089/getAllMaps'
 });
 
@@ -28,7 +28,7 @@ var MapsListSidebarView = Backbone.View.extend({
   },
 
   addMapToList: function(map) {
-    var view = new PlacesMapListView({model: map});
+    var view = new MapAsListItemView({model: map});
     this.list.append(view.render().el);
     this.$el.show();
   },
@@ -36,4 +36,25 @@ var MapsListSidebarView = Backbone.View.extend({
   hide: function() {
     this.$el.hide();  	
   }
+});
+
+var MapsListDropdownView = Backbone.View.extend({
+  //el: '#add-place-to-map-dropdown-list',
+
+  initialize: function(options) {
+    this.maps = options.maps;
+    this.listenTo(this.maps, 'add', this.addMap);
+
+// TODO: why el field didn't work?
+    this.$el = options.elem;
+  },
+
+  render: function() {
+  	this.maps.fetch();
+  },
+
+  addMap: function(map) {
+    var view = new MapAsDropdownItemView({model: map});
+    this.$el.append(view.render().el);
+  },
 });
