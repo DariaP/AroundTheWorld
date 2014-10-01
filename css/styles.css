@@ -77,12 +77,16 @@ div#place-details-sidebar #place-pics {
 div.details-tab-pane {
   padding-top: 10px;
 }
+
 div.pic-frame {
-  width: 100px;
+  max-width: 100px;
   height: 100px;
   overflow: hidden;
   float: left;
   margin: 5px;
+}
+div.pic-frame img {
+    height: 100px;
 }
 
 div#maps-sidebar {

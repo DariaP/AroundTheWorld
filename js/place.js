@@ -21,44 +21,27 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   render: function() {
-    var place = this.model.attributes;
 
-// how to handle async
-// show then load?
-    this.on("picsReady", this.onPicsReady)
-    this.renderPics(this.model.attributes.pics);
-  },
-
-  onPicsReady: function(picsHtml) {
-    this.model.attributes.picsHtml = picsHtml;
+    this.model.attributes.picsHtml = this.renderPics();
     this.$el.html(this.template(this.model.toJSON()));
 
-// create new list every time?
     var mapsDropdown = new MapsListDropdownView({
       maps: new MapsList(),
       elem: this.$('#add-place-to-map-dropdown-list')
     })
     mapsDropdown.render();
 
-    this.trigger("ready");
+    return this;
   },
- 
-//sep?
 
-  renderPics: function(pics) {
-    var that = this;
-    function renderPicsHelper(i, html) {
-      if (i == pics.length) {
-        that.trigger("picsReady", html);
-      } else {
-        var picModel = new Pic({src: pics[i]});
-        picModel.on("ready", function() {
-          var picHtml = new PicView({model: picModel}).render().$el.html();
-          renderPicsHelper(i + 1, html + picHtml);
-        });
-      }
-    };
-
-    renderPicsHelper(0, "");
+  renderPics: function() {
+    var pics = this.model.attributes.pics;
+    var html = "";
+    for (var i = 0 ; i < pics.length ; ++i) {
+      var pic = new Pic({src: pics[i]})
+      var picHtml = new PicView({model: pic}).render().$el.html();
+      html += picHtml;
+    }
+    return html;
   }
 });

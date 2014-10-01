@@ -187,9 +187,12 @@
   </script>
 
   <script type="text/template" id="pic-link-template">
-    <div class='pic-frame'><a href='<%- src %>' title='<%- src %>' data-gallery>
-    <img <%- shorterSide %>=100px src='<%- src %>' alt='<%- src %>' >
-    </a></div>
+    <div class='pic-frame'>
+    <a href='<%- src %>' title='<%- src %>' data-gallery>
+    <div>
+    <img src='<%- src %>' alt='<%- src %>' >
+    </a>
+    </div></div>
   </script>
 
   <script type="text/template" id="dropdown-map-template">

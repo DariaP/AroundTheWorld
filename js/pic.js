@@ -1,23 +1,6 @@
 //?
 var Pic = Backbone.Model.extend({
-
-  src: "",
-
-  initialize: function() {
-    var loadedImage = new Image(),
-        that = this;
-
-    loadedImage.src = this.attributes.src;
-    loadedImage.onload = function(e) {
-      var style = "";
-      if (this.width > this.height) {
-        that.attributes.shorterSide='height';
-      } else {
-        that.attributes.shorterSide='width';
-      }
-      that.trigger("ready");
-    };
-  }
+  src: ""
 });
 
 var PicView = Backbone.View.extend({
