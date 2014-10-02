@@ -34,12 +34,19 @@ var PageView = Backbone.View.extend({
     this.placeSidebar = new PlaceSidebarView();
 
     this.maps = new MapsList;
-    this.openMap(new Map);
   
     this.worldMap = new GMapView({events: this.initGmapEvents()});
-    this.mapsSidebar = new MapsListSidebarView({maps: this.maps});
 
-    this.showCurrentMap();
+    this.maps.fetch();
+    this.listenTo(this.maps, 'add', this.openDefaultMap);
+
+    this.mapsSidebar = new MapsListSidebarView({maps: this.maps});
+  },
+
+  openDefaultMap: function() {
+    if(!this.currentMap) {
+      this.openMap(this.maps.at(0));
+    }
   },
 
   initGmapEvents: function() {
@@ -51,12 +58,10 @@ var PageView = Backbone.View.extend({
     });
     return gmapEvents;
   },
+
   openMap: function(map) {
     this.currentMap = map;
     this.listenTo(this.currentMap.places, 'add', this.addPlaceOnMap);
-  },
-
-  showCurrentMap: function() {
     this.currentMap.places.fetch();
   },
 
@@ -66,6 +71,7 @@ var PageView = Backbone.View.extend({
 
   showMapsSidebar: function() {
     this.mapsSidebar.render();
+    this.mapsSidebar.show();
   }
 });
 

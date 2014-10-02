@@ -1,4 +1,4 @@
-//?
+// add to place view?
 var Pic = Backbone.Model.extend({
   src: ""
 });

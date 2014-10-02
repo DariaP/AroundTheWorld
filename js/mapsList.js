@@ -30,11 +30,14 @@ var MapsListSidebarView = Backbone.View.extend({
   addMapToList: function(map) {
     var view = new MapAsListItemView({model: map});
     this.list.append(view.render().el);
-    this.$el.show();
   },
 
   hide: function() {
-    this.$el.hide();  	
+    this.$el.hide();    
+  },
+
+  show: function() {
+    this.$el.show();  	
   }
 });
 

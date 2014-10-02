@@ -25,6 +25,7 @@ var PlaceDetailsView = Backbone.View.extend({
     this.model.attributes.picsHtml = this.renderPics();
     this.$el.html(this.template(this.model.toJSON()));
 
+// do I need separate view?
     var mapsDropdown = new MapsListDropdownView({
       maps: new MapsList(),
       elem: this.$('#add-place-to-map-dropdown-list')
@@ -35,8 +36,9 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   renderPics: function() {
-    var pics = this.model.attributes.pics;
-    var html = "";
+    var pics = this.model.attributes.pics,
+        html = "";
+
     for (var i = 0 ; i < pics.length ; ++i) {
       var pic = new Pic({src: pics[i]})
       var picHtml = new PicView({model: pic}).render().$el.html();

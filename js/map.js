@@ -1,7 +1,10 @@
 
 var PlacesList = Backbone.Collection.extend({
   model: Place,
-  url: 'http://localhost:8089/getAllPlaces'
+
+  initialize: function(options) {
+    this.url = 'http://localhost:8089/getPlacesOnMap?map=' + options.name;
+  }
 });
 
 var Map = Backbone.Model.extend({
@@ -9,7 +12,7 @@ var Map = Backbone.Model.extend({
   name: "",
 
   initialize: function(options) {
-    this.places = new PlacesList();
+    this.places = new PlacesList({name: options.name});
   }
 });
 
