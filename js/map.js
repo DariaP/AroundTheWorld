@@ -13,6 +13,11 @@ var Map = Backbone.Model.extend({
 
   initialize: function(options) {
     this.places = new PlacesList({name: options.name});
+  },
+
+  clear: function() {
+    _.invoke(this.places.models, 'clear');
+    this.places.reset();
   }
 });
 

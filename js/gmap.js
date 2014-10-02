@@ -16,6 +16,7 @@ var GMapView = Backbone.View.extend({
   },
 });
 
+// TODO: What will happen with this view after model is destroyed?
 var PlaceMapView = Backbone.View.extend({
 
   marker: {
@@ -32,8 +33,16 @@ var PlaceMapView = Backbone.View.extend({
   },
 
   render: function() {
-    var location = this.model.attributes.location;
     this.clear();
+
+    if (this.model.attributes.location) {
+      this.show(); 
+    }
+  },
+
+  show: function() {
+    var location = this.model.attributes.location;
+
     this.marker = new google.maps.Marker({
       position: new google.maps.LatLng(location.lat, location.lng),
       map: this.map,

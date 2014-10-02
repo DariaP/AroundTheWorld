@@ -16,7 +16,7 @@ var MapsListSidebarView = Backbone.View.extend({
 
   	this.list = this.$('#maps-list');
 
-    this.maps = options.maps;
+    this.maps = new MapsList();
     this.listenTo(this.maps, 'add', this.addMapToList);
 
     this.hide();
@@ -28,8 +28,13 @@ var MapsListSidebarView = Backbone.View.extend({
   },
 
   addMapToList: function(map) {
-    var view = new MapAsListItemView({model: map});
+    var view = new MapAsListItemView({model: map}),
+        that = this;
     this.list.append(view.render().el);
+    view.render().$el.on('click', function(e) {
+      e.preventDefault();
+      that.trigger('openMap', map);
+    })
   },
 
   hide: function() {

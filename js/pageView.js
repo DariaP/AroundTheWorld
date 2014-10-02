@@ -40,23 +40,38 @@ var PageView = Backbone.View.extend({
     this.maps.fetch();
     this.listenTo(this.maps, 'add', this.openDefaultMap);
 
-    this.mapsSidebar = new MapsListSidebarView({maps: this.maps});
+// Share maps list?
+    this.mapsSidebar = new MapsListSidebarView();
+    var that = this;
+    this.mapsSidebar.on('openMap', function(map) {
+      that.resetMap(map);
+    });
   },
 
   openDefaultMap: function() {
-    if(!this.currentMap) {
-      this.openMap(this.maps.at(0));
-    }
+    this.openMap(this.maps.at(0));
+    this.stopListening(this.maps, 'add');
   },
 
   initGmapEvents: function() {
-    var that = this,
-        gmapEvents = {};
-    _.extend(gmapEvents, Backbone.Events);
-    gmapEvents.on("placeMarkerClick", function(place) {
+    var that = this;
+
+    this.gmapEvents = {};
+
+    _.extend(this.gmapEvents, Backbone.Events);
+
+    this.gmapEvents.on("placeMarkerClick", function(place) {
       that.placeSidebar.show(place);
     });
-    return gmapEvents;
+
+    return this.gmapEvents;
+  },
+
+  resetMap: function(map) {
+// trigger or just call?
+    this.currentMap.clear();
+    this.stopListening(this.currentMap.places, 'add');
+    this.openMap(map);  
   },
 
   openMap: function(map) {
