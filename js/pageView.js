@@ -43,7 +43,7 @@ var PageView = Backbone.View.extend({
 // Share maps list?
     this.mapsSidebar = new MapsListSidebarView();
     var that = this;
-    this.mapsSidebar.on('openMap', function(map) {
+    this.mapsSidebar.on('mapMenuClicked', function(map) {
       that.resetMap(map);
     });
   },
@@ -68,7 +68,6 @@ var PageView = Backbone.View.extend({
   },
 
   resetMap: function(map) {
-// trigger or just call?
     this.currentMap.clear();
     this.stopListening(this.currentMap.places, 'add');
     this.openMap(map);  

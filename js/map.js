@@ -19,6 +19,7 @@ var Map = Backbone.Model.extend({
     _.invoke(this.places.models, 'clear');
     this.places.reset();
   }
+
 });
 
 var MapAsListItemView = Backbone.View.extend({

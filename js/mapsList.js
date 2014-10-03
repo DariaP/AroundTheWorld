@@ -33,7 +33,7 @@ var MapsListSidebarView = Backbone.View.extend({
     this.list.append(view.render().el);
     view.render().$el.on('click', function(e) {
       e.preventDefault();
-      that.trigger('openMap', map);
+      that.trigger('mapMenuClicked', map);
     })
   },
 
