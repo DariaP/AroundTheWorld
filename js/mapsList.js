@@ -28,13 +28,15 @@ var MapsListSidebarView = Backbone.View.extend({
   },
 
   addMapToList: function(map) {
-    var view = new MapAsListItemView({model: map}),
+    var view = new MapAsListItemView({model: map}).render(),
         that = this;
-    this.list.append(view.render().el);
-    view.render().$el.on('click', function(e) {
+
+    view.$el.on('click', function(e) {
       e.preventDefault();
       that.trigger('mapMenuClicked', map);
-    })
+    });
+
+    this.list.append(view.el);
   },
 
   hide: function() {
@@ -62,7 +64,14 @@ var MapsListDropdownView = Backbone.View.extend({
   },
 
   addMap: function(map) {
-    var view = new MapAsDropdownItemView({model: map});
-    this.$el.append(view.render().el);
+    var view = new MapAsDropdownItemView({model: map}).render(),
+        that = this;
+
+    view.$el.on('click', function(e) {
+      e.preventDefault();
+      that.trigger('mapDropdownClicked', map);
+    });
+
+    this.$el.append(view.el);
   },
 });

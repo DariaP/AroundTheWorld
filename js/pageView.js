@@ -10,11 +10,14 @@ var PlaceSidebarView = Backbone.View.extend({
     this.hide();
   },
 
-//?
   show: function(place) {
-    var view = new PlaceDetailsView({model: place});
-      this.$('#place-details').html(view.render().el);
-      this.$el.show();
+    var view = new PlaceDetailsView({model: place}),
+        that = this;
+    view.on('cleared', function() {
+      that.hide();
+    })
+    this.$('#place-details').html(view.render().el);
+    this.$el.show();
   },
 
   hide: function() {
