@@ -30,7 +30,6 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   render: function() {
-    console.log("render");
     var that = this;
 
     this.model.attributes.picsHtml = this.renderPics();
@@ -54,7 +53,7 @@ var PlaceDetailsView = Backbone.View.extend({
   renderPics: function() {
     var pics = this.model.attributes.pics,
         html = "";
-console.log(this.model);
+
     for (var i = 0 ; i < pics.length ; ++i) {
       var pic = new Pic({src: pics[i]})
       var picHtml = new PicView({model: pic}).render().$el.html();
