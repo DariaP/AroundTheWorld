@@ -30,7 +30,8 @@ var PageView = Backbone.View.extend({
   el: 'body',
 
   events: {
-    "click #my-maps-nav": "showMapsSidebar"
+    "click #my-maps-nav": "showMapsSidebar",
+    "submit #new-place-form": "newPlace"
   },
 
   initialize: function() {
@@ -89,7 +90,27 @@ var PageView = Backbone.View.extend({
   showMapsSidebar: function() {
     this.mapsSidebar.render();
     this.mapsSidebar.show();
+  },
+
+// separate view?
+  newPlace: function(e) {
+    e.preventDefault();
+
+    var latlng = this.$('#new-place-location').val().split(/[, ]+/),
+        pics = this.$('#new-place-pics').val().split(/[, \n]+/);
+
+    this.currentMap.places.create({
+      name: this.$('#new-place-name').val(),
+      location: {
+        lat: latlng[0],
+        lng: latlng[1]
+      },
+      notes: this.$('#new-place-notes').val(),
+      pics: pics,
+      parentMaps: [this.currentMap.attributes.name]
+    });
   }
+
 });
 
 
