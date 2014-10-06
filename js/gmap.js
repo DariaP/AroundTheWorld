@@ -1,7 +1,5 @@
 var GMapView = Backbone.View.extend({
 
-  el: $("map-canvas"),
-
   mapOptions: {
     center: new google.maps.LatLng(0, 0),
     zoom: 3
@@ -13,7 +11,52 @@ var GMapView = Backbone.View.extend({
       document.getElementById("map-canvas"),
       this.mapOptions
       );
+
+    this.placesSearchService = new google.maps.places.PlacesService(this.map);
+
+    var autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById("navbar-search-input"));
   },
+
+  search: function(searchText) {
+    var that = this,
+        request = {
+          query: searchText
+        };
+
+    this.placesSearchService.textSearch(request, function(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          that.createSearchMarker(results[i]);
+        }
+      }
+    });
+  },
+
+  createSearchMarker: function(result) {
+
+    var that = this,
+        place = new Place({
+          name: result.formatted_address,
+          location: {
+            lat: result.geometry.location.k, 
+            lng: result.geometry.location.B
+          },
+          pics: [],
+          notes: "",
+          parentMaps: []
+        });
+
+    var marker = new PlaceMapView({
+      model: place,
+      worldMap: this,
+      color: '78FF69'}
+    );
+
+    marker.on('placeMarkerClick', function() {
+      marker.showInfo(place.attributes.name);
+    })
+  }
 });
 
 // TODO: What will happen with this view after model is destroyed?
@@ -29,7 +72,14 @@ var PlaceMapView = Backbone.View.extend({
 
     this.map = options.worldMap.map;
     this.events = options.worldMap.events;
+
+    if(options.color) 
+      this.color = options.color;
+    else
+      this.color = 'FE7569';
+
     this.render();
+
   },
 
   render: function() {
@@ -47,12 +97,12 @@ var PlaceMapView = Backbone.View.extend({
       position: new google.maps.LatLng(location.lat, location.lng),
       map: this.map,
       title: this.model.name,
-      icon: this.getPin("FE7569")
+      icon: this.getPin(this.color)
     });
 
     var that = this;
     google.maps.event.addListener(this.marker, 'click', function() {
-      that.events.trigger("placeMarkerClick", that.model);
+      that.trigger("placeMarkerClick", that.model);
     });
   },
 
@@ -65,5 +115,12 @@ var PlaceMapView = Backbone.View.extend({
       new google.maps.Size(21, 34),
       new google.maps.Point(0,0),
       new google.maps.Point(10, 34));  
+  },
+
+  showInfo: function(html) {
+      // TODO: create once and reuse?
+      var menu = new google.maps.InfoWindow();
+      menu.setContent(html);
+      menu.open(this.map, this.marker);
   }
 });

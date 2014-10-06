@@ -31,7 +31,8 @@ var PageView = Backbone.View.extend({
 
   events: {
     "click #my-maps-nav": "showMapsSidebar",
-    "submit #new-place-form": "newPlace"
+    "submit #new-place-form": "newPlace",
+    "submit #navbar-search-form": "search"
   },
 
   initialize: function() {
@@ -64,10 +65,9 @@ var PageView = Backbone.View.extend({
 
     _.extend(this.gmapEvents, Backbone.Events);
 
-    this.gmapEvents.on("placeMarkerClick", function(place) {
-      that.placeSidebar.show(place);
-    });
-
+    this.gmapEvents.on('searchResult', function(result) {
+      console.log(result);
+    })
     return this.gmapEvents;
   },
 
@@ -84,7 +84,12 @@ var PageView = Backbone.View.extend({
   },
 
   addPlaceOnMap: function(place) {
-    var view = new PlaceMapView({model: place, worldMap: this.worldMap});
+    var view = new PlaceMapView({model: place, worldMap: this.worldMap}),
+        that = this;
+
+    view.on("placeMarkerClick", function(place) {
+      that.placeSidebar.show(place);
+    });
   },
 
   showMapsSidebar: function() {
@@ -109,8 +114,12 @@ var PageView = Backbone.View.extend({
       pics: pics,
       parentMaps: [this.currentMap.attributes.name]
     });
-  }
+  },
 
+  search: function(e) {
+    e.preventDefault();
+    this.worldMap.search(this.$('#navbar-search-input').val());
+  }
 });
 
 
