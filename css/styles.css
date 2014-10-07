@@ -99,6 +99,9 @@ ul#maps-list {
 div#new-place-tab {
   padding-top: 10px;
 }
+div#search-res-menu {
+  padding-bottom: 10px;
+}
 .bootstrap-style-link {
   text-align: center;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;

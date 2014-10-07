@@ -6,7 +6,7 @@ var GMapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.events = options.events;
+
     this.map = new google.maps.Map(
       document.getElementById("map-canvas"),
       this.mapOptions
@@ -23,6 +23,8 @@ var GMapView = Backbone.View.extend({
         request = {
           query: searchText
         };
+
+    this.trigger('newSearch');
 
     this.placesSearchService.textSearch(request, function(results, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -53,8 +55,16 @@ var GMapView = Backbone.View.extend({
       color: '78FF69'}
     );
 
+    this.once('newSearch', function() { 
+      marker.clear();
+    });
+
     marker.on('placeMarkerClick', function() {
-      marker.showInfo(place.attributes.name);
+      marker.showInfo();
+    }),
+
+    place.on('addPlaceClick', function() {
+      that.trigger('addSearchResultClick', place.attributes);
     })
   }
 });
@@ -117,10 +127,34 @@ var PlaceMapView = Backbone.View.extend({
       new google.maps.Point(10, 34));  
   },
 
-  showInfo: function(html) {
+  showInfo: function() {
       // TODO: create once and reuse?
-      var menu = new google.maps.InfoWindow();
-      menu.setContent(html);
+      var menu = new google.maps.InfoWindow(),
+          view = new SearchResultMenu({model: this.model});
+      menu.setContent(view.render().el);
       menu.open(this.map, this.marker);
+  }
+});
+
+
+var SearchResultMenu = Backbone.View.extend({
+
+  id: 'search-res-menu',
+
+  events: {
+    "click #add-place-button"   : "addPlace",
+  },
+
+  initialize: function() {
+    this.template = _.template($('#search-result-menu').html());
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
+
+  addPlace: function(e) {
+    this.model.trigger('addPlaceClick');
   }
 });

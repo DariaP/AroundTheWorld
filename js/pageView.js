@@ -36,11 +36,17 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
+    var that = this;
+
     this.placeSidebar = new PlaceSidebarView();
 
     this.maps = new MapsList;
   
-    this.worldMap = new GMapView({events: this.initGmapEvents()});
+    this.worldMap = new GMapView();
+    this.worldMap.on('addSearchResultClick', function(result) {
+      that.setNewPlaceFields(result);
+      that.openNewPlaceTab();
+    });
 
     this.maps.fetch();
     this.listenTo(this.maps, 'add', this.openDefaultMap);
@@ -56,19 +62,6 @@ var PageView = Backbone.View.extend({
   openDefaultMap: function() {
     this.openMap(this.maps.at(0));
     this.stopListening(this.maps, 'add');
-  },
-
-  initGmapEvents: function() {
-    var that = this;
-
-    this.gmapEvents = {};
-
-    _.extend(this.gmapEvents, Backbone.Events);
-
-    this.gmapEvents.on('searchResult', function(result) {
-      console.log(result);
-    })
-    return this.gmapEvents;
   },
 
   resetMap: function(map) {
@@ -119,6 +112,19 @@ var PageView = Backbone.View.extend({
   search: function(e) {
     e.preventDefault();
     this.worldMap.search(this.$('#navbar-search-input').val());
+  },
+
+  setNewPlaceFields: function(place) {
+    // sep view?
+    this.$('#new-place-name').val(place.name);
+    this.$('#new-place-location').val(place.location.lat + ", " + place.location.lng);
+  },
+
+  openNewPlaceTab: function() {
+    this.$('#map-tab').removeClass("active");
+    this.$('#map-tab-nav').removeClass("active");
+    this.$('#new-place-tab').addClass("active");
+    this.$('#new-place-tab-nav').addClass("active");
   }
 });
 
