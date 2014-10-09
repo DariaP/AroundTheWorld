@@ -14,3 +14,8 @@ var PicView = Backbone.View.extend({
     return this;
   },
 });
+
+module.exports = {
+  Pic: Pic,
+  PicView: PicView
+};

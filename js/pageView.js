@@ -1,29 +1,8 @@
-var PlaceSidebarView = Backbone.View.extend({
-
-  el: '#place-details-sidebar',
-
-  events: {
-    "click .close": "hide"
-  },
-
-  initialize: function() {
-    this.hide();
-  },
-
-  show: function(place) {
-    var view = new PlaceDetailsView({model: place}),
-        that = this;
-    view.on('cleared', function() {
-      that.hide();
-    })
-    this.$('#place-details').html(view.render().el);
-    this.$el.show();
-  },
-
-  hide: function() {
-    this.$el.hide();    
-  }
-});
+var PlaceSidebarView = require('./placeSidebarView.js'),
+    MapsList = require('./map.js').MapsList,
+    GMapView = require('./gmapView.js'),
+    MapsSidebarView = require('./mapsSidebarView.js'),
+    PlaceMarkerView = require('./placeMarkerView.js');
 
 var PageView = Backbone.View.extend({
 
@@ -40,7 +19,7 @@ var PageView = Backbone.View.extend({
 
     this.placeSidebar = new PlaceSidebarView();
 
-    this.maps = new MapsList;
+    this.maps = new MapsList();
   
     this.worldMap = new GMapView();
     this.worldMap.on('addSearchResultClick', function(result) {
@@ -52,7 +31,7 @@ var PageView = Backbone.View.extend({
     this.listenTo(this.maps, 'add', this.openDefaultMap);
 
 // Share maps list?
-    this.mapsSidebar = new MapsListSidebarView();
+    this.mapsSidebar = new MapsSidebarView();
     var that = this;
     this.mapsSidebar.on('mapMenuClicked', function(map) {
       that.resetMap(map);
@@ -77,7 +56,7 @@ var PageView = Backbone.View.extend({
   },
 
   addPlaceOnMap: function(place) {
-    var view = new PlaceMapView({model: place, worldMap: this.worldMap}),
+    var view = new PlaceMarkerView({model: place, worldMap: this.worldMap}),
         that = this;
 
     view.on("placeMarkerClick", function(place) {
@@ -128,9 +107,4 @@ var PageView = Backbone.View.extend({
   }
 });
 
-
-$(function() {
-
-  var page = new PageView;
-
-})
+module.exports = PageView;
