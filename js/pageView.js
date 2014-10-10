@@ -84,7 +84,7 @@ var PageView = Backbone.View.extend({
       },
       notes: this.$('#new-place-notes').val(),
       pics: pics,
-      parentMaps: [this.currentMap.attributes.name]
+      parentMaps: [this.currentMap.attributes._id]
     });
   },
 

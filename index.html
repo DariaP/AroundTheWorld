@@ -153,7 +153,7 @@
   <script type="text/template" id="place-details-template">
 
     <h4 id="place-name"><%- name %></h4>
-
+    <p><%- location.lat %>, <%- location.lng %></p>
     <div class="dropdown" id="add-place-to-map-dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
         Add to map
@@ -166,19 +166,12 @@
       </ul>
     </div>
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><a href="#place-pics" data-toggle="tab">Pics</a></li>
-      <li><a href="#place-desc" data-toggle="tab">Notes</a></li>
-    </ul>
-
-    <div class="tab-content">
-      <div class="tab-pane details-tab-pane active" id="place-pics">
+      <div id="place-pics">
         <div class="scrollable">
+          <p><%- notes %></p>
           <div id="links"><%= picsHtml %></div>
         </div><!-- /scrollable -->
-      </div><!-- /pics -->
-      <div class="tab-pane details-tab-pane" id="place-desc"><%- notes %></div>
-    </div><!-- /tab-content -->
+      </div><!-- /place-pics -->
   </script>
 
   <script type="text/template" id="pic-link-template">

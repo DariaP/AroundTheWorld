@@ -86,7 +86,7 @@ var PlacesList = Backbone.Collection.extend({
   model: Place,
 
   initialize: function(options) {
-    this.url = 'http://localhost:8089/places?map=' + options.name;
+    this.url = 'http://localhost:8089/places?map=' + options.mapId;
   }
 });
 
@@ -95,7 +95,7 @@ var Map = Backbone.Model.extend({
   name: "",
 
   initialize: function(options) {
-    this.places = new PlacesList({name: options.name});
+    this.places = new PlacesList({mapId: options._id});
   },
 
   clear: function() {
@@ -107,7 +107,7 @@ var Map = Backbone.Model.extend({
 
 var MapsList = Backbone.Collection.extend({
   model: Map,
-  url: 'http://localhost:8089/getAllMaps'
+  url: 'http://localhost:8089/maps'
 });
 
 module.exports = {
@@ -315,7 +315,7 @@ var PageView = Backbone.View.extend({
       },
       notes: this.$('#new-place-notes').val(),
       pics: pics,
-      parentMaps: [this.currentMap.attributes.name]
+      parentMaps: [this.currentMap.attributes._id]
     });
   },
 
@@ -413,7 +413,6 @@ var PlaceDetailsView = Backbone.View.extend({
       elem: this.$('#add-place-to-map-dropdown-list')
     });
 
-//why just that.addPlaceToMap doesn't work?
     mapsDropdown.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
     });
@@ -435,8 +434,8 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   addPlaceToMap: function(map) {
-    if (-1 == $.inArray(map.attributes.name, this.model.attributes.parentMaps)) {
-      this.model.attributes.parentMaps.push(map.attributes.name);
+    if (-1 == $.inArray(map.attributes._id, this.model.attributes.parentMaps)) {
+      this.model.attributes.parentMaps.push(map.attributes._id);
       this.model.save();
     }
   }

@@ -33,7 +33,6 @@ var PlaceDetailsView = Backbone.View.extend({
       elem: this.$('#add-place-to-map-dropdown-list')
     });
 
-//why just that.addPlaceToMap doesn't work?
     mapsDropdown.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
     });
@@ -55,8 +54,8 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   addPlaceToMap: function(map) {
-    if (-1 == $.inArray(map.attributes.name, this.model.attributes.parentMaps)) {
-      this.model.attributes.parentMaps.push(map.attributes.name);
+    if (-1 == $.inArray(map.attributes._id, this.model.attributes.parentMaps)) {
+      this.model.attributes.parentMaps.push(map.attributes._id);
       this.model.save();
     }
   }
