@@ -8,7 +8,16 @@ var Place = Backbone.Model.extend({
 
   addOnMap: function(map) {
     this.save({parentMaps: this.get("parentMaps") + map});
+  },
+
+  sync: function(method, model, options) {
+    return Backbone.sync(method, model, options).then(null, function(res) {
+      if (res.responseJSON && res.responseJSON.err) {
+        alert("Unable to add place " + this.name);
+      }
+    });
   }
+
 });
 
 module.exports = Place;

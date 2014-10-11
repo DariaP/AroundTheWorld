@@ -87,7 +87,8 @@ var PlacesList = Backbone.Collection.extend({
 
   initialize: function(options) {
     this.url = 'http://localhost:8089/places?map=' + options.mapId;
-  }
+  },
+
 });
 
 var Map = Backbone.Model.extend({
@@ -101,6 +102,12 @@ var Map = Backbone.Model.extend({
   clear: function() {
     _.invoke(this.places.models, 'clear');
     this.places.reset();
+  },
+
+  sync: function(method, collection, options) {
+    var res = Backbone.sync(method, collection, options);
+    console.log(res);
+    return res;
   }
 
 });
@@ -373,7 +380,17 @@ var Place = Backbone.Model.extend({
 
   addOnMap: function(map) {
     this.save({parentMaps: this.get("parentMaps") + map});
+  },
+
+  sync: function(method, model, options) {
+    return Backbone.sync(method, model, options).then(null, function(res) {
+console.log(res.responseJSON);
+    if (res.responseJSON && res.responseJSON.err) {
+      alert("Unable to add place " + this.name);
+    }
+        });
   }
+
 });
 
 module.exports = Place;
