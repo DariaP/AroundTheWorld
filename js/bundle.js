@@ -89,6 +89,14 @@ var PlacesList = Backbone.Collection.extend({
     this.url = 'http://localhost:8089/places?map=' + options.mapId;
   },
 
+  fetch: function(options) {
+    return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
+      if (res.responseJSON && res.responseJSON.err) {
+        alert("Can't fetch places, please try later");
+      }
+    });
+  }
+
 });
 
 var Map = Backbone.Model.extend({
@@ -103,12 +111,6 @@ var Map = Backbone.Model.extend({
     _.invoke(this.places.models, 'clear');
     this.places.reset();
   },
-
-  sync: function(method, collection, options) {
-    var res = Backbone.sync(method, collection, options);
-    console.log(res);
-    return res;
-  }
 
 });
 
@@ -384,11 +386,10 @@ var Place = Backbone.Model.extend({
 
   sync: function(method, model, options) {
     return Backbone.sync(method, model, options).then(null, function(res) {
-console.log(res.responseJSON);
-    if (res.responseJSON && res.responseJSON.err) {
-      alert("Unable to add place " + this.name);
-    }
-        });
+      if (res.responseJSON && res.responseJSON.err) {
+        alert("Unable to add place " + this.name);
+      }
+    });
   }
 
 });
