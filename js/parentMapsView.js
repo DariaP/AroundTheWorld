@@ -8,8 +8,6 @@ var ParentMaps = Backbone.Collection.extend({
       options.ids.map(function(id) {
         return 'ids=' + id;
       }).join('&');
-  
-    console.log(this.url);
   },
 
   fetch: function(options) {
