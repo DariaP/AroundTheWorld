@@ -19,7 +19,7 @@ var PlaceDetailsView = Backbone.View.extend({
 
 // TODO: what about other place views?
   changed: function() {
-    if(this.model.attributes.name) {
+    if(this.model.isValid() ) {
       this.render();
     } else {
       this.trigger("cleared");

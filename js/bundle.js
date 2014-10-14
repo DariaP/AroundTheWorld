@@ -422,7 +422,14 @@ var Place = Backbone.Model.extend({
   parentMaps: [],
 
   initialize: function() {
-    this.listenTo(this, 'change', this.save );
+    this.listenTo(this, 'change', function() { 
+      if (this.isValid())
+        this.save();
+      });
+  },
+
+  isValid: function() {
+  	return this.attributes.name != undefined;
   },
 
   sync: function(method, model, options) {
@@ -468,14 +475,12 @@ var PlaceDetailsView = Backbone.View.extend({
   initialize: function() {
 
     this.template = _.template($('#place-details-template').html()),
-
-// TODO: and how does it update the page?
     this.listenTo(this.model, 'change', this.changed);
   },
 
 // TODO: what about other place views?
   changed: function() {
-    if(this.model.attributes.name) {
+    if(this.model.isValid() ) {
       this.render();
     } else {
       this.trigger("cleared");
@@ -594,7 +599,6 @@ var PlaceEditView = Backbone.View.extend({
       pics: Place.parsePics(this.$('#edit-place-pics').val()),
       parentMaps: this.model.attributes.parentMaps.concat(this.changes.parentMaps)
     });
-    //this.model.save();
   }
 });
 
@@ -696,6 +700,8 @@ var PlaceSidebarView = Backbone.View.extend({
     view.on('editClick', function() {
       that.edit(place);
     });
+
+    //this.listenTo(place, 'change', this.placeChanged);
 
     this.$('#content').html(view.render().el);
     this.$el.show();

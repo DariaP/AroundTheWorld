@@ -23,6 +23,8 @@ var PlaceSidebarView = Backbone.View.extend({
       that.edit(place);
     });
 
+    //this.listenTo(place, 'change', this.placeChanged);
+
     this.$('#content').html(view.render().el);
     this.$el.show();
   },

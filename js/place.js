@@ -7,7 +7,14 @@ var Place = Backbone.Model.extend({
   parentMaps: [],
 
   initialize: function() {
-    this.listenTo(this, 'change', function() { this.save(); } );
+    this.listenTo(this, 'change', function() { 
+      if (this.isValid())
+        this.save();
+      });
+  },
+
+  isValid: function() {
+  	return this.attributes.name != undefined;
   },
 
   sync: function(method, model, options) {
