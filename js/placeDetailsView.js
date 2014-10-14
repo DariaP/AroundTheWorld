@@ -1,7 +1,9 @@
 var MapsDropdownView = require('./mapsDropdownView.js'),
     MapsList = require('./map.js').MapsList,
     PicView = require('./pic.js').PicView,
-    Pic = require('./pic.js').Pic;
+    Pic = require('./pic.js').Pic,
+    ParentMaps = require('./parentMapsView.js').ParentMaps,
+    ParentMapsView = require('./parentMapsView.js').ParentMapsView;
 
 var PlaceDetailsView = Backbone.View.extend({
 
@@ -24,8 +26,9 @@ var PlaceDetailsView = Backbone.View.extend({
   render: function() {
     var that = this;
 
-    this.model.attributes.picsHtml = this.renderPics();
-    this.$el.html(this.template(this.model.toJSON()));
+    var templateData = this.model.toJSON();
+    templateData.picsHtml = this.renderPics();
+    this.$el.html(this.template(templateData));
 
 // do I need separate view?
     var mapsDropdown = new MapsDropdownView({
@@ -37,6 +40,11 @@ var PlaceDetailsView = Backbone.View.extend({
       that.addPlaceToMap(map);
     });
     mapsDropdown.render();
+
+    var parentMapsList = new ParentMapsView({
+      maps: new ParentMaps({ids: this.model.attributes.parentMaps}),
+      elem: this.$('#place-details-parent-maps')
+    }).render();
 
     return this;
   },

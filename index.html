@@ -151,9 +151,7 @@
   </script>
 
   <script type="text/template" id="place-details-template">
-
-    <h4 id="place-name"><%- name %></h4>
-    <p><%- location.lat %>, <%- location.lng %></p>
+    <h4 id="place-name"><%- name %>  <button type="button" class="btn btn-default">edit</button>
     <div class="dropdown" id="add-place-to-map-dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
         Add to map
@@ -165,6 +163,12 @@
          <li role="presentation" class="divider"></li>
       </ul>
     </div>
+    </h4>
+
+    <p><%- location.lat %>, <%- location.lng %></p>
+    <p id="place-details-parent-maps">
+      <b>on maps: </b>
+    </p>
 
       <div id="place-pics">
         <div class="scrollable">
