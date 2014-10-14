@@ -2,7 +2,8 @@ var PlaceSidebarView = require('./placeSidebarView.js'),
     MapsList = require('./map.js').MapsList,
     GMapView = require('./gmapView.js'),
     MapsSidebarView = require('./mapsSidebarView.js'),
-    PlaceMarkerView = require('./placeMarkerView.js');
+    PlaceMarkerView = require('./placeMarkerView.js'),
+    Place = require('./place.js');
 
 var PageView = Backbone.View.extend({
 
@@ -73,17 +74,11 @@ var PageView = Backbone.View.extend({
   newPlace: function(e) {
     e.preventDefault();
 
-    var latlng = this.$('#new-place-location').val().split(/[, ]+/),
-        pics = this.$('#new-place-pics').val().split(/[, \n]+/);
-
     this.currentMap.places.create({
       name: this.$('#new-place-name').val(),
-      location: {
-        lat: latlng[0],
-        lng: latlng[1]
-      },
+      location: Place.parseLocation(this.$('#new-place-location').val()),
       notes: this.$('#new-place-notes').val(),
-      pics: pics,
+      pics: Place.parsePics(this.$('#new-place-pics').val()),
       parentMaps: [this.currentMap.attributes._id]
     });
   },

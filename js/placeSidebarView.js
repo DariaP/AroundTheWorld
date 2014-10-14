@@ -1,4 +1,5 @@
-var PlaceDetailsView = require('./placeDetailsView.js');
+var PlaceDetailsView = require('./placeDetailsView.js'),
+    PlaceEditView = require('./placeEditView.js');
 
 var PlaceSidebarView = Backbone.View.extend({
 
@@ -17,10 +18,22 @@ var PlaceSidebarView = Backbone.View.extend({
         that = this;
     view.on('cleared', function() {
       that.hide();
-    })
-    this.$('#place-details').html(view.render().el);
+    });
+    view.on('editClick', function() {
+      that.edit(place);
+    });
+
+    this.$('#content').html(view.render().el);
     this.$el.show();
   },
+  
+  edit: function(place) {
+    var view = new PlaceEditView({model: place});
+
+    this.$('#content').html(view.render().el);
+    this.$el.show();
+  },
+
 
   hide: function() {
     this.$el.hide();    

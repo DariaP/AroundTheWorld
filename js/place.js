@@ -6,8 +6,8 @@ var Place = Backbone.Model.extend({
   location: {lat: 0, lng: 0},
   parentMaps: [],
 
-  addOnMap: function(map) {
-    this.save({parentMaps: this.get("parentMaps") + map});
+  initialize: function() {
+    this.listenTo(this, 'change', function() { this.save(); } );
   },
 
   sync: function(method, model, options) {
@@ -17,7 +17,22 @@ var Place = Backbone.Model.extend({
       }
     });
   }
-
 });
 
-module.exports = Place;
+var parsePics = function(picsStr) {
+  return picsStr.split(/[, \n]+/);
+}
+
+var parseLocation = function(locationStr) {
+  var latlng = locationStr.split(/[, ]+/);
+  return {
+  	lat: latlng[0],
+  	lng: latlng[1]
+  };
+}
+
+module.exports = {
+  Place: Place,
+  parsePics: parsePics,
+  parseLocation: parseLocation
+};
