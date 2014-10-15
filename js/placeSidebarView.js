@@ -16,14 +16,14 @@ var PlaceSidebarView = Backbone.View.extend({
   show: function(place) {
     var view = new PlaceDetailsView({model: place}),
         that = this;
-    view.on('cleared', function() {
-      that.hide();
+
+    this.listenTo(place, 'change', function() {
+      that.onPlaceChanged(place);
     });
+
     view.on('editClick', function() {
       that.edit(place);
     });
-
-    //this.listenTo(place, 'change', this.placeChanged);
 
     this.$('#content').html(view.render().el);
     this.$el.show();
@@ -36,6 +36,14 @@ var PlaceSidebarView = Backbone.View.extend({
     this.$el.show();
   },
 
+// TODO: change location on map if needed
+  onPlaceChanged: function(place) {
+    if (place.isValid() ) {
+      this.show(place);
+    } else {
+      this.hide();
+    }
+  },
 
   hide: function() {
     this.$el.hide();    

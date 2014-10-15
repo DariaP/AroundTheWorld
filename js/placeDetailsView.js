@@ -12,18 +12,7 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   initialize: function() {
-
-    this.template = _.template($('#place-details-template').html()),
-    this.listenTo(this.model, 'change', this.changed);
-  },
-
-// TODO: what about other place views?
-  changed: function() {
-    if(this.model.isValid() ) {
-      this.render();
-    } else {
-      this.trigger("cleared");
-    }
+    this.template = _.template($('#place-details-template').html());
   },
 
   render: function() {
