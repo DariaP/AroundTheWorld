@@ -66,7 +66,6 @@ var PageView = Backbone.View.extend({
   },
 
   showMapsSidebar: function() {
-    this.mapsSidebar.render();
     this.mapsSidebar.show();
   },
 

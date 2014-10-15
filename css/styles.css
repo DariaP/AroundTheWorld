@@ -93,7 +93,7 @@ div#maps-sidebar {
   width: 370px;
   height: 300px;
 }
-ul#maps-list {
+ul {
   list-style: none;
 }
 div#new-place-tab {

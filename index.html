@@ -75,10 +75,8 @@
 
           <div id="maps-sidebar" class="sidebar fixed-right">
             <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-            <div class="scrollable">
-              <h4 align="center">My maps</h4>
-              <ul id="maps-list"></ul>
-            </div><!-- /scrollable -->
+            <div id="content">
+            </div><!-- /content -->
           </div>
 
         <div id="map-canvas" class="map-container">
@@ -145,6 +143,27 @@
     </div>
   </div>
 
+  <script type="text/template" id="maps-list-template">
+    <h4 align="center">Maps</h4>
+    <div class="scrollable">
+      <ul id="maps-list"></ul>
+    </div>
+  </script>
+
+  <script type="text/template" id="map-details-template">
+    <h4>
+      <%- name %>
+      <button type="button" class="btn btn-default" id="edit">edit</button>
+    </h4>
+
+    <div class="scrollable">
+      <ul id="places-list"></ul>
+    </div>
+  </script>
+
+  <script type="text/template" id="place-template">
+    <li><a href='#' class='bootstrap-style-link' id='<%- name %>'><%- name %></a></li>
+  </script>
 
   <script type="text/template" id="map-template">
     <a href='#' class='bootstrap-style-link' id='<%- name %>'><%- name %></a>
