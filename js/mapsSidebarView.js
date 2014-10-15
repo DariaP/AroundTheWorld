@@ -1,6 +1,20 @@
-var MapView = require('./mapViews.js').asSidebarItemView,
-    MapsList = require('./map.js').MapsList,
+var MapsList = require('./map.js').MapsList,
     MapDetailsView = require('./mapDetails.js');
+
+var MapView = Backbone.View.extend({
+
+  tagName:  "li",
+
+  initialize: function() {
+    this.template = _.template($('#map-template').html()),
+    this.listenTo(this.model, 'change', this.render);
+  },
+ 
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
+});
 
 var MapsSidebarView = Backbone.View.extend({
   el: '#maps-sidebar',

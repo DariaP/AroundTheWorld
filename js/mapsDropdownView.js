@@ -1,4 +1,15 @@
-var MapView = require('./mapViews.js').asDropdownItemView;
+var MapView = Backbone.View.extend({
+
+  initialize: function() {
+    this.template = _.template($('#dropdown-map-template').html()),
+    this.listenTo(this.model, 'change', this.render);
+  },
+ 
+  render: function() {
+    this.setElement(this.template(this.model.toJSON()));
+    return this;
+  },
+});
 
 var MapsDropdownView = Backbone.View.extend({
   //el: '#add-place-to-map-dropdown-list',

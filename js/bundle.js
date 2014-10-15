@@ -74,12 +74,12 @@ var GMapView = Backbone.View.extend({
 });
 
 module.exports = GMapView;
-},{"./place.js":11,"./placeMarkerView.js":14}],2:[function(require,module,exports){
+},{"./place.js":10,"./placeMarkerView.js":13}],2:[function(require,module,exports){
 $(function () {
   var PageView = require('./pageView.js');
   new PageView();
 });
-},{"./pageView.js":8}],3:[function(require,module,exports){
+},{"./pageView.js":7}],3:[function(require,module,exports){
 var Place = require('./place.js').Place;
 
 var PlacesList = Backbone.Collection.extend({
@@ -124,7 +124,7 @@ module.exports = {
   Map: Map,
   MapsList: MapsList
 };
-},{"./place.js":11}],4:[function(require,module,exports){
+},{"./place.js":10}],4:[function(require,module,exports){
 var MapDetailsView = Backbone.View.extend({
 
   initialize: function() {
@@ -147,22 +147,7 @@ var MapDetailsView = Backbone.View.extend({
 
 module.exports = MapDetailsView;
 },{}],5:[function(require,module,exports){
-var MapAsSidebarItemView = Backbone.View.extend({
-
-  tagName:  "li",
-
-  initialize: function() {
-    this.template = _.template($('#map-template').html()),
-    this.listenTo(this.model, 'change', this.render);
-  },
- 
-  render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
-    return this;
-  },
-});
-
-var MapAsDropdownItemView = Backbone.View.extend({
+var MapView = Backbone.View.extend({
 
   initialize: function() {
     this.template = _.template($('#dropdown-map-template').html()),
@@ -174,13 +159,6 @@ var MapAsDropdownItemView = Backbone.View.extend({
     return this;
   },
 });
-
-module.exports = {
-  asSidebarItemView: MapAsSidebarItemView,
-  asDropdownItemView: MapAsDropdownItemView
-};
-},{}],6:[function(require,module,exports){
-var MapView = require('./mapViews.js').asDropdownItemView;
 
 var MapsDropdownView = Backbone.View.extend({
   //el: '#add-place-to-map-dropdown-list',
@@ -211,10 +189,24 @@ var MapsDropdownView = Backbone.View.extend({
 });
 
 module.exports = MapsDropdownView;
-},{"./mapViews.js":5}],7:[function(require,module,exports){
-var MapView = require('./mapViews.js').asSidebarItemView,
-    MapsList = require('./map.js').MapsList,
+},{}],6:[function(require,module,exports){
+var MapsList = require('./map.js').MapsList,
     MapDetailsView = require('./mapDetails.js');
+
+var MapView = Backbone.View.extend({
+
+  tagName:  "li",
+
+  initialize: function() {
+    this.template = _.template($('#map-template').html()),
+    this.listenTo(this.model, 'change', this.render);
+  },
+ 
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
+});
 
 var MapsSidebarView = Backbone.View.extend({
   el: '#maps-sidebar',
@@ -269,7 +261,7 @@ var MapsSidebarView = Backbone.View.extend({
 });
 
 module.exports = MapsSidebarView;
-},{"./map.js":3,"./mapDetails.js":4,"./mapViews.js":5}],8:[function(require,module,exports){
+},{"./map.js":3,"./mapDetails.js":4}],7:[function(require,module,exports){
 var PlaceSidebarView = require('./placeSidebarView.js'),
     MapsList = require('./map.js').MapsList,
     GMapView = require('./gmapView.js'),
@@ -375,7 +367,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"./gmapView.js":1,"./map.js":3,"./mapsSidebarView.js":7,"./place.js":11,"./placeMarkerView.js":14,"./placeSidebarView.js":15}],9:[function(require,module,exports){
+},{"./gmapView.js":1,"./map.js":3,"./mapsSidebarView.js":6,"./place.js":10,"./placeMarkerView.js":13,"./placeSidebarView.js":14}],8:[function(require,module,exports){
 var Map = require('./map.js').Map;
 
 var ParentMaps = Backbone.Collection.extend({
@@ -421,7 +413,7 @@ module.exports = {
   ParentMapsView: ParentMapsView,
   ParentMaps: ParentMaps
 };
-},{"./map.js":3}],10:[function(require,module,exports){
+},{"./map.js":3}],9:[function(require,module,exports){
 // add to place view?
 var Pic = Backbone.Model.extend({
   src: ""
@@ -443,7 +435,7 @@ module.exports = {
   Pic: Pic,
   PicView: PicView
 };
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var Place = Backbone.Model.extend({
 
   name: "",
@@ -489,7 +481,7 @@ module.exports = {
   parsePics: parsePics,
   parseLocation: parseLocation
 };
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdownView.js'),
     MapsList = require('./map.js').MapsList,
     PicView = require('./pic.js').PicView,
@@ -540,7 +532,7 @@ var PlaceDetailsView = Backbone.View.extend({
 });
 
 module.exports = PlaceDetailsView;
-},{"./map.js":3,"./mapsDropdownView.js":6,"./parentMapsView.js":9,"./pic.js":10}],13:[function(require,module,exports){
+},{"./map.js":3,"./mapsDropdownView.js":5,"./parentMapsView.js":8,"./pic.js":9}],12:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdownView.js'),
     MapsList = require('./map.js').MapsList,
     PicView = require('./pic.js').PicView,
@@ -623,7 +615,7 @@ var PlaceEditView = Backbone.View.extend({
 });
 
 module.exports = PlaceEditView;
-},{"./map.js":3,"./mapsDropdownView.js":6,"./parentMapsView.js":9,"./pic.js":10,"./place.js":11}],14:[function(require,module,exports){
+},{"./map.js":3,"./mapsDropdownView.js":5,"./parentMapsView.js":8,"./pic.js":9,"./place.js":10}],13:[function(require,module,exports){
 var SearchResultMenu = require('./searchResultMenu.js');
 
 // TODO: What will happen with this view after model is destroyed?
@@ -695,7 +687,7 @@ var PlaceMarkerView = Backbone.View.extend({
 });
 
 module.exports = PlaceMarkerView;
-},{"./searchResultMenu.js":16}],15:[function(require,module,exports){
+},{"./searchResultMenu.js":15}],14:[function(require,module,exports){
 var PlaceDetailsView = require('./placeDetailsView.js'),
     PlaceEditView = require('./placeEditView.js');
 
@@ -749,7 +741,7 @@ var PlaceSidebarView = Backbone.View.extend({
 });
 
 module.exports = PlaceSidebarView;
-},{"./placeDetailsView.js":12,"./placeEditView.js":13}],16:[function(require,module,exports){
+},{"./placeDetailsView.js":11,"./placeEditView.js":12}],15:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
   id: 'search-res-menu',
