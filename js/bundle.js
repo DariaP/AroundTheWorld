@@ -102,9 +102,11 @@ var PlacesList = Backbone.Collection.extend({
 var Map = Backbone.Model.extend({
 
   name: "",
+  idAttribute: '_id',
 
   initialize: function(options) {
     this.places = new PlacesList({mapId: options._id});
+    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
   },
 
   clear: function() {
@@ -116,7 +118,12 @@ var Map = Backbone.Model.extend({
 
 var MapsList = Backbone.Collection.extend({
   model: Map,
-  url: 'http://localhost:8089/maps'
+  url: 'http://localhost:8089/maps',
+
+  refresh: function() {
+    this.reset([]);
+    this.fetch();
+  }
 });
 
 module.exports = {
@@ -196,16 +203,52 @@ var MapsList = require('./map.js').MapsList,
 var MapView = Backbone.View.extend({
 
   tagName:  "li",
+  
+  events: {
+    "click .delete" : "onDeleteClick",
+    "click .edit" : "onEditClick",
+    "click a" : "onLinkClick"
+  },
 
   initialize: function() {
-    this.template = _.template($('#map-template').html()),
-    this.listenTo(this.model, 'change', this.render);
+    this.template = _.template($('#map-template').html());
+    this.listenTo(this.model, 'destroy', this.clear);
   },
  
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     return this;
   },
+
+  clear: function() {
+    this.$el.remove();
+  },
+
+  onDeleteClick: function(e) {
+    e.preventDefault();
+    this.model.destroy({
+      error: function() {
+        console.log('error');
+      },
+      success: function() {
+        console.log('success');
+      }
+    });
+  },
+
+  onEditClick: function(e) {
+    e.preventDefault();
+    this.edit();
+  },
+
+  onLinkClick: function(e) {
+    e.preventDefault();
+    this.trigger('mapClick');
+  },
+
+  edit: function() {
+    ;
+  }
 });
 
 var MapsSidebarView = Backbone.View.extend({
@@ -217,7 +260,7 @@ var MapsSidebarView = Backbone.View.extend({
 
   initialize: function(options) {
     this.mapsListTemplate = _.template($('#maps-list-template').html());
-  	
+    
     this.maps = new MapsList();
     this.listenTo(this.maps, 'add', this.addMapToList);
 
@@ -227,16 +270,16 @@ var MapsSidebarView = Backbone.View.extend({
   render: function() {
     this.$('#content').html(this.mapsListTemplate());
     this.list = this.$('#maps-list');
-  	this.list.html('');
-  	this.maps.fetch();
+    this.list.html('');
+
+    this.maps.refresh();
   },
 
   addMapToList: function(map) {
     var view = new MapView({model: map}).render(),
         that = this;
 
-    view.$el.on('click', function(e) {
-      e.preventDefault();
+    view.on('mapClick', function(e) {
       //TODO: seq of code matters because of shared map/fetch staff
       that.showMap(map);
       that.trigger('mapMenuClicked', map);
@@ -256,7 +299,7 @@ var MapsSidebarView = Backbone.View.extend({
 
   show: function() {
     this.render();
-    this.$el.show();  	
+    this.$el.show();    
   }
 });
 

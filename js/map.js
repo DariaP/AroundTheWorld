@@ -20,9 +20,11 @@ var PlacesList = Backbone.Collection.extend({
 var Map = Backbone.Model.extend({
 
   name: "",
+  idAttribute: '_id',
 
   initialize: function(options) {
     this.places = new PlacesList({mapId: options._id});
+    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
   },
 
   clear: function() {
@@ -34,7 +36,12 @@ var Map = Backbone.Model.extend({
 
 var MapsList = Backbone.Collection.extend({
   model: Map,
-  url: 'http://localhost:8089/maps'
+  url: 'http://localhost:8089/maps',
+
+  refresh: function() {
+    this.reset([]);
+    this.fetch();
+  }
 });
 
 module.exports = {

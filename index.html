@@ -65,7 +65,7 @@
     <div class="tab-content map-container">
       <div class="tab-pane active map-container" id="map-tab">
 
-          <div id="place-details-sidebar" class="sidebar">
+          <div id="place-details-sidebar" class="sidebar fixed-right">
             <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
 
             <div class = "tabbable" id="content">
@@ -73,7 +73,7 @@
 
           </div><!-- /details-sidebar -->
 
-          <div id="maps-sidebar" class="sidebar fixed-right">
+          <div id="maps-sidebar" class="sidebar">
             <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
             <div id="content">
             </div><!-- /content -->
@@ -162,11 +162,17 @@
   </script>
 
   <script type="text/template" id="place-template">
-    <li><a href='#' class='bootstrap-style-link' id='<%- name %>'><%- name %></a></li>
+    <li><a href='#' class='bootstrap-style-link' id='link'><%- name %></a></li>
   </script>
 
   <script type="text/template" id="map-template">
-    <a href='#' class='bootstrap-style-link' id='<%- name %>'><%- name %></a>
+    <a href='#' class='bootstrap-style-link'><%- name %></a>
+    <button type="button" class="btn btn-default btn-xs edit">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </button>
+    <button type="button" class="btn btn-default btn-xs delete">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
   </script>
 
   <script type="text/template" id="place-details-template">
