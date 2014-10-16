@@ -100,10 +100,14 @@ div#maps-sidebar {
 }
 
  .edit {
+  margin-left: 1px;
+  margin-right: 1px;
   float: right;
 }
 
  .delete {
+  margin-left: 1px;
+  margin-right: 1px;
   float: right;
 }
 

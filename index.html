@@ -165,6 +165,19 @@
     <li><a href='#' class='bootstrap-style-link' id='link'><%- name %></a></li>
   </script>
 
+  <script type="text/template" id="edit-map-template">
+    <form id="edit-map-form">
+      <div class="input-group">
+        <input type="text" class="form-control" id="edit-map-name" value='<%- name %>'>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit" id='save'>
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </span>
+      </div><!-- /input-group -->
+    </form>
+  </script>
+
   <script type="text/template" id="map-template">
     <a href='#' class='bootstrap-style-link'><%- name %></a>
     <button type="button" class="btn btn-default btn-xs edit">

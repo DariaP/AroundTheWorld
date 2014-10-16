@@ -23,8 +23,14 @@ var Map = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function(options) {
+
     this.places = new PlacesList({mapId: options._id});
+
     this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+
+    this.listenTo(this, 'change', function() { 
+      this.save();
+    });
   },
 
   clear: function() {

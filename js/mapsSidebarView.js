@@ -8,12 +8,15 @@ var MapView = Backbone.View.extend({
   events: {
     "click .delete" : "onDeleteClick",
     "click .edit" : "onEditClick",
-    "click a" : "onLinkClick"
+    "click a" : "onLinkClick",
+    "click #save" : 'onSaveClick'
   },
 
   initialize: function() {
     this.template = _.template($('#map-template').html());
+    this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
+    this.listenTo(this.model, 'changed', this.render);
   },
  
   render: function() {
@@ -47,8 +50,22 @@ var MapView = Backbone.View.extend({
     this.trigger('mapClick');
   },
 
+  onSaveClick: function(e) {
+    e.preventDefault();
+    this.save();
+  },
+
   edit: function() {
-    ;
+    this.$el.html(this.editTemplate(this.model.toJSON()));
+  },
+
+  save: function() {
+    this.model.set({
+      name : this.$('#edit-map-name').val()
+    });
+    this.render();
+    // TODO: why does this work? o_O
+    this.trigger('refreshed');
   }
 });
 
@@ -80,11 +97,15 @@ var MapsSidebarView = Backbone.View.extend({
     var view = new MapView({model: map}).render(),
         that = this;
 
-    view.on('mapClick', function(e) {
+    view.on('mapClick', function() {
       //TODO: seq of code matters because of shared map/fetch staff
       that.showMap(map);
       that.trigger('mapMenuClicked', map);
     });
+
+    view.on('refreshed', function() {
+      that.$el.hide().fadeIn('fast');
+    })
 
     this.list.append(view.el);
   },
