@@ -144,7 +144,12 @@
   </div>
 
   <script type="text/template" id="maps-list-template">
-    <h4 align="center">Maps</h4>
+    <h4 id='maps-header'>
+      Maps
+      <button type="button" class="btn btn-default btx-xs btn-right" id="new">
+        <span class="glyphicon glyphicon-plus"></span> New 
+      </button>
+    </h4>
     <div class="scrollable">
       <ul id="maps-list"></ul>
     </div>
@@ -176,14 +181,27 @@
         </span>
       </div><!-- /input-group -->
     </form>
+  </script>
+
+  <script type="text/template" id="new-map-template">
+    <form id="edit-map-form">
+      <div class="input-group">
+        <input type="text" class="form-control" id="name" placeholder="New map name...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit" id='save'>
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </span>
+      </div><!-- /input-group -->
+    </form>
   </script> 
 
   <script type="text/template" id="map-template">
     <a href='#' class='bootstrap-style-link'><%- name %></a>
-    <button type="button" class="btn btn-default btn-xs delete">
+    <button type="button" class="btn btn-default btn-xs delete btn-right">
       <span class="glyphicon glyphicon-remove"></span>
     </button>
-    <button type="button" class="btn btn-default btn-xs edit">
+    <button type="button" class="btn btn-default btn-xs edit btn-right">
       <span class="glyphicon glyphicon-pencil"></span>
     </button>
   </script>
