@@ -26,17 +26,33 @@ var Map = Backbone.Model.extend({
 
     this.places = new PlacesList({mapId: options._id});
 
-    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+    this.setUrl();
 
     this.listenTo(this, 'change', function() { 
       this.save();
     });
   },
 
+  setUrl: function() {
+    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+  },
+
   clear: function() {
     _.invoke(this.places.models, 'clear');
     this.places.reset();
   },
+
+  sync: function(method, model, options) {
+    var that = this;
+    this.setUrl();
+
+    return Backbone.sync(method, model, options).then(
+      null,
+      function(res) {
+        alert("Unable to add map " + this.name);
+      }
+    );
+  }
 
 });
 

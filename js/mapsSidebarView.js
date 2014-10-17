@@ -35,10 +35,7 @@ var MapView = Backbone.View.extend({
     e.preventDefault();
     this.model.destroy({
       error: function() {
-        console.log('error');
-      },
-      success: function() {
-        console.log('success');
+        ;//TODO
       }
     });
   },
@@ -88,7 +85,7 @@ var NewMapView = Backbone.View.extend({
 
   onSaveClick: function(e) {
     e.preventDefault();
-    this.trigger('newMap', this.$('name').val());
+    this.trigger('newMap', this.$('#name').val());
     this.$el.remove();
   }
 });
@@ -156,8 +153,8 @@ var MapsSidebarView = Backbone.View.extend({
       var view = new NewMapView();
       this.list.before(view.render().el);
 
-      view.once('newMap', function(map) {
-        that.addMap(map);
+      view.once('newMap', function(name) {
+        that.addMap(name);
       })
     }
   },

@@ -108,17 +108,33 @@ var Map = Backbone.Model.extend({
 
     this.places = new PlacesList({mapId: options._id});
 
-    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+    this.setUrl();
 
     this.listenTo(this, 'change', function() { 
       this.save();
     });
   },
 
+  setUrl: function() {
+    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+  },
+
   clear: function() {
     _.invoke(this.places.models, 'clear');
     this.places.reset();
   },
+
+  sync: function(method, model, options) {
+    var that = this;
+    this.setUrl();
+
+    return Backbone.sync(method, model, options).then(
+      null,
+      function(res) {
+        alert("Unable to add map " + this.name);
+      }
+    );
+  }
 
 });
 
@@ -240,10 +256,7 @@ var MapView = Backbone.View.extend({
     e.preventDefault();
     this.model.destroy({
       error: function() {
-        console.log('error');
-      },
-      success: function() {
-        console.log('success');
+        ;//TODO
       }
     });
   },
@@ -293,7 +306,7 @@ var NewMapView = Backbone.View.extend({
 
   onSaveClick: function(e) {
     e.preventDefault();
-    this.trigger('newMap', this.$('name').val());
+    this.trigger('newMap', this.$('#name').val());
     this.$el.remove();
   }
 });
@@ -361,8 +374,8 @@ var MapsSidebarView = Backbone.View.extend({
       var view = new NewMapView();
       this.list.before(view.render().el);
 
-      view.once('newMap', function(map) {
-        that.addMap(map);
+      view.once('newMap', function(name) {
+        that.addMap(name);
       })
     }
   },
@@ -582,8 +595,8 @@ var Place = Backbone.Model.extend({
   },
 
   sync: function(method, model, options) {
-    return Backbone.sync(method, model, options).then(null, function(res) {
-      if (res.responseJSON && res.responseJSON.err) {
+    return Backbone.sync(method, model, options).then(
+      null, function(res) { if (res.responseJSON && res.responseJSON.err) {
         alert("Unable to add place " + this.name);
       }
     });
