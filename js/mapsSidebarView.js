@@ -98,8 +98,13 @@ var MapsSidebarView = Backbone.View.extend({
         that = this;
 
     view.on('mapClick', function() {
-      //TODO: seq of code matters because of shared map/fetch staff
       that.showMap(map);
+
+      that.once('mapReady', function(m) {
+        if (m.attributes._id == map.attributes._id) {
+          map.places.fetch();
+        }
+      });
       that.trigger('mapMenuClicked', map);
     });
 

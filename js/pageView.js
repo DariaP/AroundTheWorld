@@ -33,15 +33,18 @@ var PageView = Backbone.View.extend({
 
 // Share maps list?
     this.mapsSidebar = new MapsSidebarView();
-    var that = this;
+
     this.mapsSidebar.on('mapMenuClicked', function(map) {
       that.resetMap(map);
+      that.mapsSidebar.trigger('mapReady', map);
     });
   },
 
   openDefaultMap: function() {
+    // TODO: show current map name
     this.openMap(this.maps.at(0));
     this.stopListening(this.maps, 'add');
+    this.currentMap.places.fetch();
   },
 
   resetMap: function(map) {
@@ -53,7 +56,6 @@ var PageView = Backbone.View.extend({
   openMap: function(map) {
     this.currentMap = map;
     this.listenTo(this.currentMap.places, 'add', this.addPlaceOnMap);
-    this.currentMap.places.fetch();
   },
 
   addPlaceOnMap: function(place) {

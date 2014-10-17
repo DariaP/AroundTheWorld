@@ -303,8 +303,13 @@ var MapsSidebarView = Backbone.View.extend({
         that = this;
 
     view.on('mapClick', function() {
-      //TODO: seq of code matters because of shared map/fetch staff
       that.showMap(map);
+
+      that.once('mapReady', function(m) {
+        if (m.attributes._id == map.attributes._id) {
+          map.places.fetch();
+        }
+      });
       that.trigger('mapMenuClicked', map);
     });
 
@@ -367,15 +372,18 @@ var PageView = Backbone.View.extend({
 
 // Share maps list?
     this.mapsSidebar = new MapsSidebarView();
-    var that = this;
+
     this.mapsSidebar.on('mapMenuClicked', function(map) {
       that.resetMap(map);
+      that.mapsSidebar.trigger('mapReady', map);
     });
   },
 
   openDefaultMap: function() {
+    // TODO: show current map name
     this.openMap(this.maps.at(0));
     this.stopListening(this.maps, 'add');
+    this.currentMap.places.fetch();
   },
 
   resetMap: function(map) {
@@ -387,7 +395,6 @@ var PageView = Backbone.View.extend({
   openMap: function(map) {
     this.currentMap = map;
     this.listenTo(this.currentMap.places, 'add', this.addPlaceOnMap);
-    this.currentMap.places.fetch();
   },
 
   addPlaceOnMap: function(place) {
