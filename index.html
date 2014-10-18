@@ -157,17 +157,23 @@
 
   <script type="text/template" id="map-details-template">
     <h4>
-      <%- name %>
-      <button type="button" class="btn btn-default" id="edit">edit</button>
+    <%- name %>
+      <button type="button" class="btn btn-default btn-right" id="add">
+        <span class="glyphicon glyphicon-plus"> Place</span>
+      </button>
     </h4>
-
     <div class="scrollable">
       <ul id="places-list"></ul>
     </div>
   </script>
 
   <script type="text/template" id="place-template">
-    <li><a href='#' class='bootstrap-style-link' id='link'><%- name %></a></li>
+    <li>
+      <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
+      <button type="button" class="btn btn-default btn-xs delete btn-right" id='remove'>
+        <span class="glyphicon glyphicon-minus"></span>
+      </button>
+    </li>
   </script>
 
   <script type="text/template" id="edit-map-template">
@@ -198,10 +204,10 @@
 
   <script type="text/template" id="map-template">
     <a href='#' class='bootstrap-style-link'><%- name %></a>
-    <button type="button" class="btn btn-default btn-xs delete btn-right">
+    <button type="button" class="btn btn-default btn-xs btn-right" id='delete'>
       <span class="glyphicon glyphicon-remove"></span>
     </button>
-    <button type="button" class="btn btn-default btn-xs edit btn-right">
+    <button type="button" class="btn btn-default btn-xs btn-right" id='edit'>
       <span class="glyphicon glyphicon-pencil"></span>
     </button>
   </script>

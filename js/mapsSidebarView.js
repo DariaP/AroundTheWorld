@@ -6,8 +6,8 @@ var MapView = Backbone.View.extend({
   tagName:  "li",
   
   events: {
-    "click .delete" : "onDeleteClick",
-    "click .edit" : "onEditClick",
+    "click #delete" : "onDeleteClick",
+    "click #edit" : "onEditClick",
     "click a" : "onLinkClick",
     "click #save" : 'onSaveClick'
   },
