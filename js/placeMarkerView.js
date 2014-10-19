@@ -8,8 +8,14 @@ var PlaceMarkerView = Backbone.View.extend({
   },
 
   initialize: function(options) {
+    var that = this;
+
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.clear);
+
+    this.model.on('hide', function() {
+      this.clear();
+    })
 
     this.map = options.worldMap.map;
     this.events = options.worldMap.events;

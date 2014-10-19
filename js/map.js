@@ -42,8 +42,7 @@ var Map = Backbone.Model.extend({
   },
 
   clear: function() {
-    //_.invoke(this.places.models, 'clear');
-    //this.places.reset();
+    _.invoke(this.places.models, 'hide');
   },
 
   sync: function(method, model, options) {

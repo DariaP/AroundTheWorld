@@ -197,8 +197,7 @@ var Map = Backbone.Model.extend({
   },
 
   clear: function() {
-    //_.invoke(this.places.models, 'clear');
-    //this.places.reset();
+    _.invoke(this.places.models, 'hide');
   },
 
   sync: function(method, model, options) {
@@ -844,6 +843,10 @@ var Place = Backbone.Model.extend({
     this.save({
       parentMaps: maps
     });
+  },
+
+  hide: function() {
+    this.trigger('hide');
   }
 });
 
@@ -1009,8 +1012,14 @@ var PlaceMarkerView = Backbone.View.extend({
   },
 
   initialize: function(options) {
+    var that = this;
+
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.clear);
+
+    this.model.on('hide', function() {
+      this.clear();
+    })
 
     this.map = options.worldMap.map;
     this.events = options.worldMap.events;

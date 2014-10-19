@@ -31,6 +31,10 @@ var Place = Backbone.Model.extend({
     this.save({
       parentMaps: maps
     });
+  },
+
+  hide: function() {
+    this.trigger('hide');
   }
 });
 
