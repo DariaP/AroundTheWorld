@@ -105,6 +105,10 @@ div#maps-sidebar {
   float: right;
 }
 
+.chbx-right {
+  float: right;
+}
+
 ul {
   list-style: none;
   padding-left: 20px;

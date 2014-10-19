@@ -60,7 +60,7 @@ var PlacesNotOnMapList = Backbone.Collection.extend({
   model: Place,
 
   initialize: function(options) {
-    this.url = 'http://localhost:8089/places?nmap=' + options.mapId;
+    this.url = 'http://localhost:8089/places';//?nmap=' + options.mapId;
   },
 
   fetch: function(options) {

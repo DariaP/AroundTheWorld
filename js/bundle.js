@@ -1,4 +1,76 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var PlaceView = Backbone.View.extend({
+  events: {
+    'click [type="checkbox"]': 'checkboxClicked'
+  },
+
+  initialize: function(options) {
+    this.mapid = options.mapid;
+    this.template = _.template($('#add-place-template').html());
+  },
+ 
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
+
+  checkboxClicked: function(e) {
+    if (this.checked) {
+      this.checked = false
+      this.trigger('unchecked');
+    } else {
+      this.checked = true
+      this.trigger('checked');
+    }
+  }
+});
+
+var AddPlacesToMapView = Backbone.View.extend({
+
+  events: {
+    'click #save': 'save'
+  },
+
+  initialize: function(options) {
+    this.template = _.template($('#add-places-template').html());
+    this.listenTo(options.places, 'add', this.addPlace);
+    this.newPlaces = {};
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
+
+  addPlace: function(place) {
+    var view = new PlaceView({
+      model: place,
+      mapid: this.model.attributes._id
+    });
+    var that = this;
+
+    view.on('checked', function() {
+      that.newPlaces[place.attributes._id] = place;
+    });
+    view.on('unchecked', function() {
+      that.newPlaces[place.attributes._id] = undefined;
+    });
+
+    this.$('#places-list').append(view.render().el);
+  },
+
+  save: function(e) {
+    for(id in this.newPlaces) {
+      if (this.newPlaces[id]) {
+        this.newPlaces[id].addToMap(this.model.attributes._id);
+      }
+    }
+    this.trigger('done');
+  }
+});
+
+module.exports = AddPlacesToMapView;
+},{}],2:[function(require,module,exports){
 var Place = require('./place.js').Place,
     PlaceMarkerView = require('./placeMarkerView.js');
 
@@ -74,12 +146,12 @@ var GMapView = Backbone.View.extend({
 });
 
 module.exports = GMapView;
-},{"./place.js":11,"./placeMarkerView.js":14}],2:[function(require,module,exports){
+},{"./place.js":12,"./placeMarkerView.js":15}],3:[function(require,module,exports){
 $(function () {
   var PageView = require('./pageView.js');
   new PageView();
 });
-},{"./pageView.js":8}],3:[function(require,module,exports){
+},{"./pageView.js":9}],4:[function(require,module,exports){
 var Place = require('./place.js').Place;
 
 var PlacesList = Backbone.Collection.extend({
@@ -142,7 +214,7 @@ var PlacesNotOnMapList = Backbone.Collection.extend({
   model: Place,
 
   initialize: function(options) {
-    this.url = 'http://localhost:8089/places?nmap=' + options.mapId;
+    this.url = 'http://localhost:8089/places';//?nmap=' + options.mapId;
   },
 
   fetch: function(options) {
@@ -171,7 +243,7 @@ module.exports = {
   PlacesNotOnMapList: PlacesNotOnMapList,
   MapsList: MapsList
 };
-},{"./place.js":11}],4:[function(require,module,exports){
+},{"./place.js":12}],5:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
     "click #remove" : "removeFromMap"
@@ -209,6 +281,7 @@ var PlaceView = Backbone.View.extend({
 var MapDetailsView = Backbone.View.extend({
 
   events: {
+    "click #add" : "onAddClick"
   },
 
   initialize: function() {
@@ -227,11 +300,16 @@ var MapDetailsView = Backbone.View.extend({
       mapid: this.model.attributes._id
     });
     this.$('#places-list').append(view.render().el);
+  },
+
+  onAddClick: function(e) {
+    e.preventDefault();
+    this.trigger('addPlaces', this.model);
   }
 });
 
 module.exports = MapDetailsView;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var MapView = Backbone.View.extend({
 
   initialize: function() {
@@ -274,7 +352,7 @@ var MapsDropdownView = Backbone.View.extend({
 });
 
 module.exports = MapsDropdownView;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var MapView = Backbone.View.extend({
 
   tagName:  "li",
@@ -424,10 +502,12 @@ var MapsListView = Backbone.View.extend({
 });
 
 module.exports = MapsListView;
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var MapsList = require('./map.js').MapsList,
+    PlacesNotOnMapList = require('./map.js').PlacesNotOnMapList,
     MapDetailsView = require('./mapDetails.js'),
-    MapsListView = require('./mapsListView.js');
+    MapsListView = require('./mapsListView.js'),
+    AddPlacesToMapView = require('./addPlacesToMap.js');
 
 var MapsSidebarView = Backbone.View.extend({
   el: '#maps-sidebar',
@@ -459,7 +539,8 @@ var MapsSidebarView = Backbone.View.extend({
   },
 
   showMap: function(map) {
-    var view = new MapDetailsView({ model: map });
+    var view = new MapDetailsView({ model: map }),
+        that = this;
     this.$('#content').html(view.render().el);
 
     this.once('mapReady', function(m) {
@@ -469,10 +550,27 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.trigger('mapClick', map);
+
+    view.on('addPlaces', function(map) {
+      that.showAddPlacesList(map);
+    })
   },
 
-  showAddPlacesList: function() {
+  showAddPlacesList: function(map) {
+    var places = new PlacesNotOnMapList ({mapId: map.attributes.id}),
+        that = this;
 
+    var view = new AddPlacesToMapView ({ 
+      model: map,
+      places: places
+    });
+
+    view.once('done', function() {
+      that.showMap(map);
+    });
+
+    this.$('#content').html(view.render().el);
+    places.fetch();
   },
 
   hide: function() {
@@ -486,7 +584,7 @@ var MapsSidebarView = Backbone.View.extend({
 });
 
 module.exports = MapsSidebarView;
-},{"./map.js":3,"./mapDetails.js":4,"./mapsListView.js":6}],8:[function(require,module,exports){
+},{"./addPlacesToMap.js":1,"./map.js":4,"./mapDetails.js":5,"./mapsListView.js":7}],9:[function(require,module,exports){
 var PlaceSidebarView = require('./placeSidebarView.js'),
     MapsList = require('./map.js').MapsList,
     GMapView = require('./gmapView.js'),
@@ -594,7 +692,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"./gmapView.js":1,"./map.js":3,"./mapsSidebarView.js":7,"./place.js":11,"./placeMarkerView.js":14,"./placeSidebarView.js":15}],9:[function(require,module,exports){
+},{"./gmapView.js":2,"./map.js":4,"./mapsSidebarView.js":8,"./place.js":12,"./placeMarkerView.js":15,"./placeSidebarView.js":16}],10:[function(require,module,exports){
 var Map = require('./map.js').Map;
 
 var ParentMaps = Backbone.Collection.extend({
@@ -640,7 +738,7 @@ module.exports = {
   ParentMapsView: ParentMapsView,
   ParentMaps: ParentMaps
 };
-},{"./map.js":3}],10:[function(require,module,exports){
+},{"./map.js":4}],11:[function(require,module,exports){
 // add to place view?
 var Pic = Backbone.Model.extend({
   src: ""
@@ -662,7 +760,7 @@ module.exports = {
   Pic: Pic,
   PicView: PicView
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var Place = Backbone.Model.extend({
 
   name: "",
@@ -688,6 +786,14 @@ var Place = Backbone.Model.extend({
         alert("Unable to add place " + this.name);
       }
     });
+  },
+
+  addToMap: function(mapid) {
+    var maps = _.clone(this.attributes.parentMaps);
+    maps.push(mapid);
+    this.save({
+      parentMaps: maps
+    });
   }
 });
 
@@ -708,7 +814,7 @@ module.exports = {
   parsePics: parsePics,
   parseLocation: parseLocation
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdownView.js'),
     MapsList = require('./map.js').MapsList,
     PicView = require('./pic.js').PicView,
@@ -759,7 +865,7 @@ var PlaceDetailsView = Backbone.View.extend({
 });
 
 module.exports = PlaceDetailsView;
-},{"./map.js":3,"./mapsDropdownView.js":5,"./parentMapsView.js":9,"./pic.js":10}],13:[function(require,module,exports){
+},{"./map.js":4,"./mapsDropdownView.js":6,"./parentMapsView.js":10,"./pic.js":11}],14:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdownView.js'),
     MapsList = require('./map.js').MapsList,
     PicView = require('./pic.js').PicView,
@@ -842,7 +948,7 @@ var PlaceEditView = Backbone.View.extend({
 });
 
 module.exports = PlaceEditView;
-},{"./map.js":3,"./mapsDropdownView.js":5,"./parentMapsView.js":9,"./pic.js":10,"./place.js":11}],14:[function(require,module,exports){
+},{"./map.js":4,"./mapsDropdownView.js":6,"./parentMapsView.js":10,"./pic.js":11,"./place.js":12}],15:[function(require,module,exports){
 var SearchResultMenu = require('./searchResultMenu.js');
 
 // TODO: What will happen with this view after model is destroyed?
@@ -914,7 +1020,7 @@ var PlaceMarkerView = Backbone.View.extend({
 });
 
 module.exports = PlaceMarkerView;
-},{"./searchResultMenu.js":16}],15:[function(require,module,exports){
+},{"./searchResultMenu.js":17}],16:[function(require,module,exports){
 var PlaceDetailsView = require('./placeDetailsView.js'),
     PlaceEditView = require('./placeEditView.js');
 
@@ -968,7 +1074,7 @@ var PlaceSidebarView = Backbone.View.extend({
 });
 
 module.exports = PlaceSidebarView;
-},{"./placeDetailsView.js":12,"./placeEditView.js":13}],16:[function(require,module,exports){
+},{"./placeDetailsView.js":13,"./placeEditView.js":14}],17:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
   id: 'search-res-menu',
@@ -992,4 +1098,4 @@ var SearchResultMenu = Backbone.View.extend({
 });
 
 module.exports = SearchResultMenu;
-},{}]},{},[2]);
+},{}]},{},[3]);

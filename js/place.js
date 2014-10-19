@@ -23,6 +23,14 @@ var Place = Backbone.Model.extend({
         alert("Unable to add place " + this.name);
       }
     });
+  },
+
+  addToMap: function(mapid) {
+    var maps = _.clone(this.attributes.parentMaps);
+    maps.push(mapid);
+    this.save({
+      parentMaps: maps
+    });
   }
 });
 
