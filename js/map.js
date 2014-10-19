@@ -4,15 +4,19 @@ var PlacesList = Backbone.Collection.extend({
   model: Place,
 
   initialize: function(options) {
+    this.fetched = false;
     this.url = 'http://localhost:8089/places?map=' + options.mapId;
   },
 
   fetch: function(options) {
-    return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
-      if (res.responseJSON && res.responseJSON.err) {
-        alert("Can't get places, please try later");
-      }
-    });
+    if (!this.fetched) {
+      this.fetched = true;
+      return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
+        if (res.responseJSON && res.responseJSON.err) {
+          alert("Can't get places, please try later");
+        }
+      }); 
+    }
   }
 
 });
@@ -38,8 +42,8 @@ var Map = Backbone.Model.extend({
   },
 
   clear: function() {
-    _.invoke(this.places.models, 'clear');
-    this.places.reset();
+    //_.invoke(this.places.models, 'clear');
+    //this.places.reset();
   },
 
   sync: function(method, model, options) {
@@ -52,7 +56,9 @@ var Map = Backbone.Model.extend({
         alert("Unable to add map " + this.name);
       }
     );
-  }
+  },
+
+
 
 });
 
@@ -77,9 +83,19 @@ var MapsList = Backbone.Collection.extend({
   model: Map,
   url: 'http://localhost:8089/maps',
 
-  refresh: function() {
-    this.reset([]);
-    this.fetch();
+  initialize: function(options) {
+    this.fetched = false;
+  },
+
+  fetch: function(options) {
+    if (!this.fetched) {
+      this.fetched = true;
+      return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
+        if (res.responseJSON && res.responseJSON.err) {
+          //TODO
+        }
+      }); 
+    }
   }
 });
 

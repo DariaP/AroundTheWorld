@@ -8,8 +8,7 @@ var MapsSidebarView = Backbone.View.extend({
   el: '#maps-sidebar',
 
   events: {
-    "click .close": "hide",
-    "click #new": "newMap"
+    "click .close": "hide"
   },
 
   initialize: function(options) {    
@@ -30,7 +29,7 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    this.maps.refresh();//TODO
+    this.maps.fetch();
   },
 
   showMap: function(map) {

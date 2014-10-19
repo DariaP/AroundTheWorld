@@ -29,6 +29,7 @@ var PlaceView = Backbone.View.extend({
       parentMaps : newParentMaps
     });
     this.$el.remove();
+    this.trigger('removed', this.model);
   }
 });
 
@@ -45,14 +46,35 @@ var MapDetailsView = Backbone.View.extend({
  
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
+
+    this.showPlaces();
+
     return this;
   },
 
+  showPlaces: function() {
+    var places = this.model.places.models;
+    for (var i = 0 ; i < places.length ; ++i) {
+      if (places[i].attributes.name) {
+        //console.log(places[i]);
+        //console.log(places[i].attributes.name);
+        this.addPlace(places[i]);
+      }
+    }    
+  },
+
   addPlace: function(place) {
+    var that = this;
+
     var view = new PlaceView({
       model: place,
       mapid: this.model.attributes._id
     });
+
+    view.on('removed', function(place) {
+      that.model.places.remove(place);
+    });
+
     this.$('#places-list').append(view.render().el);
   },
 

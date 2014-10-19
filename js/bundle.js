@@ -63,6 +63,7 @@ var AddPlacesToMapView = Backbone.View.extend({
     for(id in this.newPlaces) {
       if (this.newPlaces[id]) {
         this.newPlaces[id].addToMap(this.model.attributes._id);
+        this.model.places.add(this.newPlaces[id]);
       }
     }
     this.trigger('done');
@@ -158,15 +159,19 @@ var PlacesList = Backbone.Collection.extend({
   model: Place,
 
   initialize: function(options) {
+    this.fetched = false;
     this.url = 'http://localhost:8089/places?map=' + options.mapId;
   },
 
   fetch: function(options) {
-    return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
-      if (res.responseJSON && res.responseJSON.err) {
-        alert("Can't get places, please try later");
-      }
-    });
+    if (!this.fetched) {
+      this.fetched = true;
+      return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
+        if (res.responseJSON && res.responseJSON.err) {
+          alert("Can't get places, please try later");
+        }
+      }); 
+    }
   }
 
 });
@@ -192,8 +197,8 @@ var Map = Backbone.Model.extend({
   },
 
   clear: function() {
-    _.invoke(this.places.models, 'clear');
-    this.places.reset();
+    //_.invoke(this.places.models, 'clear');
+    //this.places.reset();
   },
 
   sync: function(method, model, options) {
@@ -206,7 +211,9 @@ var Map = Backbone.Model.extend({
         alert("Unable to add map " + this.name);
       }
     );
-  }
+  },
+
+
 
 });
 
@@ -231,9 +238,19 @@ var MapsList = Backbone.Collection.extend({
   model: Map,
   url: 'http://localhost:8089/maps',
 
-  refresh: function() {
-    this.reset([]);
-    this.fetch();
+  initialize: function(options) {
+    this.fetched = false;
+  },
+
+  fetch: function(options) {
+    if (!this.fetched) {
+      this.fetched = true;
+      return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
+        if (res.responseJSON && res.responseJSON.err) {
+          //TODO
+        }
+      }); 
+    }
   }
 });
 
@@ -275,6 +292,7 @@ var PlaceView = Backbone.View.extend({
       parentMaps : newParentMaps
     });
     this.$el.remove();
+    this.trigger('removed', this.model);
   }
 });
 
@@ -291,14 +309,35 @@ var MapDetailsView = Backbone.View.extend({
  
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
+
+    this.showPlaces();
+
     return this;
   },
 
+  showPlaces: function() {
+    var places = this.model.places.models;
+    for (var i = 0 ; i < places.length ; ++i) {
+      if (places[i].attributes.name) {
+        //console.log(places[i]);
+        //console.log(places[i].attributes.name);
+        this.addPlace(places[i]);
+      }
+    }    
+  },
+
   addPlace: function(place) {
+    var that = this;
+
     var view = new PlaceView({
       model: place,
       mapid: this.model.attributes._id
     });
+
+    view.on('removed', function(place) {
+      that.model.places.remove(place);
+    });
+
     this.$('#places-list').append(view.render().el);
   },
 
@@ -457,7 +496,18 @@ var MapsListView = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template());
+
+    this.showMaps();
+
     return this;
+  },
+
+  showMaps: function() {
+    for (var i = 0 ; i < this.maps.models.length ; ++i) {
+      if (this.maps.models[i].attributes.name) {
+        this.addMapToList(this.maps.models[i]);
+      }
+    }
   },
 
   addMapToList: function(map) {
@@ -476,6 +526,7 @@ var MapsListView = Backbone.View.extend({
   },
 
   newMap: function(e) {
+    //TODO: add to maps list
     var that = this;
 
     e.preventDefault();
@@ -513,8 +564,7 @@ var MapsSidebarView = Backbone.View.extend({
   el: '#maps-sidebar',
 
   events: {
-    "click .close": "hide",
-    "click #new": "newMap"
+    "click .close": "hide"
   },
 
   initialize: function(options) {    
@@ -535,7 +585,7 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    this.maps.refresh();//TODO
+    this.maps.fetch();
   },
 
   showMap: function(map) {

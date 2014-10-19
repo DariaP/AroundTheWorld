@@ -102,7 +102,18 @@ var MapsListView = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template());
+
+    this.showMaps();
+
     return this;
+  },
+
+  showMaps: function() {
+    for (var i = 0 ; i < this.maps.models.length ; ++i) {
+      if (this.maps.models[i].attributes.name) {
+        this.addMapToList(this.maps.models[i]);
+      }
+    }
   },
 
   addMapToList: function(map) {
@@ -121,6 +132,7 @@ var MapsListView = Backbone.View.extend({
   },
 
   newMap: function(e) {
+    //TODO: add to maps list
     var that = this;
 
     e.preventDefault();
