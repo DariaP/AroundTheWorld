@@ -33,6 +33,10 @@ var Place = Backbone.Model.extend({
     });
   },
 
+  isOnMap: function(mapid) {
+    return -1 != $.inArray(mapid, this.attributes.parentMaps);
+  },
+
   hide: function() {
     this.trigger('hide');
   }
