@@ -28,7 +28,7 @@ var Place = Backbone.Model.extend({
   addToMap: function(mapid) {
     var maps = _.clone(this.attributes.parentMaps);
     maps.push(mapid);
-    this.save({
+    this.set({
       parentMaps: maps
     });
   },
