@@ -18,16 +18,8 @@ var PlaceView = Backbone.View.extend({
 
     e.preventDefault();
 
-    var newParentMaps = _.filter(
-      this.model.attributes.parentMaps, 
-      function(mapid) {
-        return mapid !== that.mapid;
-      }
-    );
+    this.model.removeFromMap(this.mapid);
 
-    this.model.set({
-      parentMaps : newParentMaps
-    });
     this.$el.remove();
     this.trigger('removed', this.model);
   }

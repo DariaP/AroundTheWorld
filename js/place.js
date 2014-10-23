@@ -32,6 +32,19 @@ var Place = Backbone.Model.extend({
       parentMaps: maps
     });
   },
+  
+  removeFromMap: function(mapid) {
+    var maps = _.filter(
+      this.attributes.parentMaps, 
+      function(id) {
+        return id !== mapid;
+      }
+    );
+
+    this.set({
+      parentMaps : maps
+    });
+  },
 
   isOnMap: function(mapid) {
     return -1 != $.inArray(mapid, this.attributes.parentMaps);
