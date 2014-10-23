@@ -34,7 +34,7 @@ var PlacesOnMap = Backbone.Collection.extend({
   listenToAdd: function(place) {
     var that = this;
     place.on('change:parentMaps', function() {
-      if (place.isOnMap(this.mapid)) {
+      if (place.isOnMap(that.mapid)) {
         that.add(place);
       }
     });
@@ -43,7 +43,7 @@ var PlacesOnMap = Backbone.Collection.extend({
   listenToRemove: function(place) {
     var that = this;
     place.on('change:parentMaps', function() {
-      if (!place.isOnMap(this.mapid)) {
+      if (!place.isOnMap(that.mapid)) {
         that.remove(place);
       }
     });
@@ -84,7 +84,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
   listenToAdd: function(place) {
     var that = this;
     place.on('change:parentMaps', function() {
-      if (! place.isOnMap(this.mapid)) {
+      if (! place.isOnMap(that.mapid)) {
         that.add(place);
       }
     });
@@ -93,7 +93,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
   listenToRemove: function(place) {
     var that = this;
     place.on('change:parentMaps', function() {
-      if (place.isOnMap(this.mapid)) {
+      if (place.isOnMap(that.mapid)) {
         that.remove(place);
       }
     });
