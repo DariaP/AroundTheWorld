@@ -18,7 +18,7 @@
 
   <script src="js/lib/jquery-1.11.1.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>
-  <script src="js/lib/underscore-min.js"></script>
+  <script src="js/lib/lodash.underscore.min.js"></script>
   <script src="js/lib/backbone-min.js"></script>
   <script src="js/lib/jquery.blueimp-gallery.min.js"></script>
   <script src="js/lib/bootstrap-image-gallery.min.js"></script>
@@ -156,13 +156,15 @@
   </script>
 
   <script type="text/template" id="map-template">
-    <a href='#' class='bootstrap-style-link'><%- name %></a>
-    <button type="button" class="btn btn-default btn-xs btn-right" id='delete'>
-      <span class="glyphicon glyphicon-remove"></span>
-    </button>
-    <button type="button" class="btn btn-default btn-xs btn-right" id='edit'>
-      <span class="glyphicon glyphicon-pencil"></span>
-    </button>
+    <div id='<%- name %>'>
+      <a href='#' class='bootstrap-style-link'><%- name %></a>
+      <button type="button" class="btn btn-default btn-xs btn-right" id='delete'>
+        <span class="glyphicon glyphicon-remove"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-xs btn-right" id='edit'>
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+    </div>
   </script>
 
   <script type="text/template" id="edit-map-template">
@@ -174,14 +176,14 @@
             <span class="glyphicon glyphicon-ok"></span>
           </button>
         </span>
-      </div><!-- /input-group -->
+      </div><!-- /input-group --> 
     </form>
   </script>
 
   <script type="text/template" id="new-map-template">
-    <form id="edit-map-form">
+    <form id="new-map-form">
       <div class="input-group">
-        <input type="text" class="form-control" id="name" placeholder="New map name...">
+        <input type="text" class="form-control" id="name" name="name" placeholder="New map name...">
         <span class="input-group-btn">
           <button class="btn btn-default" type="submit" id='save'>
             <span class="glyphicon glyphicon-ok"></span>
