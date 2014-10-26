@@ -1,5 +1,5 @@
 casper.on('remote.message', function(message) {
-    this.echo('remote message caught: ' + message);
+  this.echo('remote message caught: ' + message);
 });
 
 casper.test.begin("Page load", 2, function(test) {
@@ -69,18 +69,20 @@ casper.test.begin("My maps sidebar - add new map", 2, function(test) {
 
 casper.test.begin("My maps sidebar - delete new map", 8, function(test) {
 
+  casper.page.injectJs('/Users/daria/github/AroundTheWorld/js/lib/jquery-1.11.1.min.js');
+
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
   });
 
   casper.then(function() {
     test.assertElementCount('ul#maps-list li', 5);
-    test.assertExists('ul#maps-list li div#NewMap1');
-    test.assertExists('ul#maps-list li div#NewMap1 #delete');
+    test.assertExists('ul#maps-list div#NewMap1');
+    test.assertExists('ul#maps-list div#NewMap1 .delete');
   });
 
   casper.then(function() {
-    this.click('ul#maps-list li div#NewMap1 #delete');
+    this.click('ul#maps-list div#NewMap1 .delete');
   });
 
   casper.then(function() {
