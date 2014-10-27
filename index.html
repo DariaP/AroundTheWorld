@@ -161,23 +161,25 @@
       <button type="button" class="btn btn-default btn-xs btn-right delete" id="delete">
         <span class="glyphicon glyphicon-remove"></span>
       </button>
-      <button type="button" class="btn btn-default btn-xs btn-right" id='edit'>
+      <button type="button" class="btn btn-default btn-xs btn-right edit" id='edit'>
         <span class="glyphicon glyphicon-pencil"></span>
       </button>
     </div>
   </script>
 
   <script type="text/template" id="edit-map-template">
-    <form id="edit-map-form">
+  <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
+    <form id="edit-map-form" class="edit-map-form">
       <div class="input-group">
-        <input type="text" class="form-control" id="edit-map-name" value='<%- name %>'>
+        <input type="text" class="form-control" id="edit-map-name" name="name" value='<%- name %>'>
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit" id='save'>
+          <button class="btn btn-default save" type="submit" id='save'>
             <span class="glyphicon glyphicon-ok"></span>
           </button>
         </span>
       </div><!-- /input-group --> 
     </form>
+    </div>
   </script>
 
   <script type="text/template" id="new-map-template">
