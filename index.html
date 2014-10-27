@@ -156,7 +156,7 @@
   </script>
 
   <script type="text/template" id="map-template">
-    <div id='<%- name %>'>
+    <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
       <a href='#' class='bootstrap-style-link'><%- name %></a>
       <button type="button" class="btn btn-default btn-xs btn-right delete" id="delete">
         <span class="glyphicon glyphicon-remove"></span>
