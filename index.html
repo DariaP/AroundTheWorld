@@ -209,9 +209,11 @@
 
   <script type="text/template" id="place-template">
     <li>
+  <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
       <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
       <button type="button" class="btn btn-default btn-xs delete btn-right" id='remove'>
         <span class="glyphicon glyphicon-minus"></span>
+</div>
       </button>
     </li>
   </script>
