@@ -59,7 +59,7 @@ casper.test.begin("View edited map details", 3, function(test) {
   });
 });
 
-casper.test.begin("Reload details several times", 10, function(test) {
+casper.test.begin("Reload details several times", 30, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
