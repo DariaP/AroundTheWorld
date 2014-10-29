@@ -3,7 +3,8 @@ var PlaceSidebarView = require('./placeSidebarView.js'),
     GMapView = require('./gmapView.js'),
     MapsSidebarView = require('./mapsSidebarView.js'),
     PlaceMarkerView = require('./placeMarkerView.js'),
-    Place = require('./place.js');
+    Place = require('./place.js'),
+    Places = require('./places.js');
 
 var PageView = Backbone.View.extend({
 
@@ -17,10 +18,6 @@ var PageView = Backbone.View.extend({
 
   initialize: function() {
     var that = this;
-
-    this.placeSidebar = new PlaceSidebarView();
-
-    this.maps = new MapsList();
   
     this.worldMap = new GMapView();
     this.worldMap.on('addSearchResultClick', function(result) {
@@ -28,11 +25,20 @@ var PageView = Backbone.View.extend({
       that.openNewPlaceTab();
     });
 
+    this.maps = new MapsList();
     this.maps.fetch();
     this.listenTo(this.maps, 'add', this.openDefaultMap);
 
+    this.places = new Places();
+    this.places.fetch();
+
 // Share maps list?
-    this.mapsSidebar = new MapsSidebarView();
+    this.placeSidebar = new PlaceSidebarView({
+      places: this.places
+    });
+    this.mapsSidebar = new MapsSidebarView({
+      places: this.places
+    });
 
     this.mapsSidebar.on('mapClick', function(map) {
       that.resetMap(map);
