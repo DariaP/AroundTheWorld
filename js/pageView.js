@@ -25,25 +25,29 @@ var PageView = Backbone.View.extend({
       that.openNewPlaceTab();
     });
 
-    this.maps = new MapsList();
-    this.maps.fetch();
-    this.listenTo(this.maps, 'add', this.openDefaultMap);
-
     this.places = new Places();
     this.places.fetch();
 
-// Share maps list?
+    this.maps = new MapsList();
+    this.listenTo(this.maps, 'add', this.openDefaultMap);
+    this.listenTo(this.maps, 'add', this.setPlaces);
+    this.maps.fetch();
+
     this.placeSidebar = new PlaceSidebarView({
       places: this.places
     });
-    this.mapsSidebar = new MapsSidebarView({
-      places: this.places
-    });
 
+    this.mapsSidebar = new MapsSidebarView({
+      maps: this.maps
+    });
     this.mapsSidebar.on('mapClick', function(map) {
       that.resetMap(map);
       that.mapsSidebar.trigger('mapReady', map);
     });
+  },
+
+  setPlaces: function(map) {
+    map.places = this.places.getMap(map.attributes._id);
   },
 
   openDefaultMap: function() {

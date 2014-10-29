@@ -9,14 +9,22 @@ var PlacesOnMap = Backbone.Collection.extend({
   },
 
   fetch: function(options) {
-    this.reset([]);
-    for (var i = 0 ; i < this.places.models.length ; ++i) {
-      var place = this.places.models[i];
+    return this.fetchOnce(options);
+  },
 
-      if ( place.isOnMap(this.mapid)) {
-        this.addPlace(place);        
-      } else {
-        this.listenToAdd(place);
+  fetchOnce: function(options) {
+    var that = this;
+
+    if (!this.fetched) {
+      this.fetched = true;
+      for (var i = 0 ; i < this.places.models.length ; ++i) {
+        var place = this.places.models[i];
+
+        if ( place.isOnMap(this.mapid)) {
+          this.addPlace(place);        
+        } else {
+          this.listenToAdd(place);
+        }
       }
     }
   },

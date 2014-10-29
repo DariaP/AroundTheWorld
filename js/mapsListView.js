@@ -17,7 +17,7 @@ var MapView = Backbone.View.extend({
     this.listenTo(this.model, 'destroy', this.clear);
     this.listenTo(this.model, 'changed', this.render);
   },
- 
+
   render: function() {
     // TODO: what if name is too long to fit?
     this.$el.html(this.template(this.model.toJSON()));
@@ -101,6 +101,13 @@ var MapsListView = Backbone.View.extend({
   },
 
   render: function() {
+    _.each(
+      this.maps.models, 
+      function(map) { 
+        this.addMapToList;
+      }
+    );
+
     this.$el.html(this.template());
 
     this.showMaps();

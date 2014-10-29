@@ -11,9 +11,8 @@ var MapsSidebarView = Backbone.View.extend({
     "click .close": "hide"
   },
 
-  initialize: function(options) { 
-    this.places = options.places;   
-    this.maps = new MapsList();
+  initialize: function(options) {  
+    this.maps = options.maps;
     this.hide();
   },
 
@@ -30,12 +29,9 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    this.maps.fetch();
   },
 
   showMap: function(map) {
-
-    map.places = this.places.getMap(map.attributes._id);
 
     var view = new MapDetailsView({ model: map }),
         that = this;

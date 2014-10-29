@@ -182,7 +182,7 @@ var Map = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function(options) {
-//console.log(places);
+
     this.places = new PlacesList({mapId: options._id});
 
     this.setUrl();
@@ -402,7 +402,7 @@ var MapView = Backbone.View.extend({
     this.listenTo(this.model, 'destroy', this.clear);
     this.listenTo(this.model, 'changed', this.render);
   },
- 
+
   render: function() {
     // TODO: what if name is too long to fit?
     this.$el.html(this.template(this.model.toJSON()));
@@ -486,6 +486,13 @@ var MapsListView = Backbone.View.extend({
   },
 
   render: function() {
+    _.each(
+      this.maps.models, 
+      function(map) { 
+        this.addMapToList;
+      }
+    );
+
     this.$el.html(this.template());
 
     this.showMaps();
@@ -558,9 +565,8 @@ var MapsSidebarView = Backbone.View.extend({
     "click .close": "hide"
   },
 
-  initialize: function(options) { 
-    this.places = options.places;   
-    this.maps = new MapsList();
+  initialize: function(options) {  
+    this.maps = options.maps;
     this.hide();
   },
 
@@ -577,12 +583,9 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    this.maps.fetch();
   },
 
   showMap: function(map) {
-
-    map.places = this.places.getMap(map.attributes._id);
 
     var view = new MapDetailsView({ model: map }),
         that = this;
@@ -657,25 +660,29 @@ var PageView = Backbone.View.extend({
       that.openNewPlaceTab();
     });
 
-    this.maps = new MapsList();
-    this.maps.fetch();
-    this.listenTo(this.maps, 'add', this.openDefaultMap);
-
     this.places = new Places();
     this.places.fetch();
 
-// Share maps list?
+    this.maps = new MapsList();
+    this.listenTo(this.maps, 'add', this.openDefaultMap);
+    this.listenTo(this.maps, 'add', this.setPlaces);
+    this.maps.fetch();
+
     this.placeSidebar = new PlaceSidebarView({
       places: this.places
     });
-    this.mapsSidebar = new MapsSidebarView({
-      places: this.places
-    });
 
+    this.mapsSidebar = new MapsSidebarView({
+      maps: this.maps
+    });
     this.mapsSidebar.on('mapClick', function(map) {
       that.resetMap(map);
       that.mapsSidebar.trigger('mapReady', map);
     });
+  },
+
+  setPlaces: function(map) {
+    map.places = this.places.getMap(map.attributes._id);
   },
 
   openDefaultMap: function() {
@@ -1164,14 +1171,22 @@ var PlacesOnMap = Backbone.Collection.extend({
   },
 
   fetch: function(options) {
-    this.reset([]);
-    for (var i = 0 ; i < this.places.models.length ; ++i) {
-      var place = this.places.models[i];
+    return this.fetchOnce(options);
+  },
 
-      if ( place.isOnMap(this.mapid)) {
-        this.addPlace(place);        
-      } else {
-        this.listenToAdd(place);
+  fetchOnce: function(options) {
+    var that = this;
+
+    if (!this.fetched) {
+      this.fetched = true;
+      for (var i = 0 ; i < this.places.models.length ; ++i) {
+        var place = this.places.models[i];
+
+        if ( place.isOnMap(this.mapid)) {
+          this.addPlace(place);        
+        } else {
+          this.listenToAdd(place);
+        }
       }
     }
   },
