@@ -28,8 +28,6 @@ var Map = Backbone.Model.extend({
 
   initialize: function(options) {
 
-    this.places = new PlacesList({mapId: options._id});
-
     this.setUrl();
 
     this.listenTo(this, 'change', function() { 
@@ -39,10 +37,6 @@ var Map = Backbone.Model.extend({
 
   setUrl: function() {
     this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
-  },
-
-  clear: function() {
-    _.invoke(this.places.models, 'hide');
   },
 
   sync: function(method, model, options) {

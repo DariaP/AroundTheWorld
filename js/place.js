@@ -51,7 +51,7 @@ var Place = Backbone.Model.extend({
   },
 
   hide: function() {
-    this.trigger('hide');
+    this.trigger('hiden');
   }
 });
 

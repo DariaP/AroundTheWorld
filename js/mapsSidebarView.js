@@ -35,6 +35,7 @@ var MapsSidebarView = Backbone.View.extend({
 
     var view = new MapDetailsView({ model: map }),
         that = this;
+
     this.$('#content').html(view.render().el);
 
     this.once('mapReady', function(m) {
@@ -43,7 +44,7 @@ var MapsSidebarView = Backbone.View.extend({
       }
     });
 
-    this.trigger('mapClick', map);
+    this.trigger('showMap', map);
 
     view.on('addPlaces', function(map) {
       that.showAddPlacesList(map);

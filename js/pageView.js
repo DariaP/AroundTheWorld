@@ -29,8 +29,7 @@ var PageView = Backbone.View.extend({
     this.places.fetch();
 
     this.maps = new MapsList();
-    this.listenTo(this.maps, 'add', this.openDefaultMap);
-    this.listenTo(this.maps, 'add', this.setPlaces);
+    this.listenTo(this.maps, 'add', this.setupMap);
     this.maps.fetch();
 
     this.placeSidebar = new PlaceSidebarView({
@@ -40,32 +39,41 @@ var PageView = Backbone.View.extend({
     this.mapsSidebar = new MapsSidebarView({
       maps: this.maps
     });
-    this.mapsSidebar.on('mapClick', function(map) {
+    this.mapsSidebar.on('showMap', function(map) {
       that.resetMap(map);
       that.mapsSidebar.trigger('mapReady', map);
     });
   },
 
-  setPlaces: function(map) {
+  setupMap: function(map) {
     map.places = this.places.getMap(map.attributes._id);
-  },
-
-  openDefaultMap: function() {
-    // TODO: show current map name
-    this.openMap(this.maps.at(0));
-    this.stopListening(this.maps, 'add');
-    this.currentMap.places.fetch();
+    if (! this.currentMap) {
+      this.openMap(map);
+      this.currentMap.places.fetch();
+    }
   },
 
   resetMap: function(map) {
-    this.currentMap.clear();
-    this.stopListening(this.currentMap.places, 'add');
+    this.hideMap();
     this.openMap(map);  
   },
 
   openMap: function(map) {
+    var that = this;
+      // TODO: show current map name
     this.currentMap = map;
-    this.listenTo(this.currentMap.places, 'add', this.addPlaceOnMap);
+    this.currentMap.places.onEach(function(place) {
+      that.addPlaceOnMap(place);
+    }, this);
+  },
+
+  hideMap: function() {
+    this.currentMap.places.stopOnEach(this);
+    _.each(this.currentMap.places.models, function(place) {
+      if (place.attributes.name) { //TODO: isn't there a better way?
+        place.hide();
+      }
+    });
   },
 
   addPlaceOnMap: function(place) {

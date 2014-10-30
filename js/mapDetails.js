@@ -33,26 +33,20 @@ var MapDetailsView = Backbone.View.extend({
 
   initialize: function() {
     this.template = _.template($('#map-details-template').html());
-    this.listenTo(this.model.places, 'add', this.addPlace);
   },
  
   render: function() {
+    var that = this;
+
     this.$el.html(this.template(this.model.toJSON()));
 
-    this.showPlaces();
+    this.model.places.onEach(function(place) {
+      if (place.attributes.name) {
+        that.addPlace(place);
+      }
+    });
 
     return this;
-  },
-
-  showPlaces: function() {
-    var places = this.model.places.models;
-    for (var i = 0 ; i < places.length ; ++i) {
-      if (places[i].attributes.name) {
-        //console.log(places[i]);
-        //console.log(places[i].attributes.name);
-        this.addPlace(places[i]);
-      }
-    }    
   },
 
   addPlace: function(place) {

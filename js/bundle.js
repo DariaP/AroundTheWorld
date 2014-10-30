@@ -183,8 +183,6 @@ var Map = Backbone.Model.extend({
 
   initialize: function(options) {
 
-    this.places = new PlacesList({mapId: options._id});
-
     this.setUrl();
 
     this.listenTo(this, 'change', function() { 
@@ -194,10 +192,6 @@ var Map = Backbone.Model.extend({
 
   setUrl: function() {
     this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
-  },
-
-  clear: function() {
-    _.invoke(this.places.models, 'hide');
   },
 
   sync: function(method, model, options) {
@@ -297,26 +291,20 @@ var MapDetailsView = Backbone.View.extend({
 
   initialize: function() {
     this.template = _.template($('#map-details-template').html());
-    this.listenTo(this.model.places, 'add', this.addPlace);
   },
  
   render: function() {
+    var that = this;
+
     this.$el.html(this.template(this.model.toJSON()));
 
-    this.showPlaces();
+    this.model.places.onEach(function(place) {
+      if (place.attributes.name) {
+        that.addPlace(place);
+      }
+    });
 
     return this;
-  },
-
-  showPlaces: function() {
-    var places = this.model.places.models;
-    for (var i = 0 ; i < places.length ; ++i) {
-      if (places[i].attributes.name) {
-        //console.log(places[i]);
-        //console.log(places[i].attributes.name);
-        this.addPlace(places[i]);
-      }
-    }    
   },
 
   addPlace: function(place) {
@@ -591,6 +579,7 @@ var MapsSidebarView = Backbone.View.extend({
 
     var view = new MapDetailsView({ model: map }),
         that = this;
+
     this.$('#content').html(view.render().el);
 
     this.once('mapReady', function(m) {
@@ -599,7 +588,7 @@ var MapsSidebarView = Backbone.View.extend({
       }
     });
 
-    this.trigger('mapClick', map);
+    this.trigger('showMap', map);
 
     view.on('addPlaces', function(map) {
       that.showAddPlacesList(map);
@@ -666,8 +655,7 @@ var PageView = Backbone.View.extend({
     this.places.fetch();
 
     this.maps = new MapsList();
-    this.listenTo(this.maps, 'add', this.openDefaultMap);
-    this.listenTo(this.maps, 'add', this.setPlaces);
+    this.listenTo(this.maps, 'add', this.setupMap);
     this.maps.fetch();
 
     this.placeSidebar = new PlaceSidebarView({
@@ -677,32 +665,41 @@ var PageView = Backbone.View.extend({
     this.mapsSidebar = new MapsSidebarView({
       maps: this.maps
     });
-    this.mapsSidebar.on('mapClick', function(map) {
+    this.mapsSidebar.on('showMap', function(map) {
       that.resetMap(map);
       that.mapsSidebar.trigger('mapReady', map);
     });
   },
 
-  setPlaces: function(map) {
+  setupMap: function(map) {
     map.places = this.places.getMap(map.attributes._id);
-  },
-
-  openDefaultMap: function() {
-    // TODO: show current map name
-    this.openMap(this.maps.at(0));
-    this.stopListening(this.maps, 'add');
-    this.currentMap.places.fetch();
+    if (! this.currentMap) {
+      this.openMap(map);
+      this.currentMap.places.fetch();
+    }
   },
 
   resetMap: function(map) {
-    this.currentMap.clear();
-    this.stopListening(this.currentMap.places, 'add');
+    this.hideMap();
     this.openMap(map);  
   },
 
   openMap: function(map) {
+    var that = this;
+      // TODO: show current map name
     this.currentMap = map;
-    this.listenTo(this.currentMap.places, 'add', this.addPlaceOnMap);
+    this.currentMap.places.onEach(function(place) {
+      that.addPlaceOnMap(place);
+    }, this);
+  },
+
+  hideMap: function() {
+    this.currentMap.places.stopOnEach(this);
+    _.each(this.currentMap.places.models, function(place) {
+      if (place.attributes.name) { //TODO: isn't there a better way?
+        place.hide();
+      }
+    });
   },
 
   addPlaceOnMap: function(place) {
@@ -874,7 +871,7 @@ var Place = Backbone.Model.extend({
   },
 
   hide: function() {
-    this.trigger('hide');
+    this.trigger('hiden');
   }
 });
 
@@ -1046,8 +1043,8 @@ var PlaceMarkerView = Backbone.View.extend({
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.clear);
 
-    this.model.on('hide', function() {
-      this.clear();
+    this.model.on('hiden', function() {
+      that.clear();
     })
 
     this.map = options.worldMap.map;
@@ -1179,6 +1176,33 @@ var PlacesOnMap = Backbone.Collection.extend({
 
   fetch: function(options) {
     return this.fetchOnce(options);
+  },
+
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(place) { 
+        if (place.attributes.name) {
+          callback(place);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(place) {
+        callback(place);
+      }
+    );
+  },
+
+  stopOnEach: function(caller) {
+    caller.stopListening(
+      this, 'add'
+    );
   },
 
   fetchOnce: function(options) {

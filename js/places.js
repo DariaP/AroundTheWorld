@@ -12,6 +12,33 @@ var PlacesOnMap = Backbone.Collection.extend({
     return this.fetchOnce(options);
   },
 
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(place) { 
+        if (place.attributes.name) {
+          callback(place);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(place) {
+        callback(place);
+      }
+    );
+  },
+
+  stopOnEach: function(caller) {
+    caller.stopListening(
+      this, 'add'
+    );
+  },
+
   fetchOnce: function(options) {
     var that = this;
 
