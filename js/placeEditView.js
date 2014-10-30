@@ -12,7 +12,8 @@ var PlaceEditView = Backbone.View.extend({
     "submit #edit-place-form": "save"
   },
 
-  initialize: function() {
+  initialize: function(options) {
+    this.maps = options.maps;
     this.template = _.template($('#place-edit-template').html());
     this.changes = {
       parentMaps: []
@@ -38,7 +39,7 @@ var PlaceEditView = Backbone.View.extend({
     var that = this;
 
     var mapsDropdown = new MapsDropdownView({
-      maps: new MapsList(),
+      maps: this.maps,
       elem: this.$('#add-place-to-map-dropdown-list')
     });
 

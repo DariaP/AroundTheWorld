@@ -9,8 +9,9 @@ var PlaceSidebarView = Backbone.View.extend({
     "click .close": "hide"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     this.hide();
+    this.maps = options.maps;
   },
 
   show: function(place) {
@@ -30,7 +31,10 @@ var PlaceSidebarView = Backbone.View.extend({
   },
   
   edit: function(place) {
-    var view = new PlaceEditView({model: place});
+    var view = new PlaceEditView({
+      model: place,
+      maps: this.maps
+    });
 
     this.$('#content').html(view.render().el);
     this.$el.show();

@@ -357,15 +357,15 @@ var MapsDropdownView = Backbone.View.extend({
   //el: '#add-place-to-map-dropdown-list',
 
   initialize: function(options) {
-    this.maps = options.maps;
-    this.listenTo(this.maps, 'add', this.addMap);
+    var that = this;
 
 // TODO: why el field didn't work?
     this.$el = options.elem;
-  },
 
-  render: function() {
-  	this.maps.fetch();
+    _.each(options.maps.models, function(map) {
+      that.addMap(map);
+    });
+    this.listenTo(options.maps, 'add', this.addMap);
   },
 
   addMap: function(map) {
@@ -669,7 +669,7 @@ var PageView = Backbone.View.extend({
     this.maps.fetch();
 
     this.placeSidebar = new PlaceSidebarView({
-      places: this.places
+      maps: this.maps
     });
 
     this.mapsSidebar = new MapsSidebarView({
@@ -959,7 +959,8 @@ var PlaceEditView = Backbone.View.extend({
     "submit #edit-place-form": "save"
   },
 
-  initialize: function() {
+  initialize: function(options) {
+    this.maps = options.maps;
     this.template = _.template($('#place-edit-template').html());
     this.changes = {
       parentMaps: []
@@ -985,7 +986,7 @@ var PlaceEditView = Backbone.View.extend({
     var that = this;
 
     var mapsDropdown = new MapsDropdownView({
-      maps: new MapsList(),
+      maps: this.maps,
       elem: this.$('#add-place-to-map-dropdown-list')
     });
 
@@ -1117,8 +1118,9 @@ var PlaceSidebarView = Backbone.View.extend({
     "click .close": "hide"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     this.hide();
+    this.maps = options.maps;
   },
 
   show: function(place) {
@@ -1138,7 +1140,10 @@ var PlaceSidebarView = Backbone.View.extend({
   },
   
   edit: function(place) {
-    var view = new PlaceEditView({model: place});
+    var view = new PlaceEditView({
+      model: place,
+      maps: this.maps
+    });
 
     this.$('#content').html(view.render().el);
     this.$el.show();

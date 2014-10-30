@@ -15,15 +15,15 @@ var MapsDropdownView = Backbone.View.extend({
   //el: '#add-place-to-map-dropdown-list',
 
   initialize: function(options) {
-    this.maps = options.maps;
-    this.listenTo(this.maps, 'add', this.addMap);
+    var that = this;
 
 // TODO: why el field didn't work?
     this.$el = options.elem;
-  },
 
-  render: function() {
-  	this.maps.fetch();
+    _.each(options.maps.models, function(map) {
+      that.addMap(map);
+    });
+    this.listenTo(options.maps, 'add', this.addMap);
   },
 
   addMap: function(map) {
