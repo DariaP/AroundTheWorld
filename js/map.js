@@ -94,6 +94,8 @@ var MapsList = Backbone.Collection.extend({
           //TODO
         }
       }); 
+    } else {
+      console.log("maps are fetched again");
     }
   }
 });
