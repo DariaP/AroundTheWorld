@@ -55,20 +55,4 @@ var Place = Backbone.Model.extend({
   }
 });
 
-var parsePics = function(picsStr) {
-  return picsStr.split(/[, \n]+/);
-}
-
-var parseLocation = function(locationStr) {
-  var latlng = locationStr.split(/[, ]+/);
-  return {
-  	lat: latlng[0],
-  	lng: latlng[1]
-  };
-}
-
-module.exports = {
-  Place: Place,
-  parsePics: parsePics,
-  parseLocation: parseLocation
-};
+module.exports = Place;

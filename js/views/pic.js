@@ -1,7 +1,4 @@
-// add to place view?
-var Pic = Backbone.Model.extend({
-  src: ""
-});
+var Pic = require('../models/pic.js');
 
 var PicView = Backbone.View.extend({
 
@@ -15,7 +12,4 @@ var PicView = Backbone.View.extend({
   },
 });
 
-module.exports = {
-  Pic: Pic,
-  PicView: PicView
-};
+module.exports = PicView;

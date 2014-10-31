@@ -1,4 +1,4 @@
 $(function () {
-  var PageView = require('./pageView.js');
+  var PageView = require('./views/page.js');
   new PageView();
 });

@@ -1,5 +1,5 @@
-var PlaceDetailsView = require('./placeDetailsView.js'),
-    PlaceEditView = require('./placeEditView.js');
+var PlaceDetailsView = require('./placeDetails.js'),
+    PlaceEditView = require('./placeEdit.js');
 
 var PlaceSidebarView = Backbone.View.extend({
 

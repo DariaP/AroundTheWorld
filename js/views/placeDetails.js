@@ -1,9 +1,7 @@
-var MapsDropdownView = require('./mapsDropdownView.js'),
-    MapsList = require('./map.js').MapsList,
-    PicView = require('./pic.js').PicView,
-    Pic = require('./pic.js').Pic,
-    ParentMaps = require('./parentMapsView.js').ParentMaps,
-    ParentMapsView = require('./parentMapsView.js').ParentMapsView;
+var PicView = require('./pic.js'),
+    Pic = require('../models/pic.js'),
+    ParentMaps = require('../models/parentMaps.js'),
+    ParentMapsView = require('./parentMaps.js');
 
 var PlaceDetailsView = Backbone.View.extend({
 

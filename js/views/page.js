@@ -1,10 +1,9 @@
-var PlaceSidebarView = require('./placeSidebarView.js'),
-    MapsList = require('./map.js').MapsList,
-    GMapView = require('./gmapView.js'),
-    MapsSidebarView = require('./mapsSidebarView.js'),
-    PlaceMarkerView = require('./placeMarkerView.js'),
-    Place = require('./place.js'),
-    Places = require('./places.js');
+var PlaceSidebarView = require('./placeSidebar.js'),
+    MapsSidebarView = require('./mapsSidebar.js'),
+    GMapView = require('./gmap.js'),
+    PlaceMarkerView = require('./placeMarker.js'),
+    Maps = require('../models/maps.js'),
+    Places = require('../models/places.js');
 
 var PageView = Backbone.View.extend({
 
@@ -28,7 +27,7 @@ var PageView = Backbone.View.extend({
     this.places = new Places();
     this.places.fetch();
 
-    this.maps = new MapsList();
+    this.maps = new Maps();
     this.listenTo(this.maps, 'add', this.setupMap);
     this.maps.fetch();
 

@@ -1,10 +1,7 @@
-var MapsDropdownView = require('./mapsDropdownView.js'),
-    MapsList = require('./map.js').MapsList,
-    PicView = require('./pic.js').PicView,
-    Pic = require('./pic.js').Pic,
-    ParentMaps = require('./parentMapsView.js').ParentMaps,
-    ParentMapsView = require('./parentMapsView.js').ParentMapsView,
-    Place = require('./place.js');
+var MapsDropdownView = require('./mapsDropdown.js'),
+    ParentMaps = require('../models/parentMaps.js'),
+    ParentMapsView = require('./parentMaps.js'),
+    Parse = require('../utils/parse.js');
 
 var PlaceEditView = Backbone.View.extend({
 
@@ -72,9 +69,9 @@ var PlaceEditView = Backbone.View.extend({
     //TODO: better way?
     this.model.set({
       name: this.$('#edit-place-name').val(),
-      location: Place.parseLocation(this.$('#edit-place-location').val()),
+      location: Place.location(this.$('#edit-place-location').val()),
       notes: this.$('#edit-place-notes').val(),
-      pics: Place.parsePics(this.$('#edit-place-pics').val()),
+      pics: Place.pics(this.$('#edit-place-pics').val()),
       parentMaps: this.model.attributes.parentMaps.concat(this.changes.parentMaps)
     });
   }

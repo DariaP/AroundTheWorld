@@ -1,5 +1,5 @@
-var Place = require('./place.js').Place,
-    PlaceMarkerView = require('./placeMarkerView.js');
+var Place = require('../models/place.js'),
+    PlaceMarkerView = require('./placeMarker.js');
 
 var GMapView = Backbone.View.extend({
 
