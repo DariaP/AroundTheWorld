@@ -41,9 +41,7 @@ var MapDetailsView = Backbone.View.extend({
     this.$el.html(this.template(this.model.toJSON()));
 
     this.model.places.onEach(function(place) {
-      if (place.attributes.name) {
-        that.addPlace(place);
-      }
+      that.addPlace(place);
     });
 
     return this;

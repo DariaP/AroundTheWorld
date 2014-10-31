@@ -282,6 +282,27 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     }
   },
 
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(place) { 
+        if (place.attributes.name) {
+          callback(place);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(place) {
+        callback(place);
+      }
+    );
+  },
+
   addPlace: function(place) {
     this.add(place);
     this.listenToRemove(place);        
@@ -404,13 +425,20 @@ var AddPlacesToMapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
+    this.places = options.places;
     this.template = _.template($('#add-places-template').html());
-    this.listenTo(options.places, 'add', this.addPlace);
     this.newPlaces = {};
   },
 
   render: function() {
+    var that = this;
+
     this.$el.html(this.template(this.model.toJSON()));
+
+    this.places.onEach(function(place) {
+      that.addPlace(place);
+    });
+
     return this;
   },
 
@@ -563,9 +591,7 @@ var MapDetailsView = Backbone.View.extend({
     this.$el.html(this.template(this.model.toJSON()));
 
     this.model.places.onEach(function(place) {
-      if (place.attributes.name) {
-        that.addPlace(place);
-      }
+      that.addPlace(place);
     });
 
     return this;
@@ -819,6 +845,7 @@ var MapsSidebarView = Backbone.View.extend({
 
   initialize: function(options) {  
     this.maps = options.maps;
+    this.places = options.places;
     this.hide();
   },
 
@@ -858,7 +885,7 @@ var MapsSidebarView = Backbone.View.extend({
   },
 
   showAddPlacesList: function(map) {
-    /*var places = new PlacesNotOnMapList ({mapId: map.attributes.id}),
+    var places = this.places.getNotOnMap(map.attributes._id),
         that = this;
 
     var view = new AddPlacesToMapView ({ 
@@ -871,7 +898,7 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    places.fetch();*/
+    places.fetch();
   },
 
   hide: function() {
@@ -924,7 +951,8 @@ var PageView = Backbone.View.extend({
     });
 
     this.mapsSidebar = new MapsSidebarView({
-      maps: this.maps
+      maps: this.maps,
+      places: this.places
     });
     this.mapsSidebar.on('showMap', function(map) {
       that.resetMap(map);

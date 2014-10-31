@@ -31,13 +31,20 @@ var AddPlacesToMapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
+    this.places = options.places;
     this.template = _.template($('#add-places-template').html());
-    this.listenTo(options.places, 'add', this.addPlace);
     this.newPlaces = {};
   },
 
   render: function() {
+    var that = this;
+
     this.$el.html(this.template(this.model.toJSON()));
+
+    this.places.onEach(function(place) {
+      that.addPlace(place);
+    });
+
     return this;
   },
 

@@ -11,6 +11,7 @@ var MapsSidebarView = Backbone.View.extend({
 
   initialize: function(options) {  
     this.maps = options.maps;
+    this.places = options.places;
     this.hide();
   },
 
@@ -50,7 +51,7 @@ var MapsSidebarView = Backbone.View.extend({
   },
 
   showAddPlacesList: function(map) {
-    /*var places = new PlacesNotOnMapList ({mapId: map.attributes.id}),
+    var places = this.places.getNotOnMap(map.attributes._id),
         that = this;
 
     var view = new AddPlacesToMapView ({ 
@@ -63,7 +64,7 @@ var MapsSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    places.fetch();*/
+    places.fetch();
   },
 
   hide: function() {

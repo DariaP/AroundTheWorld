@@ -36,7 +36,8 @@ var PageView = Backbone.View.extend({
     });
 
     this.mapsSidebar = new MapsSidebarView({
-      maps: this.maps
+      maps: this.maps,
+      places: this.places
     });
     this.mapsSidebar.on('showMap', function(map) {
       that.resetMap(map);

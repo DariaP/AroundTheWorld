@@ -106,6 +106,27 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     }
   },
 
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(place) { 
+        if (place.attributes.name) {
+          callback(place);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(place) {
+        callback(place);
+      }
+    );
+  },
+
   addPlace: function(place) {
     this.add(place);
     this.listenToRemove(place);        
