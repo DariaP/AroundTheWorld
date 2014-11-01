@@ -198,7 +198,7 @@
   <script type="text/template" id="map-details-template">
     <h4>
     <%- name %>
-      <button type="button" class="btn btn-default btn-right" id="add">
+      <button type="button" class="btn btn-default btn-right add" id="add">
         <span class="glyphicon glyphicon-plus"> Place</span>
       </button>
     </h4>
@@ -223,15 +223,17 @@
     <div class="scrollable">
       <ul id="places-list"></ul>
     </div>
-    <button class="btn btn-default" id='save'>
+    <button class="btn btn-default save" id='save'>
       <span class="glyphicon glyphicon-ok"></span>
     </button>
   </script>
 
   <script type="text/template" id="add-place-template">
     <li>
+    <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
       <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
       <input type="checkbox" class='chbx-right'>
+    </div>
     </li>
   </script>
 
