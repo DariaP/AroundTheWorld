@@ -69,6 +69,13 @@ var GMapView = Backbone.View.extend({
     place.on('addPlaceClick', function() {
       that.trigger('addSearchResultClick', place.attributes);
     })
+  },
+
+  zoom: function(place) {
+    this.map.setCenter(new google.maps.LatLng(
+      place.attributes.location.lat,
+      place.attributes.location.lng
+    ));
   }
 });
 

@@ -43,6 +43,10 @@ var PageView = Backbone.View.extend({
       that.resetMap(map);
       that.mapsSidebar.trigger('mapReady', map);
     });
+    this.mapsSidebar.on('lookup', function(place) {
+      that.worldMap.zoom(place);
+    });
+
   },
 
   setupMap: function(map) {

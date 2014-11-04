@@ -543,6 +543,13 @@ var GMapView = Backbone.View.extend({
     place.on('addPlaceClick', function() {
       that.trigger('addSearchResultClick', place.attributes);
     })
+  },
+
+  zoom: function(place) {
+    this.map.setCenter(new google.maps.LatLng(
+      place.attributes.location.lat,
+      place.attributes.location.lng
+    ));
   }
 });
 
@@ -550,7 +557,8 @@ module.exports = GMapView;
 },{"../models/place.js":6,"./placeMarker.js":20}],11:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
-    "click #remove" : "removeFromMap"
+    "click #remove" : "removeFromMap",
+    "click .lookup" : "lookup"
   },
 
   initialize: function(options) {
@@ -572,6 +580,10 @@ var PlaceView = Backbone.View.extend({
 
     this.$el.remove();
     this.trigger('removed', this.model);
+  },
+
+  lookup: function() {
+    this.trigger('lookup');
   }
 });
 
@@ -607,6 +619,10 @@ var MapDetailsView = Backbone.View.extend({
 
     view.on('removed', function(place) {
       that.model.places.remove(place);
+    });
+
+    view.on('lookup', function() {
+      that.trigger('lookup', place);
     });
 
     this.$('#places-list').append(view.render().el);
@@ -879,6 +895,10 @@ var MapsSidebarView = Backbone.View.extend({
 
     this.trigger('showMap', map);
 
+    view.on('lookup', function(place) {
+      that.trigger('lookup', place);
+    });
+
     view.on('addPlaces', function(map) {
       that.showAddPlacesList(map);
     })
@@ -958,6 +978,10 @@ var PageView = Backbone.View.extend({
       that.resetMap(map);
       that.mapsSidebar.trigger('mapReady', map);
     });
+    this.mapsSidebar.on('lookup', function(place) {
+      that.worldMap.zoom(place);
+    });
+
   },
 
   setupMap: function(map) {
