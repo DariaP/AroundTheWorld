@@ -49,6 +49,10 @@ var MapsSidebarView = Backbone.View.extend({
       that.trigger('lookup', place);
     });
 
+    view.on('showDetails', function(place) {
+      that.trigger('showDetails', place);
+    });
+
     view.on('addPlaces', function(map) {
       that.showAddPlacesList(map);
     })

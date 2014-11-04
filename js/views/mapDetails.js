@@ -1,7 +1,8 @@
 var PlaceView = Backbone.View.extend({
   events: {
     "click #remove" : "removeFromMap",
-    "click .lookup" : "lookup"
+    "click .lookup" : "lookup",
+    "click a" : "showDetails"
   },
 
   initialize: function(options) {
@@ -22,12 +23,16 @@ var PlaceView = Backbone.View.extend({
     this.model.removeFromMap(this.mapid);
 
     this.$el.remove();
-    this.trigger('removed', this.model);
+    this.trigger('removed');
   },
 
   lookup: function() {
     this.trigger('lookup');
-  }
+  },
+
+  showDetails: function() {
+    this.trigger('showDetails');
+  },
 });
 
 var MapDetailsView = Backbone.View.extend({
@@ -60,12 +65,16 @@ var MapDetailsView = Backbone.View.extend({
       mapid: this.model.attributes._id
     });
 
-    view.on('removed', function(place) {
+    view.on('removed', function() {
       that.model.places.remove(place);
     });
 
     view.on('lookup', function() {
       that.trigger('lookup', place);
+    });
+
+    view.on('showDetails', function() {
+      that.trigger('showDetails', place);
     });
 
     this.$('#places-list').append(view.render().el);

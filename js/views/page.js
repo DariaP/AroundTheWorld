@@ -46,7 +46,9 @@ var PageView = Backbone.View.extend({
     this.mapsSidebar.on('lookup', function(place) {
       that.worldMap.zoom(place);
     });
-
+    this.mapsSidebar.on('showDetails', function(place) {
+      that.placeSidebar.show(place);
+    });
   },
 
   setupMap: function(map) {
