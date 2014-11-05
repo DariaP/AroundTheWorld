@@ -1089,13 +1089,10 @@ var ParentMapsView = Backbone.View.extend({
   initialize: function(options) {
     this.maps = options.maps;
     this.listenTo(this.maps, 'add', this.addMap);
-
-// TODO: why el field didn't work?
-    this.$el = options.elem;
   },
 
   render: function() {
-  	this.maps.fetch();
+  	return this;
   },
 
   addMap: function(map) {
@@ -1141,14 +1138,24 @@ var PlaceDetailsView = Backbone.View.extend({
 
     var templateData = this.model.toJSON();
     templateData.picsHtml = this.renderPics();
+
     this.$el.html(this.template(templateData));
 
-    var parentMapsList = new ParentMapsView({
-      maps: new ParentMaps({ids: this.model.attributes.parentMaps}),
-      elem: this.$('#place-details-parent-maps')
-    }).render();
+    this.showParentMaps();
 
     return this;
+  },
+
+  showParentMaps: function() {
+    
+    var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
+    var parentMapsView = new ParentMapsView({
+      maps: parentMaps
+    });
+
+    this.$('#place-details-parent-maps').append(parentMapsView.render().el);
+
+    parentMaps.fetch();
   },
 
   renderPics: function() {
