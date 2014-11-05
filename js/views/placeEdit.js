@@ -69,9 +69,9 @@ var PlaceEditView = Backbone.View.extend({
     //TODO: better way?
     this.model.set({
       name: this.$('#edit-place-name').val(),
-      location: Place.location(this.$('#edit-place-location').val()),
+      location: Parse.location(this.$('#edit-place-location').val()),
       notes: this.$('#edit-place-notes').val(),
-      pics: Place.pics(this.$('#edit-place-pics').val()),
+      pics: Parse.pics(this.$('#edit-place-pics').val()),
       parentMaps: this.model.attributes.parentMaps.concat(this.changes.parentMaps)
     });
   }
