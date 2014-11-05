@@ -1130,10 +1130,15 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   initialize: function() {
+    var that = this;
+
     this.template = _.template($('#place-details-template').html());
+
+    this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
+
     var that = this;
 
     var templateData = this.model.toJSON();
@@ -1149,6 +1154,7 @@ var PlaceDetailsView = Backbone.View.extend({
   showParentMaps: function() {
     
     var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
+
     var parentMapsView = new ParentMapsView({
       maps: parentMaps
     });
@@ -1356,10 +1362,6 @@ var PlaceSidebarView = Backbone.View.extend({
     var view = new PlaceDetailsView({model: place}),
         that = this;
 
-    this.listenTo(place, 'change', function() {
-      that.onPlaceChanged(place);
-    });
-
     view.on('editClick', function() {
       that.edit(place);
     });
@@ -1375,14 +1377,11 @@ var PlaceSidebarView = Backbone.View.extend({
     });
 
     this.$('#content').html(view.render().el);
-    this.$el.show();
   },
 
 // TODO: change location on map if needed
   onPlaceChanged: function(place) {
-    if (place.isValid() ) {
-      this.show(place);
-    } else {
+    if ( ! place.isValid() ) {
       this.hide();
     }
   },

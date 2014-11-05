@@ -10,10 +10,15 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   initialize: function() {
+    var that = this;
+
     this.template = _.template($('#place-details-template').html());
+
+    this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
+
     var that = this;
 
     var templateData = this.model.toJSON();
