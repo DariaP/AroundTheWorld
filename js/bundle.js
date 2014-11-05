@@ -81,6 +81,27 @@ var Maps = Backbone.Collection.extend({
     } else {
       console.log("maps are fetched again");
     }
+  },
+
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(place) { 
+        if (place.attributes.name) {
+          callback(place);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(place) {
+        callback(place);
+      }
+    );
   }
 });
 
@@ -665,18 +686,22 @@ var MapView = Backbone.View.extend({
 });
 
 var MapsDropdownView = Backbone.View.extend({
-  //el: '#add-place-to-map-dropdown-list',
 
   initialize: function(options) {
+    this.template = _.template($('#dropdown-maps-template').html()),
+    this.maps = options.maps;
+  },
+
+  render: function() {
+    this.setElement(this.template());
+
     var that = this;
 
-// TODO: why el field didn't work?
-    this.$el = options.elem;
-
-    _.each(options.maps.models, function(map) {
+    this.maps.onEach(function(map) {
       that.addMap(map);
     });
-    this.listenTo(options.maps, 'add', this.addMap);
+
+    return this;
   },
 
   addMap: function(map) {
@@ -707,7 +732,7 @@ var MapView = Backbone.View.extend({
 
   initialize: function() {
     // TODO: split?
-
+ 
     this.template = _.template($('#map-template').html());
     this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
@@ -793,30 +818,18 @@ var MapsListView = Backbone.View.extend({
     this.template = _.template($('#maps-list-template').html());
 
     this.maps = options.maps;
-    this.listenTo(this.maps, 'add', this.addMapToList);
   },
 
   render: function() {
-    _.each(
-      this.maps.models, 
-      function(map) { 
-        this.addMapToList;
-      }
-    );
+    var that = this;
 
     this.$el.html(this.template());
 
-    this.showMaps();
+    this.maps.onEach(function(map) {
+      that.addMapToList(map);
+    });
 
     return this;
-  },
-
-  showMaps: function() {
-    for (var i = 0 ; i < this.maps.models.length ; ++i) {
-      if (this.maps.models[i].attributes.name) {
-        this.addMapToList(this.maps.models[i]);
-      }
-    }
   },
 
   addMapToList: function(map) {
@@ -835,7 +848,7 @@ var MapsListView = Backbone.View.extend({
   },
 
   newMap: function(e) {
-    //TODO: add to maps list
+
     var that = this;
 
     e.preventDefault();
@@ -1200,6 +1213,8 @@ var PlaceEditView = Backbone.View.extend({
     this.changes = {
       parentMaps: []
     };
+
+    this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
@@ -1207,37 +1222,40 @@ var PlaceEditView = Backbone.View.extend({
 
     this.$el.html(this.template(this.model.toJSON()));
 
-    this.startRenderingAsync();
+    this.renderMapsDropdown();
+
+    this.renderParentMaps();
 
     return this;
-  },
-
-  startRenderingAsync: function() {
-    this.renderParentMaps();
-    this.renderMapsDropdown();
   },
 
   renderMapsDropdown: function() {
     var that = this;
 
-    var mapsDropdown = new MapsDropdownView({
-      maps: this.maps,
-      elem: this.$('#add-place-to-map-dropdown-list')
+    var mapsDropdownView = new MapsDropdownView({
+      maps: this.maps
     });
 
-    mapsDropdown.on('mapDropdownClicked', function(map) {
+    mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
     });
 
-    mapsDropdown.render();
+    this.$('#add-place-to-map-dropdown').append(
+      mapsDropdownView.render().el
+    );
   },
 
   renderParentMaps: function() {
-    this.parentMapsList = new ParentMapsView({
-      maps: new ParentMaps({ids: this.model.attributes.parentMaps}),
-      elem: this.$('#place-details-parent-maps')
+    
+    var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
+
+    var parentMapsView = new ParentMapsView({
+      maps: parentMaps
     });
-    this.parentMapsList.render();
+
+    this.$('#place-details-parent-maps').append(parentMapsView.render().el);
+
+    parentMaps.fetch();
   },
 
   addPlaceToMap: function(map) {

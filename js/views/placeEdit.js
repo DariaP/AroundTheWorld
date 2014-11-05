@@ -15,6 +15,8 @@ var PlaceEditView = Backbone.View.extend({
     this.changes = {
       parentMaps: []
     };
+
+    this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
@@ -22,37 +24,40 @@ var PlaceEditView = Backbone.View.extend({
 
     this.$el.html(this.template(this.model.toJSON()));
 
-    this.startRenderingAsync();
+    this.renderMapsDropdown();
+
+    this.renderParentMaps();
 
     return this;
-  },
-
-  startRenderingAsync: function() {
-    this.renderParentMaps();
-    this.renderMapsDropdown();
   },
 
   renderMapsDropdown: function() {
     var that = this;
 
-    var mapsDropdown = new MapsDropdownView({
-      maps: this.maps,
-      elem: this.$('#add-place-to-map-dropdown-list')
+    var mapsDropdownView = new MapsDropdownView({
+      maps: this.maps
     });
 
-    mapsDropdown.on('mapDropdownClicked', function(map) {
+    mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
     });
 
-    mapsDropdown.render();
+    this.$('#add-place-to-map-dropdown').append(
+      mapsDropdownView.render().el
+    );
   },
 
   renderParentMaps: function() {
-    this.parentMapsList = new ParentMapsView({
-      maps: new ParentMaps({ids: this.model.attributes.parentMaps}),
-      elem: this.$('#place-details-parent-maps')
+    
+    var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
+
+    var parentMapsView = new ParentMapsView({
+      maps: parentMaps
     });
-    this.parentMapsList.render();
+
+    this.$('#place-details-parent-maps').append(parentMapsView.render().el);
+
+    parentMaps.fetch();
   },
 
   addPlaceToMap: function(map) {

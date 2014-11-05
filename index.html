@@ -262,37 +262,33 @@
 
 
   <script type="text/template" id="place-edit-template">
-          <form id="edit-place-form">
-            <div class="form-group">
-              <input type="text" class="form-control" id="edit-place-name" value='<%- name %>'>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="edit-place-location" value='<%- location.lat %>, <%- location.lng %>'>
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" cols="40" rows="5" id="edit-place-notes" value='<%- notes %>'></textarea>
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" cols="40" rows="5" id="edit-place-pics" value='<%- pics %>'></textarea>
-            </div>
-    <p id="place-details-parent-maps">
-      <b>on maps: </b>
-    </p>
+    <form id="edit-place-form">
+      <div class="form-group">
+        <input type="text" class="form-control" id="edit-place-name" value='<%- name %>'>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="edit-place-location" value='<%- location.lat %>, <%- location.lng %>'>
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" cols="40" rows="5" id="edit-place-notes" value='<%- notes %>'></textarea>
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" cols="40" rows="5" id="edit-place-pics" value='<%- pics %>'></textarea>
+      </div>
 
-    <div class="dropdown" id="add-place-to-map-dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-        Add to map
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  id = "add-place-to-map-dropdown-list">
-         <li role="presentation">
-         <a role="menuitem" tabindex="-1" href="#" id = "add-to-new-map">New map</a></li>
-         <li role="presentation" class="divider"></li>
-      </ul>
-    </div>
+      <p id="place-details-parent-maps">
+        <b>on maps: </b>
+      </p>
 
-            <button type="submit" class="btn btn-primary">Save</button>
-          </form>
+      <div class="dropdown" id="add-place-to-map-dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+          Add to map
+          <span class="caret"></span>
+        </button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
   </script>
 
   <script type="text/template" id="pic-link-template">
@@ -302,6 +298,14 @@
     <img src='<%- src %>' alt='<%- src %>' >
     </a>
     </div></div>
+  </script>
+
+  <script type="text/template" id="dropdown-maps-template">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  id = "add-place-to-map-dropdown-list">
+       <li role="presentation">
+       <a role="menuitem" tabindex="-1" href="#" id = "add-to-new-map">New map</a></li>
+       <li role="presentation" class="divider"></li>
+    </ul>
   </script>
 
   <script type="text/template" id="dropdown-map-template">
