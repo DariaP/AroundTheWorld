@@ -11,7 +11,16 @@ var PlaceView = Backbone.View.extend({
   },
  
   render: function() {
+    var that = this;
+
     this.$el.html(this.template(this.model.toJSON()));
+
+    this.model.on('change:parentMaps', function() {
+      if ( ! that.model.isOnMap(that.mapid)) {
+        that.clear();
+      }
+    });
+
     return this;
   },
 
@@ -21,9 +30,10 @@ var PlaceView = Backbone.View.extend({
     e.preventDefault();
 
     this.model.removeFromMap(this.mapid);
+  },
 
+  clear: function() {
     this.$el.remove();
-    this.trigger('removed');
   },
 
   lookup: function() {
@@ -63,10 +73,6 @@ var MapDetailsView = Backbone.View.extend({
     var view = new PlaceView({
       model: place,
       mapid: this.model.attributes._id
-    });
-
-    view.on('removed', function() {
-      that.model.places.remove(place);
     });
 
     view.on('lookup', function() {

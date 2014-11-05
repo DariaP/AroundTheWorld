@@ -70,7 +70,7 @@ var PlacesOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (place.isOnMap(that.mapid)) {
-        that.add(place);
+        that.addPlace(place);
       }
     });
   },
@@ -79,7 +79,7 @@ var PlacesOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (!place.isOnMap(that.mapid)) {
-        that.remove(place);
+        that.removePlace(place);
       }
     });
   }
@@ -141,7 +141,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (! place.isOnMap(that.mapid)) {
-        that.add(place);
+        that.addPlace(place);
       }
     });
   },
@@ -150,7 +150,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (place.isOnMap(that.mapid)) {
-        that.remove(place);
+        that.removePlace(place);
       }
     });
   }

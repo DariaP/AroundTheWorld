@@ -246,7 +246,7 @@ var PlacesOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (place.isOnMap(that.mapid)) {
-        that.add(place);
+        that.addPlace(place);
       }
     });
   },
@@ -255,7 +255,7 @@ var PlacesOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (!place.isOnMap(that.mapid)) {
-        that.remove(place);
+        that.removePlace(place);
       }
     });
   }
@@ -317,7 +317,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (! place.isOnMap(that.mapid)) {
-        that.add(place);
+        that.addPlace(place);
       }
     });
   },
@@ -326,7 +326,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     var that = this;
     place.on('change:parentMaps', function() {
       if (place.isOnMap(that.mapid)) {
-        that.remove(place);
+        that.removePlace(place);
       }
     });
   }
@@ -568,7 +568,16 @@ var PlaceView = Backbone.View.extend({
   },
  
   render: function() {
+    var that = this;
+
     this.$el.html(this.template(this.model.toJSON()));
+
+    this.model.on('change:parentMaps', function() {
+      if ( ! that.model.isOnMap(that.mapid)) {
+        that.clear();
+      }
+    });
+
     return this;
   },
 
@@ -578,9 +587,10 @@ var PlaceView = Backbone.View.extend({
     e.preventDefault();
 
     this.model.removeFromMap(this.mapid);
+  },
 
+  clear: function() {
     this.$el.remove();
-    this.trigger('removed');
   },
 
   lookup: function() {
@@ -620,10 +630,6 @@ var MapDetailsView = Backbone.View.extend({
     var view = new PlaceView({
       model: place,
       mapid: this.model.attributes._id
-    });
-
-    view.on('removed', function() {
-      that.model.places.remove(place);
     });
 
     view.on('lookup', function() {
