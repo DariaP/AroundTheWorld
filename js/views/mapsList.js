@@ -11,7 +11,7 @@ var MapView = Backbone.View.extend({
 
   initialize: function() {
     // TODO: split?
-
+ 
     this.template = _.template($('#map-template').html());
     this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
@@ -97,30 +97,18 @@ var MapsListView = Backbone.View.extend({
     this.template = _.template($('#maps-list-template').html());
 
     this.maps = options.maps;
-    this.listenTo(this.maps, 'add', this.addMapToList);
   },
 
   render: function() {
-    _.each(
-      this.maps.models, 
-      function(map) { 
-        this.addMapToList;
-      }
-    );
+    var that = this;
 
     this.$el.html(this.template());
 
-    this.showMaps();
+    this.maps.onEach(function(map) {
+      that.addMapToList(map);
+    });
 
     return this;
-  },
-
-  showMaps: function() {
-    for (var i = 0 ; i < this.maps.models.length ; ++i) {
-      if (this.maps.models[i].attributes.name) {
-        this.addMapToList(this.maps.models[i]);
-      }
-    }
   },
 
   addMapToList: function(map) {
@@ -139,7 +127,7 @@ var MapsListView = Backbone.View.extend({
   },
 
   newMap: function(e) {
-    //TODO: add to maps list
+
     var that = this;
 
     e.preventDefault();

@@ -19,6 +19,27 @@ var Maps = Backbone.Collection.extend({
     } else {
       console.log("maps are fetched again");
     }
+  },
+
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(place) { 
+        if (place.attributes.name) {
+          callback(place);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(place) {
+        callback(place);
+      }
+    );
   }
 });
 
