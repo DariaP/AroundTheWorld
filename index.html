@@ -209,14 +209,15 @@
 
   <script type="text/template" id="place-template">
     <li>
-  <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
-      <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
-      <button type="button" class="btn btn-default btn-xs delete btn-right remove" id='remove'>
-        <span class="glyphicon glyphicon-minus"></span>
-      <button type="button" class="btn btn-default btn-xs delete btn-right lookup">
-        <span class="glyphicon glyphicon-search"></span>
-</div>
-      </button>
+      <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
+        <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
+        <button type="button" class="btn btn-default btn-xs delete btn-right remove" id='remove'>
+          <span class="glyphicon glyphicon-minus"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-xs delete btn-right lookup">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+      </div>
     </li>
   </script>
 
@@ -293,25 +294,42 @@
 
   <script type="text/template" id="pic-link-template">
     <div class='pic-frame'>
-    <a href='<%- src %>' title='<%- src %>' data-gallery>
-    <div>
-    <img src='<%- src %>' alt='<%- src %>' >
-    </a>
-    </div></div>
+      <a href='<%- src %>' title='<%- src %>' data-gallery>
+        <div>
+          <img src='<%- src %>' alt='<%- src %>' >
+        </div>
+      </a>
+    </div>
   </script>
 
   <script type="text/template" id="dropdown-maps-template">
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  id = "add-place-to-map-dropdown-list">
        <li role="presentation">
-       <a role="menuitem" tabindex="-1" href="#" id = "add-to-new-map">New map</a></li>
+         <a role="menuitem" tabindex="-1" href="#" id = "add-to-new-map">New map</a>
+        </li>
        <li role="presentation" class="divider"></li>
     </ul>
   </script>
 
   <script type="text/template" id="dropdown-map-template">
     <li role="presentation">
-    <a role="menuitem" tabindex="-1" href="#"><%- name %>
-    </a></li>
+      <a role="menuitem" tabindex="-1" href="#"><%- name %></a>
+    </li>
+  </script>
+
+  <script type="text/template" id="parent-maps-edit-template">
+    <ul id="parent-maps-list"></ul>
+  </script>
+
+  <script type="text/template" id="parent-map-edit-template">
+    <li>
+      <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
+        <%- name %>
+        <button type="button" class="btn btn-default btn-xs delete btn-right remove" id='remove'>
+          <span class="glyphicon glyphicon-minus"></span>
+        </button>
+      </div>
+    </li>
   </script>
 
   <script type="text/template" id="search-result-menu">

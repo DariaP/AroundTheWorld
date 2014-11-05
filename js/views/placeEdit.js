@@ -1,6 +1,6 @@
 var MapsDropdownView = require('./mapsDropdown.js'),
     ParentMaps = require('../models/parentMaps.js'),
-    ParentMapsView = require('./parentMaps.js'),
+    ParentMapsEditView = require('./parentMapsEdit.js'),
     Parse = require('../utils/parse.js');
 
 var PlaceEditView = Backbone.View.extend({
@@ -32,28 +32,33 @@ var PlaceEditView = Backbone.View.extend({
   renderMapsDropdown: function() {
     var that = this;
 
-    var mapsDropdownView = new MapsDropdownView({
+    this.mapsDropdownView = new MapsDropdownView({
       maps: this.maps,
       filter: function(map) {
         return ! that.model.isOnMap(map.attributes._id);
       }
     });
 
-    mapsDropdownView.on('mapDropdownClicked', function(map) {
+    this.mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
     });
 
     this.$('#add-place-to-map-dropdown').append(
-      mapsDropdownView.render().el
+      this.mapsDropdownView.render().el
     );
   },
 
   renderParentMaps: function() {
+    var that = this;
     
     var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
 
-    this.parentMapsView = new ParentMapsView({
+    this.parentMapsView = new ParentMapsEditView({
       maps: parentMaps
+    });
+
+    this.parentMapsView.on('removedFrom', function(map) {
+      that.removePlaceFromMap(map);
     });
 
     this.$('#place-details-parent-maps').append(this.parentMapsView.render().el);
@@ -68,7 +73,9 @@ var PlaceEditView = Backbone.View.extend({
   },
 
   removePlaceFromMap: function(map) {
-    //TODO
+    var i = this.changes.parentMaps.indexOf(map.attributes._id);
+    this.changes.parentMaps.splice(i, 1);
+    this.mapsDropdownView.addMap(map);
   },
 
   save: function(e) {
