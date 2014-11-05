@@ -1,8 +1,14 @@
 var MapView = Backbone.View.extend({
 
   initialize: function() {
+    var that = this;
+
     this.template = _.template($('#dropdown-map-template').html()),
     this.listenTo(this.model, 'change', this.render);
+
+    this.model.on('removeFromDropdown', function() {
+      that.$el.remove();
+    });
   },
  
   render: function() {
@@ -16,6 +22,7 @@ var MapsDropdownView = Backbone.View.extend({
   initialize: function(options) {
     this.template = _.template($('#dropdown-maps-template').html()),
     this.maps = options.maps;
+    this.filter = options.filter;
   },
 
   render: function() {
@@ -24,7 +31,9 @@ var MapsDropdownView = Backbone.View.extend({
     var that = this;
 
     this.maps.onEach(function(map) {
-      that.addMap(map);
+      if (that.filter(map)) {
+        that.addMap(map);
+      }
     });
 
     return this;

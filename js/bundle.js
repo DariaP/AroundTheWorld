@@ -675,8 +675,14 @@ module.exports = MapDetailsView;
 var MapView = Backbone.View.extend({
 
   initialize: function() {
+    var that = this;
+
     this.template = _.template($('#dropdown-map-template').html()),
     this.listenTo(this.model, 'change', this.render);
+
+    this.model.on('removeFromDropdown', function() {
+      that.$el.remove();
+    });
   },
  
   render: function() {
@@ -690,6 +696,7 @@ var MapsDropdownView = Backbone.View.extend({
   initialize: function(options) {
     this.template = _.template($('#dropdown-maps-template').html()),
     this.maps = options.maps;
+    this.filter = options.filter;
   },
 
   render: function() {
@@ -698,7 +705,9 @@ var MapsDropdownView = Backbone.View.extend({
     var that = this;
 
     this.maps.onEach(function(map) {
-      that.addMap(map);
+      if (that.filter(map)) {
+        that.addMap(map);
+      }
     });
 
     return this;
@@ -1213,8 +1222,6 @@ var PlaceEditView = Backbone.View.extend({
     this.changes = {
       parentMaps: []
     };
-
-    this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
@@ -1233,7 +1240,10 @@ var PlaceEditView = Backbone.View.extend({
     var that = this;
 
     var mapsDropdownView = new MapsDropdownView({
-      maps: this.maps
+      maps: this.maps,
+      filter: function(map) {
+        return ! that.model.isOnMap(map.attributes._id);
+      }
     });
 
     mapsDropdownView.on('mapDropdownClicked', function(map) {
@@ -1249,21 +1259,23 @@ var PlaceEditView = Backbone.View.extend({
     
     var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
 
-    var parentMapsView = new ParentMapsView({
+    this.parentMapsView = new ParentMapsView({
       maps: parentMaps
     });
 
-    this.$('#place-details-parent-maps').append(parentMapsView.render().el);
+    this.$('#place-details-parent-maps').append(this.parentMapsView.render().el);
 
     parentMaps.fetch();
   },
 
   addPlaceToMap: function(map) {
-    if (-1 == $.inArray(map.attributes._id, this.model.attributes.parentMaps) &&
-        -1 == $.inArray(map.attributes._id, this.changes.parentMaps)) {
-      this.changes.parentMaps.push(map.attributes._id);
-      this.parentMapsList.addMap(map);
-    }
+    this.changes.parentMaps.push(map.attributes._id);
+    this.parentMapsView.addMap(map);
+    map.trigger('removeFromDropdown');
+  },
+
+  removePlaceFromMap: function(map) {
+    //TODO
   },
 
   save: function(e) {
