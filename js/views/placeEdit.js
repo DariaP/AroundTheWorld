@@ -89,6 +89,8 @@ var PlaceEditView = Backbone.View.extend({
       pics: Parse.pics(this.$('#edit-place-pics').val()),
       parentMaps: this.model.attributes.parentMaps.concat(this.changes.parentMaps)
     });
+
+    this.trigger('done');
   }
 });
 

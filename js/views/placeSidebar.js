@@ -27,9 +27,15 @@ var PlaceSidebarView = Backbone.View.extend({
   },
   
   edit: function(place) {
+    var that = this;
+
     var view = new PlaceEditView({
       model: place,
       maps: this.maps
+    });
+
+    view.on('done', function() {
+      that.show(place);
     });
 
     this.$('#content').html(view.render().el);

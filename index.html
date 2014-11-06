@@ -244,37 +244,39 @@
   <script type="text/template" id="place-details-template">
     <h4 id="place-name">
       <%- name %> 
-      <button type="button" class="btn btn-default" id="edit">edit</button>
+      <button type="button" class="btn btn-default edit" id="edit">edit</button>
     </h4>
 
-    <p><%- location.lat %>, <%- location.lng %></p>
+    <div class="location">
+      <p><%- location.lat %>, <%- location.lng %></p>
+    </div>
 
     <p id="place-details-parent-maps">
       <b>on maps: </b>
     </p>
 
-      <div id="place-pics">
-        <div class="scrollable">
-          <p><%- notes %></p>
-          <div id="links"><%= picsHtml %></div>
-        </div><!-- /scrollable -->
-      </div><!-- /place-pics -->
+    <div id="place-pics">
+      <div class="scrollable">
+        <p><%- notes %></p>
+        <div id="links"><%= picsHtml %></div>
+      </div><!-- /scrollable -->
+    </div><!-- /place-pics -->
   </script>
 
 
   <script type="text/template" id="place-edit-template">
     <form id="edit-place-form">
       <div class="form-group">
-        <input type="text" class="form-control" id="edit-place-name" value='<%- name %>'>
+        <input type="text" name='name' class="form-control" id="edit-place-name" value='<%- name %>'>
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" id="edit-place-location" value='<%- location.lat %>, <%- location.lng %>'>
+        <input type="text" name='location' class="form-control" id="edit-place-location" value='<%- location.lat %>, <%- location.lng %>'>
       </div>
       <div class="form-group">
-        <textarea class="form-control" cols="40" rows="5" id="edit-place-notes" value='<%- notes %>'></textarea>
+        <textarea name='notes' class="form-control" cols="40" rows="5" id="edit-place-notes" value='<%- notes %>'></textarea>
       </div>
       <div class="form-group">
-        <textarea class="form-control" cols="40" rows="5" id="edit-place-pics" value='<%- pics %>'></textarea>
+        <textarea name='pics' class="form-control" cols="40" rows="5" id="edit-place-pics" value='<%- pics %>'></textarea>
       </div>
 
       <p id="place-details-parent-maps">
@@ -288,7 +290,7 @@
         </button>
       </div>
 
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary save">Save</button>
     </form>
   </script>
 
