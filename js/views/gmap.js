@@ -18,7 +18,7 @@ var GMapView = Backbone.View.extend({
     this.placesSearchService = new google.maps.places.PlacesService(this.map);
 
     var autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById("navbar-search-input"));
+      document.querySelector(".search-form input"));
   },
 
   search: function(searchText) {

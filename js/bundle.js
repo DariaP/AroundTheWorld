@@ -513,7 +513,7 @@ var GMapView = Backbone.View.extend({
     this.placesSearchService = new google.maps.places.PlacesService(this.map);
 
     var autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById("navbar-search-input"));
+      document.querySelector(".search-form input"));
   },
 
   search: function(searchText) {
@@ -988,7 +988,7 @@ var PageView = Backbone.View.extend({
   events: {
     "click #my-maps-nav": "showMapsSidebar",
     "submit #new-place-form": "newPlace",
-    "submit #navbar-search-form": "search"
+    "submit .search-form": "search"
   },
 
   initialize: function() {
@@ -1086,7 +1086,7 @@ var PageView = Backbone.View.extend({
 
   search: function(e) {
     e.preventDefault();
-    this.worldMap.search(this.$('#navbar-search-input').val());
+    this.worldMap.search(this.$('.search-form input').val());
   },
 
   setNewPlaceFields: function(place) {
