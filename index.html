@@ -273,10 +273,10 @@
         <input type="text" name='location' class="form-control" id="edit-place-location" value='<%- location.lat %>, <%- location.lng %>'>
       </div>
       <div class="form-group">
-        <textarea name='notes' class="form-control" cols="40" rows="5" id="edit-place-notes" value='<%- notes %>'></textarea>
+        <textarea name='notes' class="form-control" cols="40" rows="1" id="edit-place-notes" value='<%- notes %>'></textarea>
       </div>
       <div class="form-group">
-        <textarea name='pics' class="form-control" cols="40" rows="5" id="edit-place-pics" value='<%- pics %>'></textarea>
+        <textarea name='pics' class="form-control" cols="40" rows="1" id="edit-place-pics" value='<%- pics %>'></textarea>
       </div>
 
       <p id="place-details-parent-maps">
@@ -284,7 +284,7 @@
       </p>
 
       <div class="dropdown" id="add-place-to-map-dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle add-map" type="button" id="dropdownMenu1" data-toggle="dropdown">
           Add to map
           <span class="caret"></span>
         </button>
@@ -315,7 +315,9 @@
 
   <script type="text/template" id="dropdown-map-template">
     <li role="presentation">
-      <a role="menuitem" tabindex="-1" href="#"><%- name %></a>
+      <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
+      <a href="#"><%- name %></a>
+      </div>
     </li>
   </script>
 

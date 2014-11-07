@@ -1284,7 +1284,8 @@ var PlaceEditView = Backbone.View.extend({
     this.maps = options.maps;
     this.template = _.template($('#place-edit-template').html());
     this.changes = {
-      parentMaps: []
+      parentMaps: [],
+      removedParentMaps: []
     };
   },
 
@@ -1338,27 +1339,42 @@ var PlaceEditView = Backbone.View.extend({
   },
 
   addPlaceToMap: function(map) {
-    this.changes.parentMaps.push(map.attributes._id);
+    var i = this.changes.removedParentMaps.indexOf(map.attributes._id);
+    if (i != -1) {
+      this.changes.removedParentMaps.splice(i, 1);
+    } else {
+      this.changes.parentMaps.push(map.attributes._id);
+    }
     this.parentMapsView.addMap(map);
     map.trigger('removeFromDropdown');
   },
 
   removePlaceFromMap: function(map) {
     var i = this.changes.parentMaps.indexOf(map.attributes._id);
-    this.changes.parentMaps.splice(i, 1);
+    if (i != -1) {
+      this.changes.parentMaps.splice(i, 1);
+    } else {
+      this.changes.removedParentMaps.push(map.attributes._id);
+    }
     this.mapsDropdownView.addMap(map);
   },
 
   save: function(e) {
     e.preventDefault();
+    var removedParentMaps = this.changes.removedParentMaps;
 
+    var newParentMaps = _.filter(
+      this.model.attributes.parentMaps.concat(this.changes.parentMaps),
+      function (mapid) {
+        return removedParentMaps.indexOf(mapid) == -1;
+      });
     //TODO: better way?
     this.model.set({
       name: this.$('#edit-place-name').val(),
       location: Parse.location(this.$('#edit-place-location').val()),
       notes: this.$('#edit-place-notes').val(),
       pics: Parse.pics(this.$('#edit-place-pics').val()),
-      parentMaps: this.model.attributes.parentMaps.concat(this.changes.parentMaps)
+      parentMaps: newParentMaps
     });
 
     this.trigger('done');
