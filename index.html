@@ -62,19 +62,16 @@
     <div class="tab-content map-container">
       <div class="tab-pane active map-container" id="map-tab">
 
-          <div id="place-details-sidebar" class="sidebar fixed-right">
-            <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+        <div class="sidebar fixed-right place-details">
+          <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+          <div class="content"></div>
+        </div><!-- /details-sidebar -->
 
-            <div class = "tabbable" id="content">
-            </div><!-- /tabbable -->
-
-          </div><!-- /details-sidebar -->
-
-          <div id="maps-sidebar" class="sidebar">
-            <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-            <div id="content">
-            </div><!-- /content -->
-          </div>
+        <div id="maps-sidebar" class="sidebar">
+          <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+          <div id="content">
+          </div><!-- /content -->
+        </div>
 
         <div id="map-canvas" class="map-container">
         </div>
@@ -239,25 +236,34 @@
 
 
   <script type="text/template" id="place-details-template">
-    <h4 id="place-name">
-      <%- name %> 
-      <button type="button" class="btn btn-default edit" id="edit">edit</button>
-    </h4>
+    <ul>
+      <li class="place-name">
+        <h4>
+          <%- name %> 
+          <button type="button" class="btn btn-default edit">edit</button>
+        </h4>
+      </li>
 
-    <div class="location">
-      <p><%- location.lat %>, <%- location.lng %></p>
-    </div>
+      <li class="location">
+        <%- location.lat %>, <%- location.lng %>
+      </li>
 
-    <p id="place-details-parent-maps">
-      <b>on maps: </b>
-    </p>
+      <li class="parent-maps">
+        <b>on maps: </b>
+      </li>
 
-    <div id="place-pics">
-      <div class="scrollable">
-        <p><%- notes %></p>
-        <div id="links"><%= picsHtml %></div>
-      </div><!-- /scrollable -->
-    </div><!-- /place-pics -->
+      <li class="notes">
+        <%- notes %>
+      </li>
+
+      <li>
+        <div class="pics-container">
+          <div class="scrollable">
+            <div class="pic-links"><%= picsHtml %></div>
+          </div><!-- /scrollable -->
+        </div><!-- /pics-container -->
+      </li>
+    </ul>
   </script>
 
 
@@ -280,7 +286,7 @@
         <b>on maps: </b>
       </p>
 
-      <div class="dropdown" id="add-place-to-map-dropdown">
+      <div class="dropdown" id="add-to-map">
         <button class="btn btn-default dropdown-toggle add-map" type="button" id="dropdownMenu1" data-toggle="dropdown">
           Add to map
           <span class="caret"></span>
@@ -302,19 +308,17 @@
   </script>
 
   <script type="text/template" id="dropdown-maps-template">
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  id = "add-place-to-map-dropdown-list">
-       <li role="presentation">
-         <a role="menuitem" tabindex="-1" href="#" id = "add-to-new-map">New map</a>
-        </li>
-       <li role="presentation" class="divider"></li>
+    <ul class="dropdown-menu add-to-map" role="menu" aria-labelledby="dropdownMenu1">
+      <li role="presentation">
+         <a role="menuitem" tabindex="-1" href="#" id ="add-to-new-map">New map</a>
+      </li>
+      <li role="presentation" class="divider"></li>
     </ul>
   </script>
 
   <script type="text/template" id="dropdown-map-template">
-    <li role="presentation">
-      <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
+    <li role="presentation" id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
       <a href="#"><%- name %></a>
-      </div>
     </li>
   </script>
 

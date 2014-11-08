@@ -76,6 +76,11 @@ h4 {
   color: #333;
 }
 
+.scrollable {
+  height: 100%;
+  overflow: scroll; 
+}
+
 /* --- Navbar ---------------------------- */
 
 .navbar {
@@ -95,45 +100,35 @@ div#map-tab {
 /* --- Place details ----------------------- */
 
 
-div#place-details-sidebar {
+.place-details {
   margin-top: 10px;
   border-radius: 6px 6px 6px 6px;
   width: 370px;
 }
-#add-place-to-map-dropdown {
-  margin-top : 5px;
-  margin-bottom : 5px;
-}
-div#place-details-sidebar a {
-  color: #555;
-}
-div#place-details-sidebar .tabbable {
+
+.place-details .content {
   height: 100%;
-}
-div#place-details-sidebar .tab-content {
-  height: 165px;
-}
-div#place-details-sidebar #place-pics {
-  height: 100%;
-}
-.scrollable {
-  height: 100%;
-  overflow: scroll; 
 }
 
-div.details-tab-pane {
-  padding-top: 10px;
+.place-details .pics-container {
+  height: 100%;
 }
 
-div.pic-frame {
+.pic-frame {
   max-width: 100px;
   height: 100px;
   overflow: hidden;
   float: left;
   margin: 5px;
 }
-div.pic-frame img {
+
+.pic-frame img {
   height: 100px;
+}
+
+ul.add-to-map {
+  margin-top : 5px;
+  margin-bottom : 5px;
 }
 
 /* --- Maps ---------------------------- */

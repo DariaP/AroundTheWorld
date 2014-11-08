@@ -9,7 +9,7 @@ casper.test.begin("Add place on map", 15, function(test) {
     this.click('li#my-maps-nav a');
     this.click('ul#maps-list div#USA a');
     this.click('ul#places-list div#Haiku-Stairs a');
-    this.click('div#place-details-sidebar .edit');
+    this.click('.place-details .edit');
   });
 
   casper.then(function() {
@@ -52,9 +52,9 @@ casper.test.begin("Add place on map", 15, function(test) {
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('#place-details-parent-maps div', 'USA');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Mountain trails');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Chicago');
+    test.assertSelectorHasText('.parent-maps div', 'USA');
+    test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
+    test.assertSelectorHasText('.parent-maps div', 'Chicago');
   });
 
   casper.then(function() {
@@ -77,11 +77,11 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('#place-details-parent-maps div', 'USA');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Mountain trails');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Chicago');
+    test.assertSelectorHasText('.parent-maps div', 'USA');
+    test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
+    test.assertSelectorHasText('.parent-maps div', 'Chicago');
 
-    this.click('div#place-details-sidebar .edit');
+    this.click('.place-details .edit');
   });
 
   casper.then(function() {
@@ -124,9 +124,9 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('#place-details-parent-maps div', 'USA');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Mountain trails');
-    test.assertSelectorDoesntHaveText('#place-details-parent-maps div', 'Chicago');
+    test.assertSelectorHasText('.parent-maps div', 'USA');
+    test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
+    test.assertSelectorDoesntHaveText('.parent-maps div', 'Chicago');
 
     test.assertElementCount('ul#places-list li', 2);
     test.assertSelectorDoesntHaveText('ul#places-list #Haiku-Stairs a', 'Haiku Stairs');
@@ -146,10 +146,10 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('#place-details-parent-maps div', 'USA');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Mountain trails');
+    test.assertSelectorHasText('.parent-maps div', 'USA');
+    test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
 
-    this.click('div#place-details-sidebar .edit');
+    this.click('.place-details .edit');
   });
 
   casper.then(function() {
@@ -205,9 +205,9 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('#place-details-parent-maps div', 'USA');
-    test.assertSelectorHasText('#place-details-parent-maps div', 'Mountain trails');
-    test.assertSelectorDoesntHaveText('#place-details-parent-maps div', 'Chicago');
+    test.assertSelectorHasText('.parent-maps div', 'USA');
+    test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
+    test.assertSelectorDoesntHaveText('.parent-maps div', 'Chicago');
 
     test.assertElementCount('ul#places-list li', 2);
     test.assertSelectorDoesntHaveText('ul#places-list #Haiku-Stairs a', 'Haiku Stairs');

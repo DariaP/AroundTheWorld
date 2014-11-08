@@ -3,7 +3,7 @@ var PlaceDetailsView = require('./placeDetails.js'),
 
 var PlaceSidebarView = Backbone.View.extend({
 
-  el: '#place-details-sidebar',
+  el: '.place-details',
 
   events: {
     "click .close": "hide"
@@ -22,7 +22,7 @@ var PlaceSidebarView = Backbone.View.extend({
       that.edit(place);
     });
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
     this.$el.show();
   },
   
@@ -38,7 +38,7 @@ var PlaceSidebarView = Backbone.View.extend({
       that.show(place);
     });
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
   },
 
 // TODO: change location on map if needed

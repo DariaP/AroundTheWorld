@@ -6,7 +6,7 @@ var PicView = require('./pic.js'),
 var PlaceDetailsView = Backbone.View.extend({
 
   events: {
-    "click #edit": "editPlace"
+    "click .edit": "editPlace"
   },
 
   initialize: function() {
@@ -39,7 +39,7 @@ var PlaceDetailsView = Backbone.View.extend({
       maps: parentMaps
     });
 
-    this.$('#place-details-parent-maps').append(parentMapsView.render().el);
+    this.$('.parent-maps').append(parentMapsView.render().el);
 
     parentMaps.fetch();
   },

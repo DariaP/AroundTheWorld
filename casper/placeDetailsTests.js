@@ -12,11 +12,11 @@ casper.test.begin("View place details", 5, function(test) {
   });
 
   casper.then(function() {
-    test.assertVisible('div#place-details-sidebar');
-    test.assertSelectorHasText('div#place-details-sidebar #place-name', 'Skydeck');
-    test.assertSelectorHasText('div#place-details-sidebar .location', '41.879587, -87.636159');
-    test.assertSelectorHasText('div#place-details-sidebar #place-details-parent-maps', 'Chicago');
-    test.assertElementCount('div#place-details-sidebar #links a', 1);
+    test.assertVisible('.place-details');
+    test.assertSelectorHasText('.place-details .place-name', 'Skydeck');
+    test.assertSelectorHasText('.place-details .location', '41.879587, -87.636159');
+    test.assertSelectorHasText('.place-details .parent-maps', 'Chicago');
+    test.assertElementCount('.place-details .pic-links a', 1);
   });
 
   casper.run(function() {
@@ -34,12 +34,12 @@ casper.test.begin("View another place details", 6, function(test) {
   });
 
   casper.then(function() {
-    test.assertVisible('div#place-details-sidebar');
-    test.assertSelectorHasText('div#place-details-sidebar #place-name', 'Haiku Stairs');
-    test.assertSelectorHasText('div#place-details-sidebar #place-pics', 'Steep trail!');
-    test.assertSelectorHasText('div#place-details-sidebar #place-details-parent-maps', 'USA');
-    test.assertSelectorHasText('div#place-details-sidebar #place-details-parent-maps', 'Mountain trails');
-    test.assertElementCount('div#place-details-sidebar #links a', 4);
+    test.assertVisible('.place-details');
+    test.assertSelectorHasText('.place-details .place-name', 'Haiku Stairs');
+    test.assertSelectorHasText('.place-details .notes', 'Steep trail!');
+    test.assertSelectorHasText('.place-details .parent-maps', 'USA');
+    test.assertSelectorHasText('.place-details .parent-maps', 'Mountain trails');
+    test.assertElementCount('.place-details .pic-links a', 4);
   });
 
   casper.run(function() {
@@ -48,13 +48,13 @@ casper.test.begin("View another place details", 6, function(test) {
 });
 
 
-casper.test.begin("Edit place details", 1, function(test) {
+casper.test.begin("Edit place details", 5, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
     this.click('ul#maps-list div#USA a');
     this.click('ul#places-list div#Haiku-Stairs a');
-    this.click('div#place-details-sidebar .edit');
+    this.click('.place-details .edit');
   });
 
   casper.then(function() {
@@ -70,7 +70,11 @@ casper.test.begin("Edit place details", 1, function(test) {
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('div#place-details-sidebar #place-name', 'Haiku-Stairs');
+    test.assertSelectorHasText('.place-details .place-name', 'Haiku-Stairs');
+    test.assertSelectorHasText('.place-details .notes', 'Very steep trail!!');
+    test.assertSelectorHasText('.place-details .parent-maps', 'USA');
+    test.assertSelectorHasText('.place-details .parent-maps', 'Mountain trails');
+    test.assertElementCount('.place-details .pic-links a', 1);
   });
 
   casper.run(function() {
