@@ -30,15 +30,14 @@ var MapView = Backbone.View.extend({
 
 var ParentMapsEditView = Backbone.View.extend({
 
+  tagName: 'ul',
+
   initialize: function(options) {
     this.maps = options.maps;
-    this.template = _.template($('#parent-maps-edit-template').html());
   },
 
   render: function() {
     var that = this;
-
-    this.setElement(this.template());
 
     this.listenTo(this.maps, 'add', this.addMap);
 

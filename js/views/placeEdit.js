@@ -44,7 +44,7 @@ var PlaceEditView = Backbone.View.extend({
       that.addPlaceToMap(map);
     });
 
-    this.$('#add-place-to-map-dropdown').append(
+    this.$('.add-to-map').append(
       this.mapsDropdownView.render().el
     );
   },
@@ -62,7 +62,7 @@ var PlaceEditView = Backbone.View.extend({
       that.removePlaceFromMap(map);
     });
 
-    this.$('#place-details-parent-maps').append(this.parentMapsView.render().el);
+    this.$('.parent-maps').append(this.parentMapsView.render().el);
 
     parentMaps.fetch();
   },
@@ -99,10 +99,10 @@ var PlaceEditView = Backbone.View.extend({
       });
     //TODO: better way?
     this.model.set({
-      name: this.$('#edit-place-name').val(),
-      location: Parse.location(this.$('#edit-place-location').val()),
-      notes: this.$('#edit-place-notes').val(),
-      pics: Parse.pics(this.$('#edit-place-pics').val()),
+      name: this.$('input[name="name"]').val(),
+      location: Parse.location(this.$('input[name="location"]').val()),
+      notes: this.$('textarea[name="notes"]').val(),
+      pics: Parse.pics(this.$('textarea[name="pics"]').val()),
       parentMaps: newParentMaps
     });
 

@@ -17,20 +17,20 @@ casper.test.begin("Add place on map", 15, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('div#add-place-to-map-dropdown .dropdown-menu li', 4);
-    test.assertSelectorHasText('div#add-place-to-map-dropdown .dropdown-menu #Chicago', 'Chicago');
-    test.assertSelectorHasText('div#add-place-to-map-dropdown .dropdown-menu #Washington-D-C-', 'Washington D.C.');
+    test.assertElementCount('.add-to-map .dropdown-menu li', 4);
+    test.assertSelectorHasText('.add-to-map .dropdown-menu #Chicago', 'Chicago');
+    test.assertSelectorHasText('.add-to-map .dropdown-menu #Washington-D-C-', 'Washington D.C.');
   });
 
   casper.then(function() {
-    this.click('div#add-place-to-map-dropdown .dropdown-menu #Chicago a');
+    this.click('.add-to-map .dropdown-menu #Chicago a');
   });
 
   casper.then(function() {
-    test.assertElementCount('#parent-maps-list li', 3);
-    test.assertSelectorHasText('#parent-maps-list div#Chicago', 'Chicago');
-    test.assertSelectorHasText('#parent-maps-list div#USA', 'USA');
-    test.assertSelectorHasText('#parent-maps-list div#Mountain-trails', 'Mountain trails');
+    test.assertElementCount('.parent-maps ul li', 3);
+    test.assertSelectorHasText('.parent-maps ul div#Chicago', 'Chicago');
+    test.assertSelectorHasText('.parent-maps ul div#USA', 'USA');
+    test.assertSelectorHasText('.parent-maps ul div#Mountain-trails', 'Mountain trails');
   });
 
   casper.then(function() {
@@ -42,8 +42,8 @@ casper.test.begin("Add place on map", 15, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('div#add-place-to-map-dropdown .dropdown-menu li', 3);
-    test.assertSelectorHasText('div#add-place-to-map-dropdown .dropdown-menu #Washington-D-C-', 'Washington D.C.');
+    test.assertElementCount('.add-to-map .dropdown-menu li', 3);
+    test.assertSelectorHasText('.add-to-map .dropdown-menu #Washington-D-C-', 'Washington D.C.');
   });
 
 
@@ -86,18 +86,18 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
 
   casper.then(function() {
 
-    test.assertElementCount('#parent-maps-list li', 3);
+    test.assertElementCount('.parent-maps ul li', 3);
 
-    test.assertSelectorHasText('#parent-maps-list div#Chicago', 'Chicago');
-    test.assertSelectorHasText('#parent-maps-list div#USA', 'USA');
-    test.assertSelectorHasText('#parent-maps-list div#Mountain-trails', 'Mountain trails');
+    test.assertSelectorHasText('.parent-maps ul div#Chicago', 'Chicago');
+    test.assertSelectorHasText('.parent-maps ul div#USA', 'USA');
+    test.assertSelectorHasText('.parent-maps ul div#Mountain-trails', 'Mountain trails');
 
     this.click('#edit-place-form .add-map');
   });
 
   casper.then(function() {
-    test.assertElementCount('div#add-place-to-map-dropdown .dropdown-menu li', 3);
-    test.assertSelectorHasText('div#add-place-to-map-dropdown .dropdown-menu #Washington-D-C-', 'Washington D.C.');
+    test.assertElementCount('.add-to-map .dropdown-menu li', 3);
+    test.assertSelectorHasText('.add-to-map .dropdown-menu #Washington-D-C-', 'Washington D.C.');
   });
 
   casper.then(function() {
@@ -108,13 +108,13 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
   });
 
   casper.then(function() {
-    this.click('#parent-maps-list div#Chicago .remove');
+    this.click('.parent-maps ul div#Chicago .remove');
   });
 
   casper.then(function() {
-    test.assertElementCount('#parent-maps-list li', 2);
-    test.assertSelectorHasText('#parent-maps-list div#USA', 'USA');
-    test.assertSelectorHasText('#parent-maps-list div#Mountain-trails', 'Mountain trails');
+    test.assertElementCount('.parent-maps ul li', 2);
+    test.assertSelectorHasText('.parent-maps ul div#USA', 'USA');
+    test.assertSelectorHasText('.parent-maps ul div#Mountain-trails', 'Mountain trails');
 
     test.assertElementCount('ul#places-list li', 3);
   });
@@ -154,10 +154,10 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
 
   casper.then(function() {
 
-    test.assertElementCount('#parent-maps-list li', 2);
+    test.assertElementCount('.parent-maps ul li', 2);
 
-    test.assertSelectorHasText('#parent-maps-list div#USA', 'USA');
-    test.assertSelectorHasText('#parent-maps-list div#Mountain-trails', 'Mountain trails');
+    test.assertSelectorHasText('.parent-maps ul div#USA', 'USA');
+    test.assertSelectorHasText('.parent-maps ul div#Mountain-trails', 'Mountain trails');
   });
 
   casper.then(function() {
@@ -170,32 +170,32 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
   });
 
   casper.then(function() {
-    test.assertElementCount('div#add-place-to-map-dropdown .dropdown-menu li', 4);
-    test.assertSelectorHasText('div#add-place-to-map-dropdown .dropdown-menu #Chicago', 'Chicago');
-    test.assertSelectorHasText('div#add-place-to-map-dropdown .dropdown-menu #Washington-D-C-', 'Washington D.C.');
+    test.assertElementCount('.add-to-map .dropdown-menu li', 4);
+    test.assertSelectorHasText('.add-to-map .dropdown-menu #Chicago', 'Chicago');
+    test.assertSelectorHasText('.add-to-map .dropdown-menu #Washington-D-C-', 'Washington D.C.');
   });
 
   casper.then(function() {
-    this.click('div#add-place-to-map-dropdown .dropdown-menu #Chicago a');
+    this.click('.add-to-map .dropdown-menu #Chicago a');
   });
 
   casper.then(function() {
-    test.assertElementCount('#parent-maps-list li', 3);
-    test.assertSelectorHasText('#parent-maps-list div#Chicago', 'Chicago');
-    test.assertSelectorHasText('#parent-maps-list div#USA', 'USA');
-    test.assertSelectorHasText('#parent-maps-list div#Mountain-trails', 'Mountain trails');
+    test.assertElementCount('.parent-maps ul li', 3);
+    test.assertSelectorHasText('.parent-maps ul div#Chicago', 'Chicago');
+    test.assertSelectorHasText('.parent-maps ul div#USA', 'USA');
+    test.assertSelectorHasText('.parent-maps ul div#Mountain-trails', 'Mountain trails');
 
     test.assertElementCount('ul#places-list li', 2);
   });
 
   casper.then(function() {
-    this.click('#parent-maps-list div#Chicago .remove');
+    this.click('.parent-maps ul div#Chicago .remove');
   });
 
   casper.then(function() {
-    test.assertElementCount('#parent-maps-list li', 2);
-    test.assertSelectorHasText('#parent-maps-list div#USA', 'USA');
-    test.assertSelectorHasText('#parent-maps-list div#Mountain-trails', 'Mountain trails');
+    test.assertElementCount('.parent-maps ul li', 2);
+    test.assertSelectorHasText('.parent-maps ul div#USA', 'USA');
+    test.assertSelectorHasText('.parent-maps ul div#Mountain-trails', 'Mountain trails');
 
     test.assertElementCount('ul#places-list li', 2);
   });
