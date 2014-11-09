@@ -218,9 +218,9 @@
   <script type="text/template" id="add-places-template">
     <h4>Add places:</h4>
     <div class="scrollable">
-      <ul id="places-list"></ul>
+      <ul></ul>
     </div>
-    <button class="btn btn-default save" id='save'>
+    <button class="btn btn-default save">
       <span class="glyphicon glyphicon-ok"></span>
     </button>
   </script>
@@ -228,7 +228,7 @@
   <script type="text/template" id="add-place-template">
     <li>
     <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
-      <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
+      <a href='#' class='bootstrap-style-link'><%- name %></a>
       <input type="checkbox" class='chbx-right'>
     </div>
     </li>

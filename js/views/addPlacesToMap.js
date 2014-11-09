@@ -27,7 +27,7 @@ var PlaceView = Backbone.View.extend({
 var AddPlacesToMapView = Backbone.View.extend({
 
   events: {
-    'click #save': 'save'
+    'click .save': 'save'
   },
 
   initialize: function(options) {
@@ -62,7 +62,7 @@ var AddPlacesToMapView = Backbone.View.extend({
       that.newPlaces[place.attributes._id] = undefined;
     });
 
-    this.$('#places-list').append(view.render().el);
+    this.$('ul').append(view.render().el);
   },
 
   save: function(e) {

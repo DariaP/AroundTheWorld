@@ -7,8 +7,8 @@ casper.test.begin("Add place on map", 15, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('#my-maps-nav a');
-    this.click('.maps.sidebar ul #USA a');
-    this.click('.maps.sidebar ul #Haiku-Stairs a');
+    this.click('.maps.sidebar #USA a');
+    this.click('.maps.sidebar #Haiku-Stairs a');
     this.click('.place-details .edit');
   });
 
@@ -35,8 +35,8 @@ casper.test.begin("Add place on map", 15, function(test) {
 
   casper.then(function() {
     this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul #Chicago a');
-    test.assertElementCount('.maps.sidebar ul li', 2);
+    this.click('.maps.sidebar #Chicago a');
+    test.assertElementCount('.maps.sidebar li', 2);
 
     this.click('#edit-place-form .add-map');
   });
@@ -58,8 +58,8 @@ casper.test.begin("Add place on map", 15, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('.maps.sidebar ul li', 3);
-    test.assertSelectorHasText('.maps.sidebar ul #Haiku-Stairs a', 'Haiku Stairs');
+    test.assertElementCount('.maps.sidebar li', 3);
+    test.assertSelectorHasText('.maps.sidebar #Haiku-Stairs a', 'Haiku Stairs');
   });
 
   casper.run(function() {
@@ -72,8 +72,8 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('#my-maps-nav a');
-    this.click('.maps.sidebar ul #USA a');
-    this.click('.maps.sidebar ul #Haiku-Stairs a');
+    this.click('.maps.sidebar #USA a');
+    this.click('.maps.sidebar #Haiku-Stairs a');
   });
 
   casper.then(function() {
@@ -102,9 +102,9 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
 
   casper.then(function() {
     this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul div#Chicago a');
-    test.assertElementCount('.maps.sidebar ul li', 3);
-    test.assertSelectorHasText('.maps.sidebar ul #Haiku-Stairs a', 'Haiku Stairs');
+    this.click('.maps.sidebar #Chicago a');
+    test.assertElementCount('.maps.sidebar li', 3);
+    test.assertSelectorHasText('.maps.sidebar #Haiku-Stairs a', 'Haiku Stairs');
   });
 
   casper.then(function() {
@@ -116,7 +116,7 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
     test.assertSelectorHasText('.parent-maps #USA', 'USA');
     test.assertSelectorHasText('.parent-maps #Mountain-trails', 'Mountain trails');
 
-    test.assertElementCount('.maps.sidebar ul li', 3);
+    test.assertElementCount('.maps.sidebar li', 3);
   });
 
   casper.then(function() {
@@ -128,8 +128,8 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
     test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
     test.assertSelectorDoesntHaveText('.parent-maps div', 'Chicago');
 
-    test.assertElementCount('.maps.sidebar ul li', 2);
-    test.assertSelectorDoesntHaveText('.maps.sidebar ul #Haiku-Stairs a', 'Haiku Stairs');
+    test.assertElementCount('.maps.sidebar li', 2);
+    test.assertSelectorDoesntHaveText('.maps.sidebar #Haiku-Stairs a', 'Haiku Stairs');
   });
 
   casper.run(function() {
@@ -141,8 +141,8 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul div#USA a');
-    this.click('.maps.sidebar ul div#Haiku-Stairs a');
+    this.click('.maps.sidebar #USA a');
+    this.click('.maps.sidebar #Haiku-Stairs a');
   });
 
   casper.then(function() {
@@ -162,9 +162,9 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
 
   casper.then(function() {
     this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul div#Chicago a');
-    test.assertElementCount('.maps.sidebar ul li', 2);
-    test.assertSelectorDoesntHaveText('.maps.sidebar ul #Haiku-Stairs a', 'Haiku Stairs');
+    this.click('.maps.sidebar #Chicago a');
+    test.assertElementCount('.maps.sidebar li', 2);
+    test.assertSelectorDoesntHaveText('.maps.sidebar #Haiku-Stairs a', 'Haiku Stairs');
 
     this.click('#edit-place-form .add-map');
   });
@@ -185,7 +185,7 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
     test.assertSelectorHasText('.parent-maps #USA', 'USA');
     test.assertSelectorHasText('.parent-maps #Mountain-trails', 'Mountain trails');
 
-    test.assertElementCount('.maps.sidebar ul li', 2);
+    test.assertElementCount('.maps.sidebar li', 2);
   });
 
   casper.then(function() {
@@ -197,7 +197,7 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
     test.assertSelectorHasText('.parent-maps #USA', 'USA');
     test.assertSelectorHasText('.parent-maps #Mountain-trails', 'Mountain trails');
 
-    test.assertElementCount('.maps.sidebar ul li', 2);
+    test.assertElementCount('.maps.sidebar li', 2);
   });
 
   casper.then(function() {
@@ -209,8 +209,8 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
     test.assertSelectorHasText('.parent-maps div', 'Mountain trails');
     test.assertSelectorDoesntHaveText('.parent-maps div', 'Chicago');
 
-    test.assertElementCount('.maps.sidebar ul li', 2);
-    test.assertSelectorDoesntHaveText('.maps.sidebar ul #Haiku-Stairs a', 'Haiku Stairs');
+    test.assertElementCount('.maps.sidebar li', 2);
+    test.assertSelectorDoesntHaveText('.maps.sidebar #Haiku-Stairs a', 'Haiku Stairs');
   });
 
   casper.run(function() {
