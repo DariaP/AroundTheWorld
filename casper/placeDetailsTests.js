@@ -8,7 +8,7 @@ casper.test.begin("View place details", 5, function(test) {
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
     this.click('.maps.sidebar ul div#Chicago a');
-    this.click('ul#places-list div#Skydeck a');
+    this.click('.maps.sidebar ul div#Skydeck a');
   });
 
   casper.then(function() {
@@ -30,7 +30,7 @@ casper.test.begin("View another place details", 6, function(test) {
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
     this.click('.maps.sidebar ul div#USA a');
-    this.click('ul#places-list div#Haiku-Stairs a');
+    this.click('.maps.sidebar ul div#Haiku-Stairs a');
   });
 
   casper.then(function() {
@@ -53,7 +53,7 @@ casper.test.begin("Edit place details", 5, function(test) {
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
     this.click('.maps.sidebar ul div#USA a');
-    this.click('ul#places-list div#Haiku-Stairs a');
+    this.click('.maps.sidebar ul div#Haiku-Stairs a');
     this.click('.place-details .edit');
   });
 

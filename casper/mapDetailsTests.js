@@ -14,9 +14,9 @@ casper.test.begin("View map details", 3, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#places-list li', 2);
-    test.assertSelectorHasText('ul#places-list #Skydeck a', 'Skydeck');
-    test.assertSelectorHasText('ul#places-list #Bean a', 'Bean');
+    test.assertElementCount('.maps.sidebar ul li', 2);
+    test.assertSelectorHasText('.maps.sidebar ul #Skydeck a', 'Skydeck');
+    test.assertSelectorHasText('.maps.sidebar ul #Bean a', 'Bean');
   });
 
   casper.run(function() {
@@ -49,9 +49,9 @@ casper.test.begin("View edited map details", 3, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#places-list li', 2);
-    test.assertSelectorHasText('ul#places-list #Skydeck a', 'Skydeck');
-    test.assertSelectorHasText('ul#places-list #Bean a', 'Bean');
+    test.assertElementCount('.maps.sidebar ul li', 2);
+    test.assertSelectorHasText('.maps.sidebar ul #Skydeck a', 'Skydeck');
+    test.assertSelectorHasText('.maps.sidebar ul #Bean a', 'Bean');
   });
 
   casper.run(function() {
@@ -71,9 +71,9 @@ casper.test.begin("Reload details several times", 30, function(test) {
     });
 
     casper.then(function() {
-      test.assertElementCount('ul#places-list li', 2);
-      test.assertSelectorHasText('ul#places-list div#Skydeck a', 'Skydeck');
-      test.assertSelectorHasText('ul#places-list div#Bean a', 'Bean');
+      test.assertElementCount('.maps.sidebar ul li', 2);
+      test.assertSelectorHasText('.maps.sidebar ul div#Skydeck a', 'Skydeck');
+      test.assertSelectorHasText('.maps.sidebar ul div#Bean a', 'Bean');
     });    
     casper.then(function() {
       this.click('li#my-maps-nav a');

@@ -48,7 +48,7 @@ var PlaceView = Backbone.View.extend({
 var MapDetailsView = Backbone.View.extend({
 
   events: {
-    "click #add" : "onAddClick"
+    "click .add" : "onAddClick"
   },
 
   initialize: function() {
@@ -83,7 +83,7 @@ var MapDetailsView = Backbone.View.extend({
       that.trigger('showDetails', place);
     });
 
-    this.$('#places-list').append(view.render().el);
+    this.$('ul').append(view.render().el);
   },
 
   onAddClick: function(e) {
