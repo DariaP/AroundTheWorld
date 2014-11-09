@@ -10,7 +10,7 @@ casper.test.begin("Add place to map", 6, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
   });
 
   casper.then(function() {
@@ -46,7 +46,7 @@ casper.test.begin("Add places to map", 7, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Mountain-trails a');
+    this.click('.maps.sidebar ul div#Mountain-trails a');
   });
 
   casper.then(function() {
@@ -84,7 +84,7 @@ casper.test.begin("Add places to map one by one", 12, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#USA a');
+    this.click('.maps.sidebar ul div#USA a');
   });
 
   casper.then(function() {
@@ -142,7 +142,7 @@ casper.test.begin("Check and uncheck place", 3, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Washington-D-C- a');
+    this.click('.maps.sidebar ul div#Washington-D-C- a');
   });
 
   casper.then(function() {
@@ -177,7 +177,7 @@ casper.test.begin("Check, uncheck and check place", 4, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Washington-D-C- a');
+    this.click('.maps.sidebar ul div#Washington-D-C- a');
   });
 
   casper.then(function() {

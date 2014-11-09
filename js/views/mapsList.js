@@ -3,10 +3,10 @@ var MapView = Backbone.View.extend({
   tagName:  "li",
   
   events: {
-    "click #delete" : "onDeleteClick",
-    "click #edit" : "onEditClick",
+    "click .delete" : "onDeleteClick",
+    "click .edit" : "onEditClick",
     "click a" : "onLinkClick",
-    "click #save" : 'onSaveClick'
+    "click .save" : 'onSaveClick'
   },
 
   initialize: function() {
@@ -58,7 +58,7 @@ var MapView = Backbone.View.extend({
 
   save: function() {
     this.model.set({
-      name : this.$('#edit-map-name').val()
+      name : this.$('input[name="name"]').val()
     });
     this.render();
     // TODO: why does this work? o_O
@@ -68,7 +68,7 @@ var MapView = Backbone.View.extend({
 
 var NewMapView = Backbone.View.extend({
   events: {
-    "click #save" : 'onSaveClick'
+    "click .save" : 'onSaveClick'
   },
 
   initialize: function(options) {
@@ -82,7 +82,7 @@ var NewMapView = Backbone.View.extend({
 
   onSaveClick: function(e) {
     e.preventDefault();
-    this.trigger('newMap', this.$('#name').val());
+    this.trigger('newMap', this.$('input[name="name"]').val());
     this.$el.remove();
   }
 });
@@ -90,7 +90,7 @@ var NewMapView = Backbone.View.extend({
 var MapsListView = Backbone.View.extend({
 
   events: {
-    "click #new": "newMap"
+    "click .new": "newMap"
   },
 
   initialize: function(options) {
@@ -123,7 +123,7 @@ var MapsListView = Backbone.View.extend({
       that.$el.hide().fadeIn('fast');
     })
 
-    this.$('#maps-list').append(view.el);
+    this.$('ul').append(view.el);
   },
 
   newMap: function(e) {
@@ -136,7 +136,7 @@ var MapsListView = Backbone.View.extend({
       this.addingNew = true;
 
       var view = new NewMapView();
-      this.$('#maps-list').before(view.render().el);
+      this.$('ul').before(view.render().el);
 
       view.once('newMap', function(name) {
         that.addMap(name);

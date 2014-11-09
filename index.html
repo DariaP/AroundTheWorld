@@ -67,13 +67,13 @@
           <div class="content"></div>
         </div><!-- /details-sidebar -->
 
-        <div id="maps-sidebar" class="sidebar">
+        <div class="sidebar maps">
           <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-          <div id="content">
+          <div class="content">
           </div><!-- /content -->
         </div>
 
-        <div id="map-canvas" class="map-container">
+        <div class="map-container map-canvas">
         </div>
 
       </div>
@@ -138,24 +138,24 @@
   </div>
 
   <script type="text/template" id="maps-list-template">
-    <h4 id='maps-header'>
+    <h4>
       Maps
-      <button type="button" class="btn btn-default btx-xs btn-right" id="new">
+      <button type="button" class="btn btn-default btx-xs btn-right new">
         <span class="glyphicon glyphicon-plus"></span> New 
       </button>
     </h4>
     <div class="scrollable">
-      <ul id="maps-list"></ul>
+      <ul></ul>
     </div>
   </script>
 
   <script type="text/template" id="map-template">
     <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
       <a href='#' class='bootstrap-style-link'><%- name %></a>
-      <button type="button" class="btn btn-default btn-xs btn-right delete" id="delete">
+      <button type="button" class="btn btn-default btn-xs btn-right delete">
         <span class="glyphicon glyphicon-remove"></span>
       </button>
-      <button type="button" class="btn btn-default btn-xs btn-right edit" id='edit'>
+      <button type="button" class="btn btn-default btn-xs btn-right edit">
         <span class="glyphicon glyphicon-pencil"></span>
       </button>
     </div>
@@ -163,11 +163,11 @@
 
   <script type="text/template" id="edit-map-template">
   <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
-    <form id="edit-map-form" class="edit-map-form">
+    <form>
       <div class="input-group">
-        <input type="text" class="form-control" id="edit-map-name" name="name" value='<%- name %>'>
+        <input type="text" class="form-control" name="name" value='<%- name %>'>
         <span class="input-group-btn">
-          <button class="btn btn-default save" type="submit" id='save'>
+          <button class="btn btn-default save" type="submit">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
         </span>
@@ -177,11 +177,11 @@
   </script>
 
   <script type="text/template" id="new-map-template">
-    <form id="new-map-form">
+    <form class="new-map">
       <div class="input-group">
-        <input type="text" class="form-control" id="name" name="name" placeholder="New map name...">
+        <input type="text" class="form-control" name="name" placeholder="New map name...">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit" id='save'>
+          <button class="btn btn-default save" type="submit">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
         </span>

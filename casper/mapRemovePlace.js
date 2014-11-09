@@ -10,7 +10,7 @@ casper.test.begin("Remove place from map", 7, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
   });
 
   casper.then(function() {
@@ -33,7 +33,7 @@ casper.test.begin("Remove place from map", 7, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
   });
 
   casper.then(function() {
@@ -53,7 +53,7 @@ casper.test.begin("Remove place from map - reload", 2, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
   });
 
   casper.then(function() {

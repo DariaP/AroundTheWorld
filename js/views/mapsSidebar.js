@@ -3,7 +3,7 @@ var MapDetailsView = require('./mapDetails.js'),
     AddPlacesToMapView = require('./addPlacesToMap.js');
 
 var MapsSidebarView = Backbone.View.extend({
-  el: '#maps-sidebar',
+  el: '.maps',
 
   events: {
     "click .close": "hide"
@@ -27,7 +27,7 @@ var MapsSidebarView = Backbone.View.extend({
       that.showMap(map);
     });
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
   },
 
   showMap: function(map) {
@@ -35,7 +35,7 @@ var MapsSidebarView = Backbone.View.extend({
     var view = new MapDetailsView({ model: map }),
         that = this;
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
 
     this.once('mapReady', function(m) {
       if (m.attributes._id == map.attributes._id) {
@@ -71,7 +71,7 @@ var MapsSidebarView = Backbone.View.extend({
       that.showMap(map);
     });
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
     places.fetch();
   },
 

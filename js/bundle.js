@@ -506,7 +506,7 @@ var GMapView = Backbone.View.extend({
   initialize: function(options) {
 
     this.map = new google.maps.Map(
-      document.getElementById("map-canvas"),
+      document.querySelector(".map-canvas"),
       this.mapOptions
       );
 
@@ -733,10 +733,10 @@ var MapView = Backbone.View.extend({
   tagName:  "li",
   
   events: {
-    "click #delete" : "onDeleteClick",
-    "click #edit" : "onEditClick",
+    "click .delete" : "onDeleteClick",
+    "click .edit" : "onEditClick",
     "click a" : "onLinkClick",
-    "click #save" : 'onSaveClick'
+    "click .save" : 'onSaveClick'
   },
 
   initialize: function() {
@@ -788,7 +788,7 @@ var MapView = Backbone.View.extend({
 
   save: function() {
     this.model.set({
-      name : this.$('#edit-map-name').val()
+      name : this.$('input[name="name"]').val()
     });
     this.render();
     // TODO: why does this work? o_O
@@ -798,7 +798,7 @@ var MapView = Backbone.View.extend({
 
 var NewMapView = Backbone.View.extend({
   events: {
-    "click #save" : 'onSaveClick'
+    "click .save" : 'onSaveClick'
   },
 
   initialize: function(options) {
@@ -812,7 +812,7 @@ var NewMapView = Backbone.View.extend({
 
   onSaveClick: function(e) {
     e.preventDefault();
-    this.trigger('newMap', this.$('#name').val());
+    this.trigger('newMap', this.$('input[name="name"]').val());
     this.$el.remove();
   }
 });
@@ -820,7 +820,7 @@ var NewMapView = Backbone.View.extend({
 var MapsListView = Backbone.View.extend({
 
   events: {
-    "click #new": "newMap"
+    "click .new": "newMap"
   },
 
   initialize: function(options) {
@@ -853,7 +853,7 @@ var MapsListView = Backbone.View.extend({
       that.$el.hide().fadeIn('fast');
     })
 
-    this.$('#maps-list').append(view.el);
+    this.$('ul').append(view.el);
   },
 
   newMap: function(e) {
@@ -866,7 +866,7 @@ var MapsListView = Backbone.View.extend({
       this.addingNew = true;
 
       var view = new NewMapView();
-      this.$('#maps-list').before(view.render().el);
+      this.$('ul').before(view.render().el);
 
       view.once('newMap', function(name) {
         that.addMap(name);
@@ -890,7 +890,7 @@ var MapDetailsView = require('./mapDetails.js'),
     AddPlacesToMapView = require('./addPlacesToMap.js');
 
 var MapsSidebarView = Backbone.View.extend({
-  el: '#maps-sidebar',
+  el: '.maps',
 
   events: {
     "click .close": "hide"
@@ -914,7 +914,7 @@ var MapsSidebarView = Backbone.View.extend({
       that.showMap(map);
     });
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
   },
 
   showMap: function(map) {
@@ -922,7 +922,7 @@ var MapsSidebarView = Backbone.View.extend({
     var view = new MapDetailsView({ model: map }),
         that = this;
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
 
     this.once('mapReady', function(m) {
       if (m.attributes._id == map.attributes._id) {
@@ -958,7 +958,7 @@ var MapsSidebarView = Backbone.View.extend({
       that.showMap(map);
     });
 
-    this.$('#content').html(view.render().el);
+    this.$('.content').html(view.render().el);
     places.fetch();
   },
 
@@ -1160,13 +1160,10 @@ var ParentMapsEditView = Backbone.View.extend({
 
   initialize: function(options) {
     this.maps = options.maps;
-    //this.template = _.template($('#parent-maps-edit-template').html());
   },
 
   render: function() {
     var that = this;
-
-    //this.setElement(this.template());
 
     this.listenTo(this.maps, 'add', this.addMap);
 

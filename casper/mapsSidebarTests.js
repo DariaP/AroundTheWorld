@@ -22,12 +22,12 @@ casper.test.begin("My maps sidebar", 6, function(test) {
   });
 
   casper.then(function() {
-    test.assertVisible('div#maps-sidebar');
-    test.assertElementCount('ul#maps-list li', 4);
-    test.assertSelectorHasText('ul#maps-list div#Washington-D-C- a', 'Washington D.C.');
-    test.assertSelectorHasText('ul#maps-list div#USA a', 'USA');
-    test.assertSelectorHasText('ul#maps-list div#Mountain-trails a', 'Mountain trails');
-    test.assertSelectorHasText('ul#maps-list div#Chicago a', 'Chicago');
+    test.assertVisible('.maps.sidebar');
+    test.assertElementCount('.maps.sidebar ul li', 4);
+    test.assertSelectorHasText('.maps.sidebar ul div#Washington-D-C- a', 'Washington D.C.');
+    test.assertSelectorHasText('.maps.sidebar ul div#USA a', 'USA');
+    test.assertSelectorHasText('.maps.sidebar ul div#Mountain-trails a', 'Mountain trails');
+    test.assertSelectorHasText('.maps.sidebar ul div#Chicago a', 'Chicago');
   });
 
   casper.run(function() {
@@ -42,24 +42,24 @@ casper.test.begin("My maps sidebar - add new map", 2, function(test) {
   });
 
   casper.then(function() {
-    this.click('div#maps-sidebar #new');
+    this.click('.maps.sidebar .new');
   });
 
   casper.then(function() {
-    test.assertExists('div#maps-sidebar #new-map-form');
+    test.assertExists('.maps.sidebar form.new-map');
   });
 
   casper.then(function() {
     casper.fill(
-      'div#maps-sidebar #new-map-form',
+      '.maps.sidebar form.new-map',
       {
         'name': 'NewMap1'
       });
-    this.click('div#maps-sidebar #new-map-form #save');
+    this.click('.maps.sidebar form.new-map .save');
   });
 
   casper.then(function() {
-    test.assertSelectorHasText('ul#maps-list li:nth-child(5) a', 'NewMap1');
+    test.assertSelectorHasText('.maps.sidebar ul li:nth-child(5) a', 'NewMap1');
   });
 
   casper.run(function() {
@@ -74,21 +74,21 @@ casper.test.begin("My maps sidebar - delete new map", 8, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 5);
-    test.assertExists('ul#maps-list div#NewMap1');
-    test.assertExists('ul#maps-list div#NewMap1 .delete');
+    test.assertElementCount('.maps.sidebar ul li', 5);
+    test.assertExists('.maps.sidebar ul div#NewMap1');
+    test.assertExists('.maps.sidebar ul div#NewMap1 .delete');
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#NewMap1 .delete');
+    this.click('.maps.sidebar ul div#NewMap1 .delete');
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 4);
-    test.assertSelectorHasText('ul#maps-list div#Washington-D-C- a', 'Washington D.C.');
-    test.assertSelectorHasText('ul#maps-list div#USA a', 'USA');
-    test.assertSelectorHasText('ul#maps-list div#Mountain-trails a', 'Mountain trails');
-    test.assertSelectorHasText('ul#maps-list div#Chicago a', 'Chicago');
+    test.assertElementCount('.maps.sidebar ul li', 4);
+    test.assertSelectorHasText('.maps.sidebar ul div#Washington-D-C- a', 'Washington D.C.');
+    test.assertSelectorHasText('.maps.sidebar ul div#USA a', 'USA');
+    test.assertSelectorHasText('.maps.sidebar ul div#Mountain-trails a', 'Mountain trails');
+    test.assertSelectorHasText('.maps.sidebar ul div#Chicago a', 'Chicago');
   });
 
   casper.run(function() {
@@ -105,39 +105,39 @@ casper.test.begin("My maps sidebar - add and delete map", 10, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 4);
-    this.click('div#maps-sidebar #new');
+    test.assertElementCount('.maps.sidebar ul li', 4);
+    this.click('.maps.sidebar .new');
   });
 
   casper.then(function() {
-    test.assertExists('div#maps-sidebar #new-map-form');
+    test.assertExists('.maps.sidebar form.new-map');
   });
 
   casper.then(function() {
     casper.fill(
-      'div#maps-sidebar #new-map-form',
+      '.maps.sidebar form.new-map',
       {
         'name': 'NewMap2'
       });
-    this.click('div#maps-sidebar #new-map-form #save');
+    this.click('.maps.sidebar form.new-map .save');
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 5);
-    test.assertExists('ul#maps-list div#NewMap2');
+    test.assertElementCount('.maps.sidebar ul li', 5);
+    test.assertExists('.maps.sidebar ul div#NewMap2');
   });
 
   casper.then(function() {
-    test.assertExists('ul#maps-list div#NewMap2 .delete');
-    this.click('ul#maps-list div#NewMap2 .delete');
+    test.assertExists('.maps.sidebar ul div#NewMap2 .delete');
+    this.click('.maps.sidebar ul div#NewMap2 .delete');
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 4);
-    test.assertSelectorHasText('ul#maps-list div#Washington-D-C- a', 'Washington D.C.');
-    test.assertSelectorHasText('ul#maps-list div#USA a', 'USA');
-    test.assertSelectorHasText('ul#maps-list div#Mountain-trails a', 'Mountain trails');
-    test.assertSelectorHasText('ul#maps-list div#Chicago a', 'Chicago');
+    test.assertElementCount('.maps.sidebar ul li', 4);
+    test.assertSelectorHasText('.maps.sidebar ul div#Washington-D-C- a', 'Washington D.C.');
+    test.assertSelectorHasText('.maps.sidebar ul div#USA a', 'USA');
+    test.assertSelectorHasText('.maps.sidebar ul div#Mountain-trails a', 'Mountain trails');
+    test.assertSelectorHasText('.maps.sidebar ul div#Chicago a', 'Chicago');
   });
 
   casper.run(function() {
@@ -153,18 +153,18 @@ casper.test.begin("My maps sidebar - delete existing map", 5, function(test) {
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 4);
-    test.assertExists('ul#maps-list div#USA');
-    test.assertExists('ul#maps-list div#USA .delete');
+    test.assertElementCount('.maps.sidebar ul li', 4);
+    test.assertExists('.maps.sidebar ul div#USA');
+    test.assertExists('.maps.sidebar ul div#USA .delete');
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#USA .delete');
+    this.click('.maps.sidebar ul div#USA .delete');
   });
 
   casper.then(function() {
-    test.assertElementCount('ul#maps-list li', 3);
-    test.assertNotExists('ul#maps-list div#USA');
+    test.assertElementCount('.maps.sidebar ul li', 3);
+    test.assertNotExists('.maps.sidebar ul div#USA');
   });
 
   casper.run(function() {

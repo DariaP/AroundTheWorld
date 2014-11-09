@@ -10,7 +10,7 @@ casper.test.begin("Add place to map and remove it", 11, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
   });
 
   casper.then(function() {
@@ -66,7 +66,7 @@ casper.test.begin("Add place to map and remove it - reload", 3, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
   });
 
   casper.then(function() {
@@ -87,7 +87,7 @@ casper.test.begin("Add places to map and remove them", 12, function(test) {
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Mountain-trails a');
+    this.click('.maps.sidebar ul div#Mountain-trails a');
   });
 
   casper.then(function() {
@@ -145,7 +145,7 @@ casper.test.begin("Add places to map and remove them one by one", 22, function(t
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Mountain-trails a');
+    this.click('.maps.sidebar ul div#Mountain-trails a');
   });
 
   casper.then(function() {
@@ -242,7 +242,7 @@ casper.test.begin("Add places to map and remove them one by one - reload", 5, fu
   });
 
   casper.then(function() {
-    this.click('ul#maps-list div#Mountain-trails a');
+    this.click('.maps.sidebar ul div#Mountain-trails a');
   });
 
   casper.then(function() {

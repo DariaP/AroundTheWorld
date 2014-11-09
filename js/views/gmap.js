@@ -11,7 +11,7 @@ var GMapView = Backbone.View.extend({
   initialize: function(options) {
 
     this.map = new google.maps.Map(
-      document.getElementById("map-canvas"),
+      document.querySelector(".map-canvas"),
       this.mapOptions
       );
 

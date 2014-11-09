@@ -7,7 +7,7 @@ casper.test.begin("Add place on map", 15, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
-    this.click('ul#maps-list div#USA a');
+    this.click('.maps.sidebar ul div#USA a');
     this.click('ul#places-list div#Haiku-Stairs a');
     this.click('.place-details .edit');
   });
@@ -35,7 +35,7 @@ casper.test.begin("Add place on map", 15, function(test) {
 
   casper.then(function() {
     this.click('li#my-maps-nav a');
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
     test.assertElementCount('ul#places-list li', 2);
 
     this.click('#edit-place-form .add-map');
@@ -72,7 +72,7 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
-    this.click('ul#maps-list div#USA a');
+    this.click('.maps.sidebar ul div#USA a');
     this.click('ul#places-list div#Haiku-Stairs a');
   });
 
@@ -102,7 +102,7 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
 
   casper.then(function() {
     this.click('li#my-maps-nav a');
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
     test.assertElementCount('ul#places-list li', 3);
     test.assertSelectorHasText('ul#places-list #Haiku-Stairs a', 'Haiku Stairs');
   });
@@ -141,7 +141,7 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
     this.click('li#my-maps-nav a');
-    this.click('ul#maps-list div#USA a');
+    this.click('.maps.sidebar ul div#USA a');
     this.click('ul#places-list div#Haiku-Stairs a');
   });
 
@@ -162,7 +162,7 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
 
   casper.then(function() {
     this.click('li#my-maps-nav a');
-    this.click('ul#maps-list div#Chicago a');
+    this.click('.maps.sidebar ul div#Chicago a');
     test.assertElementCount('ul#places-list li', 2);
     test.assertSelectorDoesntHaveText('ul#places-list #Haiku-Stairs a', 'Haiku Stairs');
 
