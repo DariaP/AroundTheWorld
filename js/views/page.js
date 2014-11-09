@@ -11,7 +11,7 @@ var PageView = Backbone.View.extend({
 
   events: {
     "click #my-maps-nav": "showMapsSidebar",
-    "submit #new-place-form": "newPlace",
+    "submit #new-place-tab form": "newPlace",
     "submit .search-form": "search"
   },
 
@@ -100,10 +100,10 @@ var PageView = Backbone.View.extend({
     e.preventDefault();
 
     this.currentMap.places.create({
-      name: this.$('#new-place-name').val(),
-      location: Place.parseLocation(this.$('#new-place-location').val()),
-      notes: this.$('#new-place-notes').val(),
-      pics: Place.parsePics(this.$('#new-place-pics').val()),
+      name: this.$('#new-place-tab input[name="name"]').val(),
+      location: Place.parseLocation(this.$('#new-place-tab input[name="location"]').val()),
+      notes: this.$('#new-place-tab input[name="notes"]').val(),
+      pics: Place.parsePics(this.$('#new-place-tab input[name="pics"]').val()),
       parentMaps: [this.currentMap.attributes._id]
     });
   },
@@ -115,8 +115,8 @@ var PageView = Backbone.View.extend({
 
   setNewPlaceFields: function(place) {
     // sep view?
-    this.$('#new-place-name').val(place.name);
-    this.$('#new-place-location').val(place.location.lat + ", " + place.location.lng);
+    this.$('#new-place-tab input[name="name"]').val(place.name);
+    this.$('#new-place-tab input[name="location"]').val(place.location.lat + ", " + place.location.lng);
   },
 
   openNewPlaceTab: function() {

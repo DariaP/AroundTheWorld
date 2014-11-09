@@ -6,9 +6,9 @@ casper.on('remote.message', function(message) {
 casper.test.begin("View place details", 5, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
-    this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul div#Chicago a');
-    this.click('.maps.sidebar ul div#Skydeck a');
+    this.click('#my-maps-nav a');
+    this.click('.maps.sidebar #Chicago a');
+    this.click('.maps.sidebar #Skydeck a');
   });
 
   casper.then(function() {
@@ -28,9 +28,9 @@ casper.test.begin("View place details", 5, function(test) {
 casper.test.begin("View another place details", 6, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
-    this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul div#USA a');
-    this.click('.maps.sidebar ul div#Haiku-Stairs a');
+    this.click('#my-maps-nav a');
+    this.click('.maps.sidebar #USA a');
+    this.click('.maps.sidebar #Haiku-Stairs a');
   });
 
   casper.then(function() {
@@ -51,22 +51,22 @@ casper.test.begin("View another place details", 6, function(test) {
 casper.test.begin("Edit place details", 5, function(test) {
 
   casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
-    this.click('li#my-maps-nav a');
-    this.click('.maps.sidebar ul div#USA a');
-    this.click('.maps.sidebar ul div#Haiku-Stairs a');
+    this.click('#my-maps-nav a');
+    this.click('.maps.sidebar #USA a');
+    this.click('.maps.sidebar #Haiku-Stairs a');
     this.click('.place-details .edit');
   });
 
   casper.then(function() {
     casper.fill(
-      '#edit-place-form',
+      '.place-details form',
       {
         'name': 'Haiku-Stairs',
         'location': '1, 1',
         'notes': 'Very steep trail!!',
         'pics': 'https://c2.staticflickr.com/6/5281/5298818285_985bcf0b40_z.jpg'
       });
-    this.click('#edit-place-form .save');
+    this.click('.place-details form .save');
   });
 
   casper.then(function() {

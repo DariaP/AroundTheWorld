@@ -1,9 +1,9 @@
 var SearchResultMenu = Backbone.View.extend({
 
-  id: 'search-res-menu',
+  className: 'search-res-menu',
 
   events: {
-    "click #add-place-button"   : "addPlace",
+    "click .add-place"   : "addPlace",
   },
 
   initialize: function() {
@@ -16,6 +16,7 @@ var SearchResultMenu = Backbone.View.extend({
   },
 
   addPlace: function(e) {
+    e.preventDefault();
     this.model.trigger('addPlaceClick');
   }
 });

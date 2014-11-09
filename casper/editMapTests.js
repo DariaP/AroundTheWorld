@@ -24,7 +24,10 @@ casper.test.begin("Edit existing map", 11, function(test) {
 
   casper.then(function() {
     test.assertExists('.maps.sidebar #Chicago form');
-    test.assertField('name', 'Chicago');
+    test.assertField({
+      type: 'css', 
+      path: '.maps.sidebar #Chicago form [name="name"]'
+    }, 'Chicago');
   });
 
   casper.then(function() {
@@ -102,7 +105,10 @@ casper.test.begin("My maps sidebar - edit new map", 6, function(test) {
 
   casper.then(function() {
     test.assertExists('.maps.sidebar #NewMap1 form');
-    test.assertField('name', 'NewMap1');
+    test.assertField({
+      type: 'css', 
+      path: '.maps.sidebar #NewMap1 form [name="name"]'
+    }, 'NewMap1');
   });
 
   casper.then(function() {

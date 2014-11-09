@@ -81,18 +81,18 @@
 
         <div class="container">
 
-          <form id="new-place-form">
+          <form>
             <div class="form-group">
-              <input type="text" class="form-control" id="new-place-name" placeholder="Name">
+              <input type="text" class="form-control" name='name' placeholder="Name">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="new-place-location" placeholder="Location">
+              <input type="text" class="form-control" name="location" placeholder="Location">
             </div>
             <div class="form-group">
-              <textarea class="form-control" cols="40" rows="5" id="new-place-notes" placeholder="Notes"></textarea>
+              <textarea class="form-control" cols="40" rows="5" name="notes" placeholder="Notes"></textarea>
             </div>
             <div class="form-group">
-              <textarea class="form-control" cols="40" rows="5" id="new-place-pics" placeholder="Pics"></textarea>
+              <textarea class="form-control" cols="40" rows="5" name="pics" placeholder="Pics"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Add</button>
           </form>
@@ -204,8 +204,8 @@
   <script type="text/template" id="place-template">
     <li>
       <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
-        <a href='#' class='bootstrap-style-link' id='link'><%- name %></a>
-        <button type="button" class="btn btn-default btn-xs delete btn-right remove" id='remove'>
+        <a href='#' class='bootstrap-style-link'><%- name %></a>
+        <button type="button" class="btn btn-default btn-xs delete btn-right remove">
           <span class="glyphicon glyphicon-minus"></span>
         </button>
         <button type="button" class="btn btn-default btn-xs delete btn-right lookup">
@@ -268,7 +268,7 @@
 
 
   <script type="text/template" id="place-edit-template">
-    <form id="edit-place-form">
+    <form>
       <div class="form-group">
         <input type="text" name='name' class="form-control" value='<%- name %>'>
       </div>
@@ -288,7 +288,7 @@
       </p>
 
       <div class="dropdown add-to-map">
-        <button class="btn btn-default dropdown-toggle add-map" type="button" id="add-to-map" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle add-map" type="button" data-toggle="dropdown">
           Add to map
           <span class="caret"></span>
         </button>
@@ -327,7 +327,7 @@
     <li>
       <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
         <%- name %>
-        <button type="button" class="btn btn-default btn-xs delete btn-right remove" id='remove'>
+        <button type="button" class="btn btn-default btn-xs delete btn-right remove">
           <span class="glyphicon glyphicon-minus"></span>
         </button>
       </div>
@@ -336,13 +336,14 @@
 
   <script type="text/template" id="search-result-menu">
     <h5 align='center'><%- name %></h5>
-    <div width='100%'>
+    <div class='one-line'>
       <a target='_blank' class='bootstrap-style-link' href='https://www.google.com/maps/place/<%- name %>'>View on gmaps</a>
     </div>
-    <button type='button' class='btn btn-default link-style-button' id='add-place-button'>
+    <a href='#' class='bootstrap-style-link add-place'>
       <span class='glyphicon glyphicon-plus'></span>
       Add place
-    </button>
+    </a>
+    <a href='#' class='bootstrap-style-link'></a>
   </script>
 </body>
 

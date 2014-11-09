@@ -13,7 +13,7 @@ casper.test.begin("Add place on map", 15, function(test) {
   });
 
   casper.then(function() {
-    this.click('#edit-place-form .add-map');
+    this.click('.place-details form .add-map');
   });
 
   casper.then(function() {
@@ -34,11 +34,11 @@ casper.test.begin("Add place on map", 15, function(test) {
   });
 
   casper.then(function() {
-    this.click('li#my-maps-nav a');
+    this.click('#my-maps-nav a');
     this.click('.maps.sidebar #Chicago a');
     test.assertElementCount('.maps.sidebar li', 2);
 
-    this.click('#edit-place-form .add-map');
+    this.click('.place-details form .add-map');
   });
 
   casper.then(function() {
@@ -48,7 +48,7 @@ casper.test.begin("Add place on map", 15, function(test) {
 
 
   casper.then(function() {
-    this.click('#edit-place-form .save');
+    this.click('.place-details form .save');
   });
 
   casper.then(function() {
@@ -92,7 +92,7 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
     test.assertSelectorHasText('.parent-maps #USA', 'USA');
     test.assertSelectorHasText('.parent-maps #Mountain-trails', 'Mountain trails');
 
-    this.click('#edit-place-form .add-map');
+    this.click('.place-details form .add-map');
   });
 
   casper.then(function() {
@@ -120,7 +120,7 @@ casper.test.begin("Reload and delete place from map", 20, function(test) {
   });
 
   casper.then(function() {
-    this.click('#edit-place-form .save');
+    this.click('.place-details form .save');
   });
 
   casper.then(function() {
@@ -166,7 +166,7 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
     test.assertElementCount('.maps.sidebar li', 2);
     test.assertSelectorDoesntHaveText('.maps.sidebar #Haiku-Stairs a', 'Haiku Stairs');
 
-    this.click('#edit-place-form .add-map');
+    this.click('.place-details form .add-map');
   });
 
   casper.then(function() {
@@ -201,7 +201,7 @@ casper.test.begin("Reload, add place on map and delete from map", 24, function(t
   });
 
   casper.then(function() {
-    this.click('#edit-place-form .save');
+    this.click('.place-details form .save');
   });
 
   casper.then(function() {

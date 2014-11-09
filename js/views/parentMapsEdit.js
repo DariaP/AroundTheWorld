@@ -1,7 +1,7 @@
 
 var MapView = Backbone.View.extend({
   events: {
-    "click #remove" : "removeFromMap"
+    "click .remove" : "removeFromMap"
   },
 
   initialize: function(options) {

@@ -6,7 +6,7 @@ var MapsDropdownView = require('./mapsDropdown.js'),
 var PlaceEditView = Backbone.View.extend({
 
   events: {
-    "submit #edit-place-form": "save"
+    "submit form": "save"
   },
 
   initialize: function(options) {

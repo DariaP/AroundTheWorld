@@ -578,7 +578,7 @@ module.exports = GMapView;
 },{"../models/place.js":6,"./placeMarker.js":21}],11:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
-    "click #remove" : "removeFromMap",
+    "click .remove" : "removeFromMap",
     "click .lookup" : "lookup",
     "click a" : "showDetails"
   },
@@ -987,7 +987,7 @@ var PageView = Backbone.View.extend({
 
   events: {
     "click #my-maps-nav": "showMapsSidebar",
-    "submit #new-place-form": "newPlace",
+    "submit #new-place-tab form": "newPlace",
     "submit .search-form": "search"
   },
 
@@ -1076,10 +1076,10 @@ var PageView = Backbone.View.extend({
     e.preventDefault();
 
     this.currentMap.places.create({
-      name: this.$('#new-place-name').val(),
-      location: Place.parseLocation(this.$('#new-place-location').val()),
-      notes: this.$('#new-place-notes').val(),
-      pics: Place.parsePics(this.$('#new-place-pics').val()),
+      name: this.$('#new-place-tab input[name="name"]').val(),
+      location: Place.parseLocation(this.$('#new-place-tab input[name="location"]').val()),
+      notes: this.$('#new-place-tab input[name="notes"]').val(),
+      pics: Place.parsePics(this.$('#new-place-tab input[name="pics"]').val()),
       parentMaps: [this.currentMap.attributes._id]
     });
   },
@@ -1091,8 +1091,8 @@ var PageView = Backbone.View.extend({
 
   setNewPlaceFields: function(place) {
     // sep view?
-    this.$('#new-place-name').val(place.name);
-    this.$('#new-place-location').val(place.location.lat + ", " + place.location.lng);
+    this.$('#new-place-tab input[name="name"]').val(place.name);
+    this.$('#new-place-tab input[name="location"]').val(place.location.lat + ", " + place.location.lng);
   },
 
   openNewPlaceTab: function() {
@@ -1127,7 +1127,7 @@ module.exports = ParentMapsView;
 
 var MapView = Backbone.View.extend({
   events: {
-    "click #remove" : "removeFromMap"
+    "click .remove" : "removeFromMap"
   },
 
   initialize: function(options) {
@@ -1276,7 +1276,7 @@ var MapsDropdownView = require('./mapsDropdown.js'),
 var PlaceEditView = Backbone.View.extend({
 
   events: {
-    "submit #edit-place-form": "save"
+    "submit form": "save"
   },
 
   initialize: function(options) {
@@ -1519,10 +1519,10 @@ module.exports = PlaceSidebarView;
 },{"./placeDetails.js":19,"./placeEdit.js":20}],23:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
-  id: 'search-res-menu',
+  className: 'search-res-menu',
 
   events: {
-    "click #add-place-button"   : "addPlace",
+    "click .add-place"   : "addPlace",
   },
 
   initialize: function() {
@@ -1535,6 +1535,7 @@ var SearchResultMenu = Backbone.View.extend({
   },
 
   addPlace: function(e) {
+    e.preventDefault();
     this.model.trigger('addPlaceClick');
   }
 });

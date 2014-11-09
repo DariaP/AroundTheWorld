@@ -18,16 +18,6 @@ body {
   width: 100%
 }
 
-button.link-style-button {
-  padding-top: 7px;
-  background-color: Transparent;
-  background-repeat:no-repeat;
-  border: none;
-  cursor:pointer;
-  overflow: hidden;
-  outline:none;
-}
-
 .sidebar {
   padding-left: 10px;
   padding-right: 5px;
@@ -150,6 +140,10 @@ div#new-place-tab {
 
 /* --- Search res menu ------------------- */
 
-div#search-res-menu {
-  padding-bottom: 10px;
+.search-res-menu h5 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.one-line {
+  width: 100%;
 }

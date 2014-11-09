@@ -1,6 +1,6 @@
 var PlaceView = Backbone.View.extend({
   events: {
-    "click #remove" : "removeFromMap",
+    "click .remove" : "removeFromMap",
     "click .lookup" : "lookup",
     "click a" : "showDetails"
   },
