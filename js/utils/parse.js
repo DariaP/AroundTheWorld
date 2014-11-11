@@ -1,6 +1,9 @@
 
 var parsePics = function(picsStr) {
-  return picsStr.split(/[, \n]+/);
+  if (picsStr.length == 0)
+  	return [];
+  else
+    return picsStr.split(/[, \n]+/);
 }
 
 var parseLocation = function(locationStr) {

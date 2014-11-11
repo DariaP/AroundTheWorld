@@ -123,11 +123,11 @@ var ParentMaps = Backbone.Collection.extend({
 
   fetch: function(options) {
     if (this.url) {
-    return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
-      if (res.responseJSON && res.responseJSON.err) {
-        alert("Can't get parent maps, please try later");
-      }
-    });
+      return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
+        if (res.responseJSON && res.responseJSON.err) {
+          alert("Can't get parent maps, please try later");
+        }
+      });
     }
   }
 });
@@ -412,7 +412,10 @@ module.exports = Places;
 },{"./place.js":6}],8:[function(require,module,exports){
 
 var parsePics = function(picsStr) {
-  return picsStr.split(/[, \n]+/);
+  if (picsStr.length == 0)
+  	return [];
+  else
+    return picsStr.split(/[, \n]+/);
 }
 
 var parseLocation = function(locationStr) {
