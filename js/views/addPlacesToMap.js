@@ -69,7 +69,6 @@ var AddPlacesToMapView = Backbone.View.extend({
     for(id in this.newPlaces) {
       if (this.newPlaces[id]) {
         this.newPlaces[id].addToMap(this.model.attributes._id);
-        this.model.places.add(this.newPlaces[id]);
       }
     }
     this.trigger('done');

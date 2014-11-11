@@ -18,9 +18,10 @@ var Place = Backbone.Model.extend({
   },
 
   sync: function(method, model, options) {
+    var that = this;
     return Backbone.sync(method, model, options).then(
       null, function(res) { if (res.responseJSON && res.responseJSON.err) {
-        alert("Unable to add place " + this.name);
+        alert("Unable to save place " + that.attributes.name);
       }
     });
   },

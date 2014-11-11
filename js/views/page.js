@@ -94,7 +94,6 @@ var PageView = Backbone.View.extend({
 
   showMapsSidebar: function() {
     this.mapsSidebar.show();
-    console.log(this.places);
   },
 
 // separate view?

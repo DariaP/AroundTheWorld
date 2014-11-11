@@ -45,14 +45,17 @@ var PlacesOnMap = Backbone.Collection.extend({
     if (!this.fetched) {
       this.fetched = true;
       for (var i = 0 ; i < this.places.models.length ; ++i) {
-        var place = this.places.models[i];
-
-        if ( place.isOnMap(this.mapid)) {
-          this.addPlace(place);        
-        } else {
-          this.listenToAdd(place);
-        }
+        this.checkPlace(this.places.models[i]);
       }
+      this.listenTo(this.places, 'add', this.checkPlace);
+    }
+  },
+
+  checkPlace: function(place) {
+    if ( place.isOnMap(this.mapid)) {
+      this.addPlace(place);        
+    } else {
+      this.listenToAdd(place);
     }
   },
 
@@ -98,11 +101,18 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     for (var i = 0 ; i < this.places.models.length ; ++i) {
       var place = this.places.models[i];
 
-      if ( place.isOnMap(this.mapid)) {
-        this.listenToAdd(place);     
-      } else {
-        this.addPlace(place);
+      for (var i = 0 ; i < this.places.models.length ; ++i) {
+        this.checkPlace(this.places.models[i]);
       }
+      this.listenTo(this.places, 'add', this.checkPlace);
+    }
+  },
+
+  checkPlace: function(place) {
+    if ( place.isOnMap(this.mapid)) {
+      this.listenToAdd(place);     
+    } else {
+      this.addPlace(place);
     }
   },
 

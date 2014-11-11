@@ -156,9 +156,10 @@ var Place = Backbone.Model.extend({
   },
 
   sync: function(method, model, options) {
+    var that = this;
     return Backbone.sync(method, model, options).then(
       null, function(res) { if (res.responseJSON && res.responseJSON.err) {
-        alert("Unable to add place " + this.name);
+        alert("Unable to save place " + that.attributes.name);
       }
     });
   },
@@ -242,14 +243,17 @@ var PlacesOnMap = Backbone.Collection.extend({
     if (!this.fetched) {
       this.fetched = true;
       for (var i = 0 ; i < this.places.models.length ; ++i) {
-        var place = this.places.models[i];
-
-        if ( place.isOnMap(this.mapid)) {
-          this.addPlace(place);        
-        } else {
-          this.listenToAdd(place);
-        }
+        this.checkPlace(this.places.models[i]);
       }
+      this.listenTo(this.places, 'add', this.checkPlace);
+    }
+  },
+
+  checkPlace: function(place) {
+    if ( place.isOnMap(this.mapid)) {
+      this.addPlace(place);        
+    } else {
+      this.listenToAdd(place);
     }
   },
 
@@ -295,11 +299,18 @@ var PlacesNotOnMap = Backbone.Collection.extend({
     for (var i = 0 ; i < this.places.models.length ; ++i) {
       var place = this.places.models[i];
 
-      if ( place.isOnMap(this.mapid)) {
-        this.listenToAdd(place);     
-      } else {
-        this.addPlace(place);
+      for (var i = 0 ; i < this.places.models.length ; ++i) {
+        this.checkPlace(this.places.models[i]);
       }
+      this.listenTo(this.places, 'add', this.checkPlace);
+    }
+  },
+
+  checkPlace: function(place) {
+    if ( place.isOnMap(this.mapid)) {
+      this.listenToAdd(place);     
+    } else {
+      this.addPlace(place);
     }
   },
 
@@ -484,7 +495,6 @@ var AddPlacesToMapView = Backbone.View.extend({
     for(id in this.newPlaces) {
       if (this.newPlaces[id]) {
         this.newPlaces[id].addToMap(this.model.attributes._id);
-        this.model.places.add(this.newPlaces[id]);
       }
     }
     this.trigger('done');
@@ -1070,7 +1080,6 @@ var PageView = Backbone.View.extend({
 
   showMapsSidebar: function() {
     this.mapsSidebar.show();
-    console.log(this.places);
   },
 
 // separate view?
