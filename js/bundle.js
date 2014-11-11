@@ -979,7 +979,8 @@ var PlaceSidebarView = require('./placeSidebar.js'),
     GMapView = require('./gmap.js'),
     PlaceMarkerView = require('./placeMarker.js'),
     Maps = require('../models/maps.js'),
-    Places = require('../models/places.js');
+    Places = require('../models/places.js'),
+    Parse = require('../utils/parse.js');
 
 var PageView = Backbone.View.extend({
 
@@ -1069,18 +1070,19 @@ var PageView = Backbone.View.extend({
 
   showMapsSidebar: function() {
     this.mapsSidebar.show();
+    console.log(this.places);
   },
 
 // separate view?
   newPlace: function(e) {
     e.preventDefault();
 
-    this.currentMap.places.create({
+    this.places.create({
       name: this.$('#new-place-tab input[name="name"]').val(),
-      location: Place.parseLocation(this.$('#new-place-tab input[name="location"]').val()),
-      notes: this.$('#new-place-tab input[name="notes"]').val(),
-      pics: Place.parsePics(this.$('#new-place-tab input[name="pics"]').val()),
-      parentMaps: [this.currentMap.attributes._id]
+      location: Parse.location(this.$('#new-place-tab input[name="location"]').val()),
+      notes: this.$('#new-place-tab textarea[name="notes"]').val(),
+      pics: Parse.pics(this.$('#new-place-tab textarea[name="pics"]').val()),
+      parentMaps: []
     });
   },
 
@@ -1105,7 +1107,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"../models/maps.js":3,"../models/places.js":7,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":22}],16:[function(require,module,exports){
+},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":22}],16:[function(require,module,exports){
 var ParentMapsView = Backbone.View.extend({
 
   initialize: function(options) {
