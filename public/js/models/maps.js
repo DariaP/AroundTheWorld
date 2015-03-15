@@ -2,7 +2,7 @@ var Map = require('./map.js');
 
 var Maps = Backbone.Collection.extend({
   model: Map,
-  url: 'http://localhost:8089/maps',
+  url: 'http://localhost:8000/maps',
 
   initialize: function(options) {
     this.fetched = false;

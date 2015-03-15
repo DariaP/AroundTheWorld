@@ -5,7 +5,7 @@ var PlacesList = Backbone.Collection.extend({
 
   initialize: function(options) {
     this.fetched = false;
-    this.url = 'http://localhost:8089/places?map=' + options.mapId;
+    this.url = 'http://localhost:8000/places?map=' + options.mapId;
   },
 
   fetch: function(options) {
@@ -36,7 +36,7 @@ var Map = Backbone.Model.extend({
   },
 
   setUrl: function() {
-    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+    this.url = 'http://localhost:8000/map?id=' + this.attributes._id;
   },
 
   sync: function(method, model, options) {

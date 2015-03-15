@@ -168,7 +168,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
 
 var Places = Backbone.Collection.extend({
   model: Place,
-  url: 'http://localhost:8089/places',
+  url: 'http://localhost:8000/places',
 
   getMap: function(mapid) {
     return new PlacesOnMap({

@@ -5,7 +5,7 @@ var ParentMaps = Backbone.Collection.extend({
 
   initialize: function(options) {
     if(options.ids.length != 0) {
-      this.url = 'http://localhost:8089/maps?' + 
+      this.url = 'http://localhost:8000/maps?' + 
         options.ids.map(function(id) {
           return 'ids=' + id;
         }).join('&');
