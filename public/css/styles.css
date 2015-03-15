@@ -100,6 +100,26 @@ div#map-tab {
   height: 100%;
 }
 
+.property-name {
+width: 75px;
+vertical-align: text-top;
+text-align: right;
+padding-right: 10px;
+color: #DED9D9;
+}
+
+.property-value {
+
+}
+
+.place-name {
+line-height: 3;
+font-size: 18px;}
+
+.place-details .edit {
+margin-top: 7px;
+}
+
 .place-details .pics-container {
   height: 100%;
 }
@@ -119,6 +139,18 @@ div#map-tab {
 ul.add-to-map {
   margin-top : 5px;
   margin-bottom : 5px;
+}
+
+ul.properties {
+  padding-right: 30px;
+}
+
+li.property {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #DED9D9;
 }
 
 /* --- Maps ---------------------------- */

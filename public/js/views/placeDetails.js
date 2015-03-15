@@ -1,7 +1,7 @@
 var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
     ParentMaps = require('../models/parentMaps.js'),
-    ParentMapsView = require('./parentMaps.js');
+    ParentMapsEditView = require('./parentMapsEdit.js');
 
 var PlaceDetailsView = Backbone.View.extend({
 
@@ -32,14 +32,14 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   showParentMaps: function() {
-    
+
     var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
 
-    var parentMapsView = new ParentMapsView({
+    var parentMapsView = new ParentMapsEditView({
       maps: parentMaps
     });
 
-    this.$('.parent-maps').append(parentMapsView.render().el);
+    this.$('.parent-maps .property-value').html(parentMapsView.render().el);
 
     parentMaps.fetch();
   },

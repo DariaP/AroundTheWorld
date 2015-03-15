@@ -205,10 +205,10 @@
     <li>
       <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
         <a href='#' class='bootstrap-style-link'><%- name %></a>
-        <button type="button" class="btn btn-default btn-xs delete btn-right remove">
+        <button type="button" class="btn btn-default btn-xs btn-right remove">
           <span class="glyphicon glyphicon-minus"></span>
         </button>
-        <button type="button" class="btn btn-default btn-xs delete btn-right lookup">
+        <button type="button" class="btn btn-default btn-xs btn-right lookup">
           <span class="glyphicon glyphicon-search"></span>
         </button>
       </div>
@@ -236,33 +236,54 @@
 
 
   <script type="text/template" id="place-details-template">
-    <ul>
-      <li class="place-name">
-        <h4>
-          <%- name %> 
-          <button type="button" class="btn btn-default edit">edit</button>
-        </h4>
+    <ul class="properties">
+      <li class="place-name property">
+        <%- name %> 
+        <button type="button" class="btn btn-default btn-right edit">edit</button>
       </li>
 
-      <li class="location">
-        <%- location.lat %>, <%- location.lng %>
+      <li class="location property">
+<table><tr>
+<td class="property-name">
+    Location:
+    </td>
+    <td class="property-value">
+  <%- location.lat %>, <%- location.lng %>
+  </td>
+  </tr></table>
+        
       </li>
 
-      <li class="parent-maps">
-        <b>on maps: </b>
+      <li class="notes property">
+<table><tr>
+<td class="property-name">
+    Notes:
+    </td>
+    <td class="property-value">
+    <%- notes %>
+  </td>
+  </tr></table>
+        
       </li>
 
-      <li class="notes">
-        <%- notes %>
-      </li>
-
-      <li>
+      <li class="property">
         <div class="pics-container">
           <div class="scrollable">
             <div class="pic-links"><%= picsHtml %></div>
           </div><!-- /scrollable -->
         </div><!-- /pics-container -->
       </li>
+
+      <li class="parent-maps property">
+<table><tr>
+<td class="property-name">
+    On maps:
+    </td>
+    <td class="property-value">
+  </td>
+  </tr></table>
+      </li>
+
     </ul>
   </script>
 

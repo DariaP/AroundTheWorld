@@ -11,7 +11,7 @@ var PlacesList = Backbone.Collection.extend({
 
   initialize: function(options) {
     this.fetched = false;
-    this.url = 'http://localhost:8089/places?map=' + options.mapId;
+    this.url = 'http://localhost:8000/places?map=' + options.mapId;
   },
 
   fetch: function(options) {
@@ -42,7 +42,7 @@ var Map = Backbone.Model.extend({
   },
 
   setUrl: function() {
-    this.url = 'http://localhost:8089/map?id=' + this.attributes._id;
+    this.url = 'http://localhost:8000/map?id=' + this.attributes._id;
   },
 
   sync: function(method, model, options) {
@@ -64,7 +64,7 @@ var Map = require('./map.js');
 
 var Maps = Backbone.Collection.extend({
   model: Map,
-  url: 'http://localhost:8089/maps',
+  url: 'http://localhost:8000/maps',
 
   initialize: function(options) {
     this.fetched = false;
@@ -114,7 +114,7 @@ var ParentMaps = Backbone.Collection.extend({
 
   initialize: function(options) {
     if(options.ids.length != 0) {
-      this.url = 'http://localhost:8089/maps?' + 
+      this.url = 'http://localhost:8000/maps?' + 
         options.ids.map(function(id) {
           return 'ids=' + id;
         }).join('&');
@@ -370,7 +370,7 @@ var PlacesNotOnMap = Backbone.Collection.extend({
 
 var Places = Backbone.Collection.extend({
   model: Place,
-  url: 'http://localhost:8089/places',
+  url: 'http://localhost:8000/places',
 
   getMap: function(mapid) {
     return new PlacesOnMap({
@@ -592,7 +592,7 @@ var GMapView = Backbone.View.extend({
 });
 
 module.exports = GMapView;
-},{"../models/place.js":6,"./placeMarker.js":21}],11:[function(require,module,exports){
+},{"../models/place.js":6,"./placeMarker.js":20}],11:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
     "click .remove" : "removeFromMap",
@@ -1123,25 +1123,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":22}],16:[function(require,module,exports){
-var ParentMapsView = Backbone.View.extend({
-
-  initialize: function(options) {
-    this.maps = options.maps;
-    this.listenTo(this.maps, 'add', this.addMap);
-  },
-
-  render: function() {
-  	return this;
-  },
-
-  addMap: function(map) {
-    this.$el.append(" " + map.attributes.name);
-  },
-});
-
-module.exports = ParentMapsView;
-},{}],17:[function(require,module,exports){
+},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":20,"./placeSidebar.js":21}],16:[function(require,module,exports){
 
 var MapView = Backbone.View.extend({
   events: {
@@ -1204,7 +1186,7 @@ var ParentMapsEditView = Backbone.View.extend({
 });
 
 module.exports = ParentMapsEditView;
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var Pic = require('../models/pic.js');
 
 var PicView = Backbone.View.extend({
@@ -1220,11 +1202,11 @@ var PicView = Backbone.View.extend({
 });
 
 module.exports = PicView;
-},{"../models/pic.js":5}],19:[function(require,module,exports){
+},{"../models/pic.js":5}],18:[function(require,module,exports){
 var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
     ParentMaps = require('../models/parentMaps.js'),
-    ParentMapsView = require('./parentMaps.js');
+    ParentMapsEditView = require('./parentMapsEdit.js');
 
 var PlaceDetailsView = Backbone.View.extend({
 
@@ -1255,14 +1237,14 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   showParentMaps: function() {
-    
+
     var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
 
-    var parentMapsView = new ParentMapsView({
+    var parentMapsView = new ParentMapsEditView({
       maps: parentMaps
     });
 
-    this.$('.parent-maps').append(parentMapsView.render().el);
+    this.$('.parent-maps .property-value').html(parentMapsView.render().el);
 
     parentMaps.fetch();
   },
@@ -1285,7 +1267,7 @@ var PlaceDetailsView = Backbone.View.extend({
 });
 
 module.exports = PlaceDetailsView;
-},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMaps.js":16,"./pic.js":18}],20:[function(require,module,exports){
+},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMapsEdit.js":16,"./pic.js":17}],19:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdown.js'),
     ParentMaps = require('../models/parentMaps.js'),
     ParentMapsEditView = require('./parentMapsEdit.js'),
@@ -1399,7 +1381,7 @@ var PlaceEditView = Backbone.View.extend({
 });
 
 module.exports = PlaceEditView;
-},{"../models/parentMaps.js":4,"../utils/parse.js":8,"./mapsDropdown.js":12,"./parentMapsEdit.js":17}],21:[function(require,module,exports){
+},{"../models/parentMaps.js":4,"../utils/parse.js":8,"./mapsDropdown.js":12,"./parentMapsEdit.js":16}],20:[function(require,module,exports){
 var SearchResultMenu = require('./searchResultMenu.js');
 
 // TODO: What will happen with this view after model is destroyed?
@@ -1477,7 +1459,7 @@ var PlaceMarkerView = Backbone.View.extend({
 });
 
 module.exports = PlaceMarkerView;
-},{"./searchResultMenu.js":23}],22:[function(require,module,exports){
+},{"./searchResultMenu.js":22}],21:[function(require,module,exports){
 var PlaceDetailsView = require('./placeDetails.js'),
     PlaceEditView = require('./placeEdit.js');
 
@@ -1534,7 +1516,7 @@ var PlaceSidebarView = Backbone.View.extend({
 });
 
 module.exports = PlaceSidebarView;
-},{"./placeDetails.js":19,"./placeEdit.js":20}],23:[function(require,module,exports){
+},{"./placeDetails.js":18,"./placeEdit.js":19}],22:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
   className: 'search-res-menu',
