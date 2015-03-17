@@ -121,10 +121,14 @@ margin-top: 7px;
 }
 
 .place-details .pics-container {
-  height: 100%;
+  height: 130px;
+  position: relative;
 }
 
 .visible-pics {
+  margin: 10px;
+  float: left;
+    width: 250px;
     overflow: hidden;
     position: relative;
 }
@@ -144,6 +148,7 @@ margin-top: 7px;
 }
 
 .pics-control {
+  float: left;
   font-size: 40px;
   color: black;
 }
