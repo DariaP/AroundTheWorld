@@ -174,6 +174,10 @@ li.property {
   border-bottom-color: #DED9D9;
 }
 
+.modal-header {
+  border-bottom: 0;
+}
+
 /* --- Maps ---------------------------- */
 
 div.maps {
