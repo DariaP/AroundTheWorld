@@ -22,6 +22,7 @@
   <script src="js/lib/backbone-min.js"></script>
   <script src="js/lib/jquery.blueimp-gallery.min.js"></script>
   <script src="js/lib/bootstrap-image-gallery.min.js"></script>
+  <script src="js/lib/jquery.jcarousel.js"></script>
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 
@@ -267,10 +268,19 @@
       </li>
 
       <li class="property">
+
         <div class="pics-container">
-          <div class="scrollable">
-            <div class="pic-links"><%= picsHtml %></div>
-          </div><!-- /scrollable -->
+            
+            <a href="#" class="pics-prev pics-control">&lsaquo;</a>
+
+            <div class="visible-pics">
+              <div class = "all-pics">
+                <%= picsHtml %>
+              </div>
+            </div>
+            
+            <a href="#" class="pics-next pics-control">&rsaquo;</a>
+
         </div><!-- /pics-container -->
       </li>
 

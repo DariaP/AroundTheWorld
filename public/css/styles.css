@@ -124,12 +124,28 @@ margin-top: 7px;
   height: 100%;
 }
 
+.visible-pics {
+    overflow: hidden;
+    position: relative;
+}
+
+.all-pics {
+  width: 20000px;
+  height: 100px;
+  position: relative;
+}
+
 .pic-frame {
+  float: left;
   max-width: 100px;
   height: 100px;
   overflow: hidden;
-  float: left;
   margin: 5px;
+}
+
+.pics-control {
+  font-size: 40px;
+  color: black;
 }
 
 .pic-frame img {

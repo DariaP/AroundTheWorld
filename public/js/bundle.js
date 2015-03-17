@@ -1236,6 +1236,8 @@ var PlaceDetailsView = Backbone.View.extend({
 
     this.$el.html(this.template(templateData));
 
+    this.setupCarousel();
+
     this.showParentMaps();
 
     return this;
@@ -1264,6 +1266,34 @@ var PlaceDetailsView = Backbone.View.extend({
       html += picHtml;
     }
     return html;
+  },
+
+  setupCarousel: function() {
+    var carousel = this.$('.visible-pics').jcarousel();
+
+    this.$('.pics-prev')
+      .on('jcarouselcontrol:inactive', function() {
+        $(this).addClass('inactive');
+      })
+      .on('jcarouselcontrol:active', function() {
+        $(this).removeClass('inactive');
+      })
+      .jcarouselControl({
+        target: '-=1',
+        carousel: carousel
+      });
+
+    this.$('.pics-next')
+      .on('jcarouselcontrol:inactive', function() {
+        $(this).addClass('inactive');
+      })
+      .on('jcarouselcontrol:active', function() {
+        $(this).removeClass('inactive');
+      })
+      .jcarouselControl({
+        target: '+=1',
+        carousel: carousel
+      });
   },
 
   editPlace: function() {
