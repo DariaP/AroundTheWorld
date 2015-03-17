@@ -1005,6 +1005,7 @@ var PageView = Backbone.View.extend({
 
   events: {
     "click #my-maps-nav": "showMapsSidebar",
+    "click #map-tab-nav": "hideMapsSidebar",
     "submit #new-place-tab form": "newPlace",
     "submit .search-form": "search"
   },
@@ -1087,6 +1088,10 @@ var PageView = Backbone.View.extend({
 
   showMapsSidebar: function() {
     this.mapsSidebar.show();
+  },
+
+  hideMapsSidebar: function() {
+    this.mapsSidebar.hide();
   },
 
 // separate view?
