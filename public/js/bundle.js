@@ -1128,7 +1128,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":22}],16:[function(require,module,exports){
+},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":23}],16:[function(require,module,exports){
 
 var MapView = Backbone.View.extend({
   events: {
@@ -1212,7 +1212,8 @@ var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
     ParentMaps = require('../models/parentMaps.js'),
     ParentMapsEditView = require('./parentMapsEdit.js'),
-    PlaceLocationView = require('./placeLocation.js');
+    PlaceLocationView = require('./placeLocation.js'),
+    PlaceNotesView = require('./placeNotes.js');
 
 var PlaceDetailsView = Backbone.View.extend({
 
@@ -1233,9 +1234,11 @@ var PlaceDetailsView = Backbone.View.extend({
 
     this.$el.html(this.template(templateData));
 
-    this.setupCarousel();
-
     this.showLocation();
+
+    this.showNotes();
+
+    this.setupCarousel();
 
     this.showParentMaps();
 
@@ -1245,6 +1248,11 @@ var PlaceDetailsView = Backbone.View.extend({
   showLocation: function() {
     var location = new PlaceLocationView({model: this.model});
     this.$('.location').html(location.render().el);
+  },
+
+  showNotes: function() {
+    var notes = new PlaceNotesView({model: this.model});
+    this.$('.notes').html(notes.render().el);
   },
 
   showParentMaps: function() {
@@ -1302,7 +1310,7 @@ var PlaceDetailsView = Backbone.View.extend({
 });
 
 module.exports = PlaceDetailsView;
-},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMapsEdit.js":16,"./pic.js":17,"./placeLocation.js":20}],19:[function(require,module,exports){
+},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMapsEdit.js":16,"./pic.js":17,"./placeLocation.js":20,"./placeNotes.js":22}],19:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdown.js'),
     ParentMaps = require('../models/parentMaps.js'),
     ParentMapsEditView = require('./parentMapsEdit.js'),
@@ -1536,7 +1544,47 @@ var PlaceMarkerView = Backbone.View.extend({
 });
 
 module.exports = PlaceMarkerView;
-},{"./searchResultMenu.js":23}],22:[function(require,module,exports){
+},{"./searchResultMenu.js":24}],22:[function(require,module,exports){
+var PlaceNotesView = Backbone.View.extend({
+
+  events: {
+    "click table": "edit",
+    "focusout textarea": "save"
+  },
+
+  initialize: function() {
+    var that = this;
+
+    this.template = _.template($('#place-notes-template').html());
+    this.editTemplate = _.template($('#edit-place-notes-template').html());
+
+    this.listenTo(this.model, 'change', this.render);
+  },
+
+  render: function() {
+
+    this.$el.html(this.template(this.model.toJSON()));
+
+    return this;
+  },
+
+  edit: function() {
+    this.$el.html(this.editTemplate(this.model.toJSON()));
+    this.$('textarea').focus();
+  },
+
+  save: function() {
+    this.model.set({
+      notes: this.$('textarea[name="notes"]').val()
+    });
+
+    this.render();
+  }
+
+});
+
+module.exports = PlaceNotesView;
+},{}],23:[function(require,module,exports){
 var PlaceDetailsView = require('./placeDetails.js'),
     PlaceEditView = require('./placeEdit.js');
 
@@ -1574,7 +1622,7 @@ var PlaceSidebarView = Backbone.View.extend({
 });
 
 module.exports = PlaceSidebarView;
-},{"./placeDetails.js":18,"./placeEdit.js":19}],23:[function(require,module,exports){
+},{"./placeDetails.js":18,"./placeEdit.js":19}],24:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
   className: 'search-res-menu',

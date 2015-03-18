@@ -237,23 +237,14 @@
 
   <script type="text/template" id="place-details-template">
     <ul class="properties">
+
       <li class="place-name property">
         <%- name %> 
       </li>
 
       <li class="location property"></li>
 
-      <li class="notes property">
-<table><tr>
-<td class="property-name">
-    Notes:
-    </td>
-    <td class="property-value">
-    <%- notes %>
-  </td>
-  </tr></table>
-        
-      </li>
+      <li class="notes property"></li>
 
       <li class="property">
 
@@ -305,6 +296,28 @@
       </div>
     </form>
   </script>
+
+  <script type="text/template" id="place-notes-template">
+    <table>
+      <tr>
+        <td class="property-name">
+          Notes:
+        </td>
+        <td class="property-value">
+          <%- notes %>
+        </td>
+      </tr>
+    </table>
+  </script>
+
+  <script type="text/template" id="edit-place-notes-template">
+    <form>
+      <div class="form-group">
+        <textarea name='notes' class="form-control" cols="40" rows="1" value='<%- notes %>'></textarea>
+      </div>
+    </form>
+  </script>
+
 
   <script type="text/template" id="place-edit-template">
     <form>
