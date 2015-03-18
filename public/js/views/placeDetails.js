@@ -1,7 +1,8 @@
 var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
     ParentMaps = require('../models/parentMaps.js'),
-    ParentMapsEditView = require('./parentMapsEdit.js');
+    ParentMapsEditView = require('./parentMapsEdit.js'),
+    PlaceLocationView = require('./placeLocation.js');
 
 var PlaceDetailsView = Backbone.View.extend({
 
@@ -28,9 +29,16 @@ var PlaceDetailsView = Backbone.View.extend({
 
     this.setupCarousel();
 
+    this.showLocation();
+
     this.showParentMaps();
 
     return this;
+  },
+
+  showLocation: function() {
+    var location = new PlaceLocationView({model: this.model});
+    this.$('.location').html(location.render().el);
   },
 
   showParentMaps: function() {

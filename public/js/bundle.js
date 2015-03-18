@@ -592,7 +592,7 @@ var GMapView = Backbone.View.extend({
 });
 
 module.exports = GMapView;
-},{"../models/place.js":6,"./placeMarker.js":20}],11:[function(require,module,exports){
+},{"../models/place.js":6,"./placeMarker.js":21}],11:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
     "click .remove" : "removeFromMap",
@@ -1128,7 +1128,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":20,"./placeSidebar.js":21}],16:[function(require,module,exports){
+},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":22}],16:[function(require,module,exports){
 
 var MapView = Backbone.View.extend({
   events: {
@@ -1211,7 +1211,8 @@ module.exports = PicView;
 var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
     ParentMaps = require('../models/parentMaps.js'),
-    ParentMapsEditView = require('./parentMapsEdit.js');
+    ParentMapsEditView = require('./parentMapsEdit.js'),
+    PlaceLocationView = require('./placeLocation.js');
 
 var PlaceDetailsView = Backbone.View.extend({
 
@@ -1238,9 +1239,16 @@ var PlaceDetailsView = Backbone.View.extend({
 
     this.setupCarousel();
 
+    this.showLocation();
+
     this.showParentMaps();
 
     return this;
+  },
+
+  showLocation: function() {
+    var location = new PlaceLocationView({model: this.model});
+    this.$('.location').html(location.render().el);
   },
 
   showParentMaps: function() {
@@ -1302,7 +1310,7 @@ var PlaceDetailsView = Backbone.View.extend({
 });
 
 module.exports = PlaceDetailsView;
-},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMapsEdit.js":16,"./pic.js":17}],19:[function(require,module,exports){
+},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMapsEdit.js":16,"./pic.js":17,"./placeLocation.js":20}],19:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdown.js'),
     ParentMaps = require('../models/parentMaps.js'),
     ParentMapsEditView = require('./parentMapsEdit.js'),
@@ -1417,6 +1425,48 @@ var PlaceEditView = Backbone.View.extend({
 
 module.exports = PlaceEditView;
 },{"../models/parentMaps.js":4,"../utils/parse.js":8,"./mapsDropdown.js":12,"./parentMapsEdit.js":16}],20:[function(require,module,exports){
+var Parse = require('../utils/parse.js');
+
+var PlaceLocationView = Backbone.View.extend({
+
+  events: {
+    "click table": "edit",
+    "focusout input": "save"
+  },
+
+  initialize: function() {
+    var that = this;
+
+    this.template = _.template($('#place-location-template').html());
+    this.editTemplate = _.template($('#edit-place-location-template').html());
+
+    this.listenTo(this.model, 'change', this.render);
+  },
+
+  render: function() {
+
+    this.$el.html(this.template(this.model.toJSON()));
+
+    return this;
+  },
+
+  edit: function() {
+    this.$el.html(this.editTemplate(this.model.toJSON()));
+    this.$('input').focus();
+  },
+
+  save: function() {
+    this.model.set({
+      location: Parse.location(this.$('input[name="location"]').val()),
+    });
+
+    this.render();
+  }
+
+});
+
+module.exports = PlaceLocationView;
+},{"../utils/parse.js":8}],21:[function(require,module,exports){
 var SearchResultMenu = require('./searchResultMenu.js');
 
 // TODO: What will happen with this view after model is destroyed?
@@ -1494,7 +1544,7 @@ var PlaceMarkerView = Backbone.View.extend({
 });
 
 module.exports = PlaceMarkerView;
-},{"./searchResultMenu.js":22}],21:[function(require,module,exports){
+},{"./searchResultMenu.js":23}],22:[function(require,module,exports){
 var PlaceDetailsView = require('./placeDetails.js'),
     PlaceEditView = require('./placeEdit.js');
 
@@ -1551,7 +1601,7 @@ var PlaceSidebarView = Backbone.View.extend({
 });
 
 module.exports = PlaceSidebarView;
-},{"./placeDetails.js":18,"./placeEdit.js":19}],22:[function(require,module,exports){
+},{"./placeDetails.js":18,"./placeEdit.js":19}],23:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
   className: 'search-res-menu',
