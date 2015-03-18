@@ -6,10 +6,6 @@ var PicView = require('./pic.js'),
 
 var PlaceDetailsView = Backbone.View.extend({
 
-  events: {
-    "click .edit": "editPlace"
-  },
-
   initialize: function() {
     var that = this;
 
@@ -92,10 +88,6 @@ var PlaceDetailsView = Backbone.View.extend({
         target: '+=1',
         carousel: carousel
       });
-  },
-
-  editPlace: function() {
-    this.trigger('editClick');
   }
 });
 
