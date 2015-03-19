@@ -71,7 +71,8 @@ var PlaceDetailsView = Backbone.View.extend({
     var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
 
     var parentMapsView = new ParentMapsEditView({
-      maps: parentMaps
+      maps: parentMaps,
+      model: this.model
     });
 
     this.$('.parent-maps .property-value').html(parentMapsView.render().el);

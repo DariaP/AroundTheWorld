@@ -31,6 +31,7 @@ var MapView = Backbone.View.extend({
 var ParentMapsEditView = Backbone.View.extend({
 
   tagName: 'ul',
+  className: 'parent-maps',
 
   initialize: function(options) {
     this.maps = options.maps;
@@ -52,7 +53,13 @@ var ParentMapsEditView = Backbone.View.extend({
     });
 
     view.on('removed', function() {
-      that.trigger('removedFrom', map);
+      that.model.set({
+        parentMaps: _.filter(
+          that.model.attributes.parentMaps,
+          function (mapid) {
+            return mapid != map.attributes._id;
+          })
+      });
     });
 
     this.$el.append(view.render().el);

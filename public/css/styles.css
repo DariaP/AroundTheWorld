@@ -50,7 +50,7 @@ ul {
 }
 
 li {
-  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 h4 {
@@ -198,6 +198,11 @@ li.property {
 .modal-header {
   border-bottom: 0;
 }
+
+ul .parent-maps {
+  padding-left: 0;
+}
+
 
 /* --- Maps ---------------------------- */
 
