@@ -112,9 +112,11 @@ color: #DED9D9;
 width: 220px;
 }
 
-.place-name {
-line-height: 3;
-font-size: 18px;}
+.place-name p{
+  line-height: 3;
+  font-size: 18px;
+  margin: 0;
+}
 
 .place-details .edit {
 margin-top: 7px;

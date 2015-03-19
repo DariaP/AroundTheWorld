@@ -1217,10 +1217,17 @@ var PicView = require('./pic.js'),
 
 var PlaceDetailsView = Backbone.View.extend({
 
+  events: {
+    "click .place-name.property p": "editName",
+    "focusout input.name-edit": "saveName"
+  },
+
   initialize: function() {
     var that = this;
 
     this.template = _.template($('#place-details-template').html());
+    this.editTemplate = _.template($('#edit-place-name-template').html());
+
 
     this.listenTo(this.model, 'change', this.render);
   },
@@ -1253,6 +1260,20 @@ var PlaceDetailsView = Backbone.View.extend({
   showNotes: function() {
     var notes = new PlaceNotesView({model: this.model});
     this.$('.notes').html(notes.render().el);
+  },
+
+  editName: function() {
+    console.log(this.editTemplate(this.model.toJSON()));
+    this.$('.place-name').html(this.editTemplate(this.model.toJSON()));
+    this.$('.place-name input').focus();
+  },
+
+  saveName: function() {
+    this.model.set({
+      name: this.$('input[name="name"]').val()
+    });
+
+    this.render();
   },
 
   showParentMaps: function() {

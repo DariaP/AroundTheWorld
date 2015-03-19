@@ -239,7 +239,7 @@
     <ul class="properties">
 
       <li class="place-name property">
-        <%- name %> 
+        <p><%- name %></p> 
       </li>
 
       <li class="location property"></li>
@@ -279,13 +279,14 @@
   <script type="text/template" id="place-location-template">
   <table>
     <tr>
-<td class="property-name">
-    Location:
-    </td>
-    <td class="property-value">
-  <%- location.lat %>, <%- location.lng %>
-  </td>
-  </tr></table>
+      <td class="property-name">
+        Location:
+      </td>
+      <td class="property-value">
+        <%- location.lat %>, <%- location.lng %>
+      </td>
+    </tr>
+  </table>
         
   </script>
 
@@ -318,6 +319,13 @@
     </form>
   </script>
 
+  <script type="text/template" id="edit-place-name-template">
+    <form>
+      <div class="form-group">
+        <input type="text" name='name' class="form-control name-edit" value='<%- name %>'>
+      </div>
+    </form>
+  </script>
 
   <script type="text/template" id="place-edit-template">
     <form>
