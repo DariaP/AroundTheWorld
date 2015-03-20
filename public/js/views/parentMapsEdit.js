@@ -1,6 +1,8 @@
 
 var MapView = Backbone.View.extend({
   events: {
+    "mouseover": "showRemoveButton",
+    "mouseout": "hideRemoveButton",
     "click .remove" : "removeFromMap"
   },
 
@@ -14,6 +16,14 @@ var MapView = Backbone.View.extend({
     this.setElement(this.template(this.model.toJSON()));
 
     return this;
+  },
+
+  showRemoveButton: function() {
+    this.$('.remove').show();
+  },
+
+  hideRemoveButton: function() {
+    this.$('.remove').hide();
   },
 
   removeFromMap: function(e) {
