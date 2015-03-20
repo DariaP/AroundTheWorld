@@ -371,18 +371,31 @@
   </script>
 
   <script type="text/template" id="dropdown-maps-template">
-    <ul class="dropdown-menu" role="menu" aria-labelledby="add-to-map">
-      <li role="presentation">
-         <a role="menuitem" tabindex="-1" href="#" id="add-to-new-map">New map</a>
-      </li>
-      <li role="presentation" class="divider"></li>
-    </ul>
+      <div class="dropdown add-to-map">
+        <button class="btn btn-default dropdown-toggle add-map" type="button" data-toggle="dropdown">
+          Add to map
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu" aria-labelledby="add-to-map">
+          <li role="presentation">
+             <a role="menuitem" tabindex="-1" href="#" id="add-to-new-map">New map</a>
+          </li>
+          <li role="presentation" class="divider"></li>
+        </ul>
+      </div>
   </script>
 
   <script type="text/template" id="dropdown-map-template">
     <li role="presentation" id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
       <a href="#"><%- name %></a>
     </li>
+  </script>
+
+  <script type="text/template" id="parent-maps-edit-template">
+    <ul class="parent-maps">
+      <li class="add-on-map"></li>
+    </ul>
   </script>
 
   <script type="text/template" id="parent-map-edit-template">

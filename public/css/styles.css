@@ -203,7 +203,15 @@ ul .parent-maps {
   padding-left: 0;
 }
 
+button.dropdown-toggle {
+  border: 0;
+  padding: 0;
+}
 
+button.dropdown-toggle:hover{
+  border: 0;
+  padding: 0;
+}
 /* --- Maps ---------------------------- */
 
 div.maps {

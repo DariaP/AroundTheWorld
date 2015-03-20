@@ -12,14 +12,16 @@ var PlaceDetailsView = Backbone.View.extend({
     "focusout input.name-edit": "saveName"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     var that = this;
+
+    this.maps = options.maps;
 
     this.template = _.template($('#place-details-template').html());
     this.editTemplate = _.template($('#edit-place-name-template').html());
 
 
-    this.listenTo(this.model, 'change', this.render);
+    //this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
@@ -68,11 +70,15 @@ var PlaceDetailsView = Backbone.View.extend({
 
   showParentMaps: function() {
 
-    var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
+// TODO: I can get rid of this ugly logic by using allMaps from parentMapsView options
+    var parentMaps = new ParentMaps({
+      ids: this.model.attributes.parentMaps
+    });
 
     var parentMapsView = new ParentMapsEditView({
       maps: parentMaps,
-      model: this.model
+      model: this.model,
+      allMaps: this.maps
     });
 
     this.$('.parent-maps .property-value').html(parentMapsView.render().el);

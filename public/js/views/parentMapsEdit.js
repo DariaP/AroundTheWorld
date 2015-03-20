@@ -1,3 +1,4 @@
+var MapsDropdownView = require('./mapsDropdown.js');
 
 var MapView = Backbone.View.extend({
   events: {
@@ -40,17 +41,23 @@ var MapView = Backbone.View.extend({
 
 var ParentMapsEditView = Backbone.View.extend({
 
-  tagName: 'ul',
-  className: 'parent-maps',
-
   initialize: function(options) {
     this.maps = options.maps;
+    this.allMaps = options.allMaps;
+
+    this.template = _.template($('#parent-maps-edit-template').html());
+
+    //this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
     var that = this;
 
+    this.setElement(this.template(this.model.toJSON()));
+
     this.listenTo(this.maps, 'add', this.addMap);
+
+    this.renderMapsDropdown();
 
   	return this;
   },
@@ -63,17 +70,52 @@ var ParentMapsEditView = Backbone.View.extend({
     });
 
     view.on('removed', function() {
-      that.model.set({
-        parentMaps: _.filter(
-          that.model.attributes.parentMaps,
-          function (mapid) {
-            return mapid != map.attributes._id;
-          })
-      });
+      that.removePlaceFromMap(map);
     });
 
-    this.$el.append(view.render().el);
+    this.$el.find(' > li:last-child').before(view.render().el);
   },
+
+  renderMapsDropdown: function() {
+    var that = this;
+
+    this.mapsDropdownView = new MapsDropdownView({
+      maps: this.allMaps,
+      filter: function(map) {
+        return ! that.model.isOnMap(map.attributes._id);
+      }
+    });
+
+    this.mapsDropdownView.on('mapDropdownClicked', function(map) {
+      that.addPlaceToMap(map);
+      that.addMap(map);
+    });
+
+    this.$('.add-on-map').html(this.mapsDropdownView.render().el);
+  },
+
+  addPlaceToMap: function(map) {
+    var newMaps = this.model.attributes.parentMaps.slice();
+    newMaps.push(map.attributes._id);
+    this.model.set({
+      parentMaps: newMaps
+    });
+
+    this.renderMapsDropdown();
+  },
+
+  removePlaceFromMap: function(map) {
+    this.model.set({
+      parentMaps: _.filter(
+        this.model.attributes.parentMaps,
+        function (mapid) {
+          return mapid != map.attributes._id;
+        }
+      )
+    });
+
+    this.renderMapsDropdown();
+  }
 });
 
 module.exports = ParentMapsEditView;

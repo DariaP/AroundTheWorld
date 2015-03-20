@@ -739,7 +739,7 @@ var MapsDropdownView = Backbone.View.extend({
       that.trigger('mapDropdownClicked', map);
     });
 
-    this.$el.append(view.el);
+    this.$('ul').append(view.el);
   },
 });
 
@@ -1129,6 +1129,7 @@ var PageView = Backbone.View.extend({
 module.exports = PageView;
 
 },{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":21,"./placeSidebar.js":23}],16:[function(require,module,exports){
+var MapsDropdownView = require('./mapsDropdown.js');
 
 var MapView = Backbone.View.extend({
   events: {
@@ -1171,17 +1172,23 @@ var MapView = Backbone.View.extend({
 
 var ParentMapsEditView = Backbone.View.extend({
 
-  tagName: 'ul',
-  className: 'parent-maps',
-
   initialize: function(options) {
     this.maps = options.maps;
+    this.allMaps = options.allMaps;
+
+    this.template = _.template($('#parent-maps-edit-template').html());
+
+    //this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
     var that = this;
 
+    this.setElement(this.template(this.model.toJSON()));
+
     this.listenTo(this.maps, 'add', this.addMap);
+
+    this.renderMapsDropdown();
 
   	return this;
   },
@@ -1194,21 +1201,56 @@ var ParentMapsEditView = Backbone.View.extend({
     });
 
     view.on('removed', function() {
-      that.model.set({
-        parentMaps: _.filter(
-          that.model.attributes.parentMaps,
-          function (mapid) {
-            return mapid != map.attributes._id;
-          })
-      });
+      that.removePlaceFromMap(map);
     });
 
-    this.$el.append(view.render().el);
+    this.$el.find(' > li:last-child').before(view.render().el);
   },
+
+  renderMapsDropdown: function() {
+    var that = this;
+
+    this.mapsDropdownView = new MapsDropdownView({
+      maps: this.allMaps,
+      filter: function(map) {
+        return ! that.model.isOnMap(map.attributes._id);
+      }
+    });
+
+    this.mapsDropdownView.on('mapDropdownClicked', function(map) {
+      that.addPlaceToMap(map);
+      that.addMap(map);
+    });
+
+    this.$('.add-on-map').html(this.mapsDropdownView.render().el);
+  },
+
+  addPlaceToMap: function(map) {
+    var newMaps = this.model.attributes.parentMaps.slice();
+    newMaps.push(map.attributes._id);
+    this.model.set({
+      parentMaps: newMaps
+    });
+
+    this.renderMapsDropdown();
+  },
+
+  removePlaceFromMap: function(map) {
+    this.model.set({
+      parentMaps: _.filter(
+        this.model.attributes.parentMaps,
+        function (mapid) {
+          return mapid != map.attributes._id;
+        }
+      )
+    });
+
+    this.renderMapsDropdown();
+  }
 });
 
 module.exports = ParentMapsEditView;
-},{}],17:[function(require,module,exports){
+},{"./mapsDropdown.js":12}],17:[function(require,module,exports){
 var Pic = require('../models/pic.js');
 
 var PicView = Backbone.View.extend({
@@ -1239,14 +1281,16 @@ var PlaceDetailsView = Backbone.View.extend({
     "focusout input.name-edit": "saveName"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     var that = this;
+
+    this.maps = options.maps;
 
     this.template = _.template($('#place-details-template').html());
     this.editTemplate = _.template($('#edit-place-name-template').html());
 
 
-    this.listenTo(this.model, 'change', this.render);
+    //this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
@@ -1295,11 +1339,15 @@ var PlaceDetailsView = Backbone.View.extend({
 
   showParentMaps: function() {
 
-    var parentMaps = new ParentMaps({ids: this.model.attributes.parentMaps});
+// TODO: I can get rid of this ugly logic by using allMaps from parentMapsView options
+    var parentMaps = new ParentMaps({
+      ids: this.model.attributes.parentMaps
+    });
 
     var parentMapsView = new ParentMapsEditView({
       maps: parentMaps,
-      model: this.model
+      model: this.model,
+      allMaps: this.maps
     });
 
     this.$('.parent-maps .property-value').html(parentMapsView.render().el);
@@ -1641,7 +1689,10 @@ var PlaceSidebarView = Backbone.View.extend({
   },
 
   show: function(place) {
-    var view = new PlaceDetailsView({model: place}),
+    var view = new PlaceDetailsView({
+          model: place,
+          maps: this.maps
+        }),
         that = this;
 
     this.$('.content').html(view.render().el);

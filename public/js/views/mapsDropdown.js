@@ -48,7 +48,7 @@ var MapsDropdownView = Backbone.View.extend({
       that.trigger('mapDropdownClicked', map);
     });
 
-    this.$el.append(view.el);
+    this.$('ul').append(view.el);
   },
 });
 

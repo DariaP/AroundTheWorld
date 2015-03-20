@@ -15,7 +15,10 @@ var PlaceSidebarView = Backbone.View.extend({
   },
 
   show: function(place) {
-    var view = new PlaceDetailsView({model: place}),
+    var view = new PlaceDetailsView({
+          model: place,
+          maps: this.maps
+        }),
         that = this;
 
     this.$('.content').html(view.render().el);
