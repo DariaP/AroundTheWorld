@@ -49,7 +49,7 @@ var MapsDropdownView = Backbone.View.extend({
     });
 
     this.$('ul').append(view.el);
-  },
+  }
 });
 
 module.exports = MapsDropdownView;

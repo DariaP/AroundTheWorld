@@ -118,10 +118,6 @@ width: 220px;
   margin: 0;
 }
 
-.place-details .edit {
-margin-top: 7px;
-}
-
 .place-details .pics-container {
   height: 130px;
   position: relative;
@@ -195,6 +191,10 @@ li.property {
   border-bottom-color: #DED9D9;
 }
 
+.location.property div {
+  height: 20px;
+}
+
 .modal-header {
   border-bottom: 0;
 }
@@ -203,15 +203,10 @@ ul .parent-maps {
   padding-left: 0;
 }
 
-button.dropdown-toggle {
-  border: 0;
-  padding: 0;
+li .parent-map {
+  padding-left: 13px;
 }
 
-button.dropdown-toggle:hover{
-  border: 0;
-  padding: 0;
-}
 /* --- Maps ---------------------------- */
 
 div.maps {

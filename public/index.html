@@ -286,6 +286,9 @@
       </td>
       <td class="property-value">
         <%- location.lat %>, <%- location.lng %>
+        <button type="button" class="btn btn-default btn-xs btn-right edit" style='display: none;'>
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
       </td>
     </tr>
   </table>
@@ -399,7 +402,7 @@
   </script>
 
   <script type="text/template" id="parent-map-edit-template">
-    <li>
+    <li class='parent-map'>
       <div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%- divId %>>
         <%- name %>
         <button type="button" class="btn btn-default btn-xs btn-right remove" style='display: none;'>
