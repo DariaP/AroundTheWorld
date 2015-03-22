@@ -239,7 +239,19 @@
     <ul class="properties">
 
       <li class="place-name property">
-        <p><%- name %></p> 
+  <table>
+    <tr>
+      <td class="property-value">
+        <%- name %>
+      </td>
+      <td>
+        <button type="button" class="btn btn-default btn-xs btn-right edit" style='display: none;'>
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+      </td>
+
+    </tr>
+  </table>
       </li>
 
       <li class="location property"></li>
@@ -263,17 +275,7 @@
         </div><!-- /pics-container -->
       </li>
 
-      <li class="parent-maps property">
-        <table>
-          <tr>
-            <td class="property-name">
-              On maps:
-            </td>
-            <td class="property-value">
-            </td>
-          </tr>
-        </table>
-      </li>
+      <li class="parent-maps property"></li>
 
     </ul>
   </script>
@@ -286,10 +288,13 @@
       </td>
       <td class="property-value">
         <%- location.lat %>, <%- location.lng %>
+      </td>
+      <td>
         <button type="button" class="btn btn-default btn-xs btn-right edit" style='display: none;'>
           <span class="glyphicon glyphicon-pencil"></span>
         </button>
       </td>
+
     </tr>
   </table>
         
@@ -312,6 +317,11 @@
         <td class="property-value">
           <%- notes %>
         </td>
+        <td>
+          <button type="button" class="btn btn-default btn-xs btn-right edit" style='display: none;'>
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+        </td>
       </tr>
     </table>
   </script>
@@ -329,37 +339,6 @@
       <div class="form-group">
         <input type="text" name='name' class="form-control name-edit" value='<%- name %>'>
       </div>
-    </form>
-  </script>
-
-  <script type="text/template" id="place-edit-template">
-    <form>
-      <div class="form-group">
-        <input type="text" name='name' class="form-control" value='<%- name %>'>
-      </div>
-      <div class="form-group">
-        <input type="text" name='location' class="form-control" value='<%- location.lat %>, <%- location.lng %>'>
-      </div>
-      <div class="form-group">
-        <textarea name='notes' class="form-control" cols="40" rows="1" value='<%- notes %>'></textarea>
-      </div>
-      <div class="form-group">
-        <textarea name='pics' class="form-control" cols="40" rows="1" value='<%- pics %>'></textarea>
-      </div>
-
-      <p class="parent-maps">
-        <b>on maps: </b>
-        <ul class='parent-maps'></ul>
-      </p>
-
-      <div class="dropdown add-to-map">
-        <button class="btn btn-default dropdown-toggle add-map" type="button" data-toggle="dropdown">
-          Add to map
-          <span class="caret"></span>
-        </button>
-      </div>
-
-      <button type="submit" class="btn btn-primary save">Save</button>
     </form>
   </script>
 
@@ -396,9 +375,28 @@
   </script>
 
   <script type="text/template" id="parent-maps-edit-template">
-    <ul class="parent-maps">
-      <li class="add-on-map"></li>
-    </ul>
+    <div>
+    <table>
+      <tr>
+        <td class="property-name">
+          On maps:
+        </td>
+        <td class="property-value">
+          <ul class="parent-maps">
+          </ul>
+        </td>
+        <td>
+          <button type="button" class="btn btn-default btn-xs btn-right edit" style='display: none;'>
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <div class="add-on-map"  style='display: none;'></div>
+    <button type="button" class="btn btn-default done"  style='display: none;'>
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
+    </div>
   </script>
 
   <script type="text/template" id="parent-map-edit-template">

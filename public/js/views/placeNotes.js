@@ -1,7 +1,9 @@
 var PlaceNotesView = Backbone.View.extend({
 
   events: {
-    "click table": "edit",
+    "click button.edit": "edit",
+    "mouseover": "showEditButton",
+    "mouseout": "hideEditButton",
     "focusout textarea": "save"
   },
 
@@ -19,6 +21,14 @@ var PlaceNotesView = Backbone.View.extend({
     this.$el.html(this.template(this.model.toJSON()));
 
     return this;
+  },
+
+  showEditButton: function() {
+    this.$('.edit').show();
+  },
+
+  hideEditButton: function() {
+    this.$('.edit').hide();
   },
 
   edit: function() {

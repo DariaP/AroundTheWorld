@@ -1133,8 +1133,6 @@ var MapsDropdownView = require('./mapsDropdown.js');
 
 var MapView = Backbone.View.extend({
   events: {
-    "mouseover": "showRemoveButton",
-    "mouseout": "hideRemoveButton",
     "click .remove" : "removeFromMap"
   },
 
@@ -1172,12 +1170,21 @@ var MapView = Backbone.View.extend({
 
 var ParentMapsEditView = Backbone.View.extend({
 
+  events: {
+    "mouseover": "showEditButton",
+    "mouseout": "hideEditButton",
+
+    "click .edit": "showEditControls",
+    "click .done": "hideEditControls"
+  },
+
   initialize: function(options) {
     this.maps = options.maps;
     this.allMaps = options.allMaps;
 
     this.template = _.template($('#parent-maps-edit-template').html());
 
+    this.edit = false;
     //this.listenTo(this.model, 'change', this.render);
   },
 
@@ -1204,7 +1211,15 @@ var ParentMapsEditView = Backbone.View.extend({
       that.removePlaceFromMap(map);
     });
 
-    this.$el.find(' > li:last-child').before(view.render().el);
+    this.on('showRemoveButton', function() {
+      view.showRemoveButton();
+    });
+
+    this.on('hideRemoveButton', function() {
+      view.hideRemoveButton();
+    });
+
+    this.$('ul.parent-maps').append(view.render().el);
   },
 
   renderMapsDropdown: function() {
@@ -1220,9 +1235,37 @@ var ParentMapsEditView = Backbone.View.extend({
     this.mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
       that.addMap(map);
+      that.trigger('showRemoveButton');
     });
 
     this.$('.add-on-map').html(this.mapsDropdownView.render().el);
+  },
+
+  showEditButton: function() {
+    if(!this.edit) {
+      this.$('.edit').show();
+    }
+  },
+
+  hideEditButton: function() {
+    this.$('.edit').hide();
+  },
+
+  showEditControls: function() {
+    this.edit = true;
+
+    this.hideEditButton();
+    this.trigger('showRemoveButton');
+    this.$('.add-on-map').show();
+    this.$('.done').show();
+  },
+
+  hideEditControls: function() {
+    this.edit = false;
+
+    this.trigger('hideRemoveButton');
+    this.$('.add-on-map').hide();
+    this.$('.done').hide();
   },
 
   addPlaceToMap: function(map) {
@@ -1277,7 +1320,9 @@ var PicView = require('./pic.js'),
 var PlaceDetailsView = Backbone.View.extend({
 
   events: {
-    "click .place-name.property p": "editName",
+    "click .place-name button.edit": "editName",
+    "mouseover .place-name": "showEditButton",
+    "mouseout .place-name": "hideEditButton",
     "focusout input.name-edit": "saveName"
   },
 
@@ -1323,6 +1368,14 @@ var PlaceDetailsView = Backbone.View.extend({
     this.$('.notes').html(notes.render().el);
   },
 
+  showEditButton: function() {
+    this.$('.place-name .edit').show();
+  },
+
+  hideEditButton: function() {
+    this.$('.place-name .edit').hide();
+  },
+
   editName: function() {
     console.log(this.editTemplate(this.model.toJSON()));
     this.$('.place-name').html(this.editTemplate(this.model.toJSON()));
@@ -1350,7 +1403,7 @@ var PlaceDetailsView = Backbone.View.extend({
       allMaps: this.maps
     });
 
-    this.$('.parent-maps .property-value').html(parentMapsView.render().el);
+    this.$('.parent-maps.property').html(parentMapsView.render().el);
 
     parentMaps.fetch();
   },
@@ -1645,7 +1698,9 @@ module.exports = PlaceMarkerView;
 var PlaceNotesView = Backbone.View.extend({
 
   events: {
-    "click table": "edit",
+    "click button.edit": "edit",
+    "mouseover": "showEditButton",
+    "mouseout": "hideEditButton",
     "focusout textarea": "save"
   },
 
@@ -1663,6 +1718,14 @@ var PlaceNotesView = Backbone.View.extend({
     this.$el.html(this.template(this.model.toJSON()));
 
     return this;
+  },
+
+  showEditButton: function() {
+    this.$('.edit').show();
+  },
+
+  hideEditButton: function() {
+    this.$('.edit').hide();
   },
 
   edit: function() {

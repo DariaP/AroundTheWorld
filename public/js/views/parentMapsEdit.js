@@ -2,8 +2,6 @@ var MapsDropdownView = require('./mapsDropdown.js');
 
 var MapView = Backbone.View.extend({
   events: {
-    "mouseover": "showRemoveButton",
-    "mouseout": "hideRemoveButton",
     "click .remove" : "removeFromMap"
   },
 
@@ -41,12 +39,21 @@ var MapView = Backbone.View.extend({
 
 var ParentMapsEditView = Backbone.View.extend({
 
+  events: {
+    "mouseover": "showEditButton",
+    "mouseout": "hideEditButton",
+
+    "click .edit": "showEditControls",
+    "click .done": "hideEditControls"
+  },
+
   initialize: function(options) {
     this.maps = options.maps;
     this.allMaps = options.allMaps;
 
     this.template = _.template($('#parent-maps-edit-template').html());
 
+    this.edit = false;
     //this.listenTo(this.model, 'change', this.render);
   },
 
@@ -73,7 +80,15 @@ var ParentMapsEditView = Backbone.View.extend({
       that.removePlaceFromMap(map);
     });
 
-    this.$el.find(' > li:last-child').before(view.render().el);
+    this.on('showRemoveButton', function() {
+      view.showRemoveButton();
+    });
+
+    this.on('hideRemoveButton', function() {
+      view.hideRemoveButton();
+    });
+
+    this.$('ul.parent-maps').append(view.render().el);
   },
 
   renderMapsDropdown: function() {
@@ -89,9 +104,37 @@ var ParentMapsEditView = Backbone.View.extend({
     this.mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
       that.addMap(map);
+      that.trigger('showRemoveButton');
     });
 
     this.$('.add-on-map').html(this.mapsDropdownView.render().el);
+  },
+
+  showEditButton: function() {
+    if(!this.edit) {
+      this.$('.edit').show();
+    }
+  },
+
+  hideEditButton: function() {
+    this.$('.edit').hide();
+  },
+
+  showEditControls: function() {
+    this.edit = true;
+
+    this.hideEditButton();
+    this.trigger('showRemoveButton');
+    this.$('.add-on-map').show();
+    this.$('.done').show();
+  },
+
+  hideEditControls: function() {
+    this.edit = false;
+
+    this.trigger('hideRemoveButton');
+    this.$('.add-on-map').hide();
+    this.$('.done').hide();
   },
 
   addPlaceToMap: function(map) {

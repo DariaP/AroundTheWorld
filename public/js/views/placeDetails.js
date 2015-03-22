@@ -8,7 +8,9 @@ var PicView = require('./pic.js'),
 var PlaceDetailsView = Backbone.View.extend({
 
   events: {
-    "click .place-name.property p": "editName",
+    "click .place-name button.edit": "editName",
+    "mouseover .place-name": "showEditButton",
+    "mouseout .place-name": "hideEditButton",
     "focusout input.name-edit": "saveName"
   },
 
@@ -54,6 +56,14 @@ var PlaceDetailsView = Backbone.View.extend({
     this.$('.notes').html(notes.render().el);
   },
 
+  showEditButton: function() {
+    this.$('.place-name .edit').show();
+  },
+
+  hideEditButton: function() {
+    this.$('.place-name .edit').hide();
+  },
+
   editName: function() {
     console.log(this.editTemplate(this.model.toJSON()));
     this.$('.place-name').html(this.editTemplate(this.model.toJSON()));
@@ -81,7 +91,7 @@ var PlaceDetailsView = Backbone.View.extend({
       allMaps: this.maps
     });
 
-    this.$('.parent-maps .property-value').html(parentMapsView.render().el);
+    this.$('.parent-maps.property').html(parentMapsView.render().el);
 
     parentMaps.fetch();
   },
