@@ -54,7 +54,6 @@ var ParentMapsEditView = Backbone.View.extend({
     this.template = _.template($('#parent-maps-edit-template').html());
 
     this.edit = false;
-    //this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {

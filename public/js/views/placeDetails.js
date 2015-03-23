@@ -21,9 +21,6 @@ var PlaceDetailsView = Backbone.View.extend({
 
     this.template = _.template($('#place-details-template').html());
     this.editTemplate = _.template($('#edit-place-name-template').html());
-
-
-    //this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
