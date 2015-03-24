@@ -29,6 +29,9 @@ var MapView = Backbone.View.extend({
     e.preventDefault();
 
     this.trigger('removed');
+
+    // TODO: maybe parent maps collection should have 'removed' event
+    // and element should not clear itself on click but rather on call to 'clear' only
     this.clear();
   },
 
@@ -61,7 +64,9 @@ var ParentMapsEditView = Backbone.View.extend({
 
     this.setElement(this.template(this.model.toJSON()));
 
-    this.listenTo(this.maps, 'add', this.addMap);
+    this.maps.onEach(function(map) {
+      that.addMap(map);
+    });
 
     this.renderMapsDropdown();
 
@@ -69,6 +74,7 @@ var ParentMapsEditView = Backbone.View.extend({
   },
 
   addMap: function(map) {
+
     var that = this;
 
     var view = new MapView({
@@ -102,7 +108,6 @@ var ParentMapsEditView = Backbone.View.extend({
 
     this.mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
-      that.addMap(map);
       that.trigger('showRemoveButton');
     });
 
@@ -137,25 +142,14 @@ var ParentMapsEditView = Backbone.View.extend({
   },
 
   addPlaceToMap: function(map) {
-    var newMaps = this.model.attributes.parentMaps.slice();
-    newMaps.push(map.attributes._id);
-    this.model.set({
-      parentMaps: newMaps
-    });
-
+    this.model.addToMap(map.attributes._id);
+    //TODO: this should happen in maps dropdown view  
     this.renderMapsDropdown();
   },
 
   removePlaceFromMap: function(map) {
-    this.model.set({
-      parentMaps: _.filter(
-        this.model.attributes.parentMaps,
-        function (mapid) {
-          return mapid != map.attributes._id;
-        }
-      )
-    });
-
+    this.model.removeFromMap(map.attributes._id);
+    //TODO: this should happen in maps dropdown view  
     this.renderMapsDropdown();
   }
 });

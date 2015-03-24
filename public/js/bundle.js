@@ -3,7 +3,7 @@ $(function () {
   var PageView = require('./views/page.js');
   new PageView();
 });
-},{"./views/page.js":15}],2:[function(require,module,exports){
+},{"./views/page.js":14}],2:[function(require,module,exports){
 var Place = require('./place.js');
 
 var PlacesList = Backbone.Collection.extend({
@@ -59,8 +59,96 @@ var Map = Backbone.Model.extend({
 });
 
 module.exports = Map;
-},{"./place.js":6}],3:[function(require,module,exports){
+},{"./place.js":5}],3:[function(require,module,exports){
 var Map = require('./map.js');
+
+var ParentMaps = Backbone.Collection.extend({
+  model: Map,
+
+  initialize: function(options) {
+    this.place = options.place;
+    this.maps = options.maps;
+  },
+
+  fetch: function(options) {
+    return this.fetchOnce(options);
+  },
+
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(map) { 
+        if (map.attributes.name) {
+          callback(map);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(map) {
+        callback(map);
+      }
+    );
+  },
+
+  stopOnEach: function(caller) {
+    caller.stopListening(
+      this, 'add'
+    );
+  },
+
+  fetchOnce: function(options) {
+    var that = this;
+
+    if (!this.fetched) {
+      this.fetched = true;
+      for (var i = 0 ; i < this.maps.models.length ; ++i) {
+        this.checkMap(this.maps.models[i]);
+      }
+      this.listenTo(this.maps, 'add', this.checkMap);
+    }
+  },
+
+  checkMap: function(map) {
+    if ( this.place.isOnMap(map.attributes._id)) {
+      this.addMap(map);        
+    } else {
+      this.listenToAdd(map);
+    }
+  },
+
+  addMap: function(map) {
+    this.add(map);
+    this.listenToRemove(map);        
+  },
+
+  removeMap: function(map) {
+    this.remove(map);
+    this.listenToAdd(map);
+  },
+
+  listenToAdd: function(map) {
+    var that = this;
+    this.place.on('change:parentMaps', function() {
+      if (that.place.isOnMap(map.attributes._id)) {
+        that.addMap(map);
+      }
+    });
+  },
+
+  listenToRemove: function(map) {
+    var that = this;
+    this.place.on('change:parentMaps', function() {
+      if (!that.place.isOnMap(map.attributes._id)) {
+        that.removeMap(map);
+      }
+    });
+  }
+});
 
 var Maps = Backbone.Collection.extend({
   model: Map,
@@ -81,6 +169,13 @@ var Maps = Backbone.Collection.extend({
     } else {
       console.log("maps are fetched again");
     }
+  },
+
+  getParentMaps: function(place) {
+    return new ParentMaps({
+      maps: this,
+      place: place
+    });
   },
 
   onEach: function(callback, caller) {
@@ -107,39 +202,12 @@ var Maps = Backbone.Collection.extend({
 
 module.exports = Maps;
 },{"./map.js":2}],4:[function(require,module,exports){
-var Map = require('./map.js');
-
-var ParentMaps = Backbone.Collection.extend({
-  model: Map,
-
-  initialize: function(options) {
-    if(options.ids.length != 0) {
-      this.url = 'http://localhost:8000/maps?' + 
-        options.ids.map(function(id) {
-          return 'ids=' + id;
-        }).join('&');
-    } 
-  },
-
-  fetch: function(options) {
-    if (this.url) {
-      return Backbone.Collection.prototype.fetch.call(this, options).then(null, function(res) {
-        if (res.responseJSON && res.responseJSON.err) {
-          alert("Can't get parent maps, please try later");
-        }
-      });
-    }
-  }
-});
-
-module.exports = ParentMaps;
-},{"./map.js":2}],5:[function(require,module,exports){
 var Pic = Backbone.Model.extend({
   src: ""
 });
 
 module.exports = Pic;
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var Place = Backbone.Model.extend({
 
   name: "",
@@ -174,6 +242,8 @@ var Place = Backbone.Model.extend({
     this.set({
       parentMaps: maps
     });
+
+    this.trigger('addedToMap', mapid);
   },
   
   removeFromMap: function(mapid) {
@@ -187,6 +257,8 @@ var Place = Backbone.Model.extend({
     this.set({
       parentMaps : maps
     });
+
+    this.trigger('removedFromMap', mapid);
   },
 
   isOnMap: function(mapid) {
@@ -199,7 +271,7 @@ var Place = Backbone.Model.extend({
 });
 
 module.exports = Place;
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var Place = require('./place.js');
 
 var PlacesOnMap = Backbone.Collection.extend({
@@ -409,7 +481,7 @@ var Places = Backbone.Collection.extend({
 });
 
 module.exports = Places;
-},{"./place.js":6}],8:[function(require,module,exports){
+},{"./place.js":5}],7:[function(require,module,exports){
 
 var parsePics = function(picsStr) {
   if (picsStr.length == 0)
@@ -430,7 +502,7 @@ module.exports = {
   location: parseLocation,
   pics: parsePics
 };
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
     'click [type="checkbox"]': 'checkboxClicked'
@@ -509,7 +581,7 @@ var AddPlacesToMapView = Backbone.View.extend({
 });
 
 module.exports = AddPlacesToMapView;
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var Place = require('../models/place.js'),
     PlaceMarkerView = require('./placeMarker.js');
 
@@ -592,7 +664,7 @@ var GMapView = Backbone.View.extend({
 });
 
 module.exports = GMapView;
-},{"../models/place.js":6,"./placeMarker.js":20}],11:[function(require,module,exports){
+},{"../models/place.js":5,"./placeMarker.js":19}],10:[function(require,module,exports){
 var PlaceView = Backbone.View.extend({
   events: {
     "click .remove" : "removeFromMap",
@@ -610,6 +682,7 @@ var PlaceView = Backbone.View.extend({
 
     this.$el.html(this.template(this.model.toJSON()));
 
+//map collection can trigger an event to remove place on map - will be more readable
     this.model.on('change:parentMaps', function() {
       if ( ! that.model.isOnMap(that.mapid)) {
         that.clear();
@@ -688,7 +761,7 @@ var MapDetailsView = Backbone.View.extend({
 });
 
 module.exports = MapDetailsView;
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var MapView = Backbone.View.extend({
 
   initialize: function() {
@@ -744,7 +817,7 @@ var MapsDropdownView = Backbone.View.extend({
 });
 
 module.exports = MapsDropdownView;
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var MapView = Backbone.View.extend({
 
   tagName:  "li",
@@ -901,7 +974,7 @@ var MapsListView = Backbone.View.extend({
 });
 
 module.exports = MapsListView;
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var MapDetailsView = require('./mapDetails.js'),
     MapsListView = require('./mapsList.js'),
     AddPlacesToMapView = require('./addPlacesToMap.js');
@@ -990,7 +1063,7 @@ var MapsSidebarView = Backbone.View.extend({
 });
 
 module.exports = MapsSidebarView;
-},{"./addPlacesToMap.js":9,"./mapDetails.js":11,"./mapsList.js":13}],15:[function(require,module,exports){
+},{"./addPlacesToMap.js":8,"./mapDetails.js":10,"./mapsList.js":12}],14:[function(require,module,exports){
 var PlaceSidebarView = require('./placeSidebar.js'),
     MapsSidebarView = require('./mapsSidebar.js'),
     GMapView = require('./gmap.js'),
@@ -1128,7 +1201,7 @@ var PageView = Backbone.View.extend({
 
 module.exports = PageView;
 
-},{"../models/maps.js":3,"../models/places.js":7,"../utils/parse.js":8,"./gmap.js":10,"./mapsSidebar.js":14,"./placeMarker.js":20,"./placeSidebar.js":22}],16:[function(require,module,exports){
+},{"../models/maps.js":3,"../models/places.js":6,"../utils/parse.js":7,"./gmap.js":9,"./mapsSidebar.js":13,"./placeMarker.js":19,"./placeSidebar.js":21}],15:[function(require,module,exports){
 var MapsDropdownView = require('./mapsDropdown.js');
 
 var MapView = Backbone.View.extend({
@@ -1160,6 +1233,9 @@ var MapView = Backbone.View.extend({
     e.preventDefault();
 
     this.trigger('removed');
+
+    // TODO: maybe parent maps collection should have 'removed' event
+    // and element should not clear itself on click but rather on call to 'clear' only
     this.clear();
   },
 
@@ -1192,7 +1268,9 @@ var ParentMapsEditView = Backbone.View.extend({
 
     this.setElement(this.template(this.model.toJSON()));
 
-    this.listenTo(this.maps, 'add', this.addMap);
+    this.maps.onEach(function(map) {
+      that.addMap(map);
+    });
 
     this.renderMapsDropdown();
 
@@ -1200,6 +1278,7 @@ var ParentMapsEditView = Backbone.View.extend({
   },
 
   addMap: function(map) {
+
     var that = this;
 
     var view = new MapView({
@@ -1233,7 +1312,6 @@ var ParentMapsEditView = Backbone.View.extend({
 
     this.mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
-      that.addMap(map);
       that.trigger('showRemoveButton');
     });
 
@@ -1292,7 +1370,7 @@ var ParentMapsEditView = Backbone.View.extend({
 });
 
 module.exports = ParentMapsEditView;
-},{"./mapsDropdown.js":12}],17:[function(require,module,exports){
+},{"./mapsDropdown.js":11}],16:[function(require,module,exports){
 var Pic = require('../models/pic.js');
 
 var PicView = Backbone.View.extend({
@@ -1308,10 +1386,9 @@ var PicView = Backbone.View.extend({
 });
 
 module.exports = PicView;
-},{"../models/pic.js":5}],18:[function(require,module,exports){
+},{"../models/pic.js":4}],17:[function(require,module,exports){
 var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
-    ParentMaps = require('../models/parentMaps.js'),
     ParentMapsEditView = require('./parentMapsEdit.js'),
     PlaceLocationView = require('./placeLocation.js'),
     PlaceNotesView = require('./placeNotes.js');
@@ -1388,10 +1465,7 @@ var PlaceDetailsView = Backbone.View.extend({
 
   showParentMaps: function() {
 
-// TODO: I can get rid of this ugly logic by using allMaps from parentMapsView options
-    var parentMaps = new ParentMaps({
-      ids: this.model.attributes.parentMaps
-    });
+    var parentMaps = this.maps.getParentMaps(this.model);
 
     var parentMapsView = new ParentMapsEditView({
       maps: parentMaps,
@@ -1446,7 +1520,7 @@ var PlaceDetailsView = Backbone.View.extend({
 });
 
 module.exports = PlaceDetailsView;
-},{"../models/parentMaps.js":4,"../models/pic.js":5,"./parentMapsEdit.js":16,"./pic.js":17,"./placeLocation.js":19,"./placeNotes.js":21}],19:[function(require,module,exports){
+},{"../models/pic.js":4,"./parentMapsEdit.js":15,"./pic.js":16,"./placeLocation.js":18,"./placeNotes.js":20}],18:[function(require,module,exports){
 var Parse = require('../utils/parse.js');
 
 var PlaceLocationView = Backbone.View.extend({
@@ -1498,7 +1572,7 @@ var PlaceLocationView = Backbone.View.extend({
 });
 
 module.exports = PlaceLocationView;
-},{"../utils/parse.js":8}],20:[function(require,module,exports){
+},{"../utils/parse.js":7}],19:[function(require,module,exports){
 var SearchResultMenu = require('./searchResultMenu.js');
 
 // TODO: What will happen with this view after model is destroyed?
@@ -1576,7 +1650,7 @@ var PlaceMarkerView = Backbone.View.extend({
 });
 
 module.exports = PlaceMarkerView;
-},{"./searchResultMenu.js":23}],21:[function(require,module,exports){
+},{"./searchResultMenu.js":22}],20:[function(require,module,exports){
 var PlaceNotesView = Backbone.View.extend({
 
   events: {
@@ -1626,7 +1700,7 @@ var PlaceNotesView = Backbone.View.extend({
 });
 
 module.exports = PlaceNotesView;
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var PlaceDetailsView = require('./placeDetails.js');
 
 var PlaceSidebarView = Backbone.View.extend({
@@ -1666,7 +1740,7 @@ var PlaceSidebarView = Backbone.View.extend({
 });
 
 module.exports = PlaceSidebarView;
-},{"./placeDetails.js":18}],23:[function(require,module,exports){
+},{"./placeDetails.js":17}],22:[function(require,module,exports){
 var SearchResultMenu = Backbone.View.extend({
 
   className: 'search-res-menu',

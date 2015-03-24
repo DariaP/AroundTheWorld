@@ -1,6 +1,5 @@
 var PicView = require('./pic.js'),
     Pic = require('../models/pic.js'),
-    ParentMaps = require('../models/parentMaps.js'),
     ParentMapsEditView = require('./parentMapsEdit.js'),
     PlaceLocationView = require('./placeLocation.js'),
     PlaceNotesView = require('./placeNotes.js');
@@ -77,10 +76,7 @@ var PlaceDetailsView = Backbone.View.extend({
 
   showParentMaps: function() {
 
-// TODO: I can get rid of this ugly logic by using allMaps from parentMapsView options
-    var parentMaps = new ParentMaps({
-      ids: this.model.attributes.parentMaps
-    });
+    var parentMaps = this.maps.getParentMaps(this.model);
 
     var parentMapsView = new ParentMapsEditView({
       maps: parentMaps,

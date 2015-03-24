@@ -15,6 +15,7 @@ var PlaceView = Backbone.View.extend({
 
     this.$el.html(this.template(this.model.toJSON()));
 
+//map collection can trigger an event to remove place on map - will be more readable
     this.model.on('change:parentMaps', function() {
       if ( ! that.model.isOnMap(that.mapid)) {
         that.clear();
