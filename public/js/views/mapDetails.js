@@ -15,13 +15,6 @@ var PlaceView = Backbone.View.extend({
 
     this.$el.html(this.template(this.model.toJSON()));
 
-//map collection can trigger an event to remove place on map - will be more readable
-    this.model.on('change:parentMaps', function() {
-      if ( ! that.model.isOnMap(that.mapid)) {
-        that.clear();
-      }
-    });
-
     return this;
   },
 
@@ -82,6 +75,11 @@ var MapDetailsView = Backbone.View.extend({
 
     view.on('showDetails', function() {
       that.trigger('showDetails', place);
+    });
+
+    // we rely on this to happen when place is removed from collection
+    place.on('removedFromMap:' + this.model.attributes._id, function() {
+      view.clear();
     });
 
     this.$('ul').append(view.render().el);

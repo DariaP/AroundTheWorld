@@ -32,6 +32,8 @@ var Place = Backbone.Model.extend({
     this.set({
       parentMaps: maps
     });
+
+    this.trigger('addedToMap:' + mapid);
   },
   
   removeFromMap: function(mapid) {
@@ -45,6 +47,8 @@ var Place = Backbone.Model.extend({
     this.set({
       parentMaps : maps
     });
+
+    this.trigger('removedFromMap:' + mapid);
   },
 
   isOnMap: function(mapid) {

@@ -30,9 +30,9 @@ var MapView = Backbone.View.extend({
 
     this.trigger('removed');
 
-    // TODO: maybe parent maps collection should have 'removed' event
+    /*// TODO: maybe parent maps collection should have 'removed' event
     // and element should not clear itself on click but rather on call to 'clear' only
-    this.clear();
+    this.clear();*/
   },
 
   clear: function() {
@@ -91,6 +91,11 @@ var ParentMapsEditView = Backbone.View.extend({
 
     this.on('hideRemoveButton', function() {
       view.hideRemoveButton();
+    });
+
+    // we rely on this to happen when place is removed from collection
+    this.model.on('removedFromMap:' + map.attributes._id, function() {
+      view.clear();
     });
 
     this.$('ul.parent-maps').append(view.render().el);

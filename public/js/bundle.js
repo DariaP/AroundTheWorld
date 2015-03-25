@@ -258,7 +258,7 @@ var Place = Backbone.Model.extend({
       parentMaps : maps
     });
 
-    this.trigger('removedFromMap', mapid);
+    this.trigger('removedFromMap:' + mapid);
   },
 
   isOnMap: function(mapid) {
@@ -682,13 +682,6 @@ var PlaceView = Backbone.View.extend({
 
     this.$el.html(this.template(this.model.toJSON()));
 
-//map collection can trigger an event to remove place on map - will be more readable
-    this.model.on('change:parentMaps', function() {
-      if ( ! that.model.isOnMap(that.mapid)) {
-        that.clear();
-      }
-    });
-
     return this;
   },
 
@@ -749,6 +742,11 @@ var MapDetailsView = Backbone.View.extend({
 
     view.on('showDetails', function() {
       that.trigger('showDetails', place);
+    });
+
+    // we rely on this to happen when place is removed from collection
+    place.on('removedFromMap:' + this.model.attributes._id, function() {
+      view.clear();
     });
 
     this.$('ul').append(view.render().el);
@@ -1234,9 +1232,9 @@ var MapView = Backbone.View.extend({
 
     this.trigger('removed');
 
-    // TODO: maybe parent maps collection should have 'removed' event
+    /*// TODO: maybe parent maps collection should have 'removed' event
     // and element should not clear itself on click but rather on call to 'clear' only
-    this.clear();
+    this.clear();*/
   },
 
   clear: function() {
@@ -1297,6 +1295,11 @@ var ParentMapsEditView = Backbone.View.extend({
       view.hideRemoveButton();
     });
 
+    // we rely on this to happen when place is removed from collection
+    this.model.on('removedFromMap:' + map.attributes._id, function() {
+      view.clear();
+    });
+
     this.$('ul.parent-maps').append(view.render().el);
   },
 
@@ -1346,25 +1349,14 @@ var ParentMapsEditView = Backbone.View.extend({
   },
 
   addPlaceToMap: function(map) {
-    var newMaps = this.model.attributes.parentMaps.slice();
-    newMaps.push(map.attributes._id);
-    this.model.set({
-      parentMaps: newMaps
-    });
-
+    this.model.addToMap(map.attributes._id);
+    //TODO: this should happen in maps dropdown view  
     this.renderMapsDropdown();
   },
 
   removePlaceFromMap: function(map) {
-    this.model.set({
-      parentMaps: _.filter(
-        this.model.attributes.parentMaps,
-        function (mapid) {
-          return mapid != map.attributes._id;
-        }
-      )
-    });
-
+    this.model.removeFromMap(map.attributes._id);
+    //TODO: this should happen in maps dropdown view  
     this.renderMapsDropdown();
   }
 });
