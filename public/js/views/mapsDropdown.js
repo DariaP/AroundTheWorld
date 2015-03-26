@@ -5,16 +5,17 @@ var MapView = Backbone.View.extend({
 
     this.template = _.template($('#dropdown-map-template').html()),
     this.listenTo(this.model, 'change', this.render);
-
-    this.model.on('removeFromDropdown', function() {
-      that.$el.remove();
-    });
   },
  
   render: function() {
     this.setElement(this.template(this.model.toJSON()));
     return this;
   },
+
+  clear: function() {
+    this.$el.remove();
+  }
+
 });
 
 var MapsDropdownView = Backbone.View.extend({
@@ -22,7 +23,6 @@ var MapsDropdownView = Backbone.View.extend({
   initialize: function(options) {
     this.template = _.template($('#dropdown-maps-template').html()),
     this.maps = options.maps;
-    this.filter = options.filter;
   },
 
   render: function() {
@@ -31,9 +31,7 @@ var MapsDropdownView = Backbone.View.extend({
     var that = this;
 
     this.maps.onEach(function(map) {
-      if (that.filter(map)) {
-        that.addMap(map);
-      }
+      that.addMap(map);
     });
 
     return this;
@@ -47,6 +45,13 @@ var MapsDropdownView = Backbone.View.extend({
       e.preventDefault();
       that.trigger('mapDropdownClicked', map);
     });
+
+    //TODO I just don't like checking the id in general
+    this.maps.on('remove', function(removedMap) {
+      if (map.id == removedMap.id) { ///TODO: map.is(removedMap)
+        view.clear();
+      };
+    })
 
     this.$('ul').append(view.el);
   }

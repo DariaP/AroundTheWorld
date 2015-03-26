@@ -133,6 +133,8 @@ var ParentMaps = Backbone.Collection.extend({
 
   listenToAdd: function(map) {
     var that = this;
+    // TODO: place now fires nice event when added on map
+    // and I can actually make it faster (instead of checking strings)
     this.place.on('change:parentMaps', function() {
       if (that.place.isOnMap(map.attributes._id)) {
         that.addMap(map);
@@ -149,6 +151,95 @@ var ParentMaps = Backbone.Collection.extend({
     });
   }
 });
+
+var AllButParentMaps = Backbone.Collection.extend({
+  model: Map,
+
+  initialize: function(options) {
+    this.place = options.place;
+    this.maps = options.maps;
+  },
+
+  fetch: function(options) {
+    return this.fetchOnce(options);
+  },
+
+  onEach: function(callback, caller) {
+    _.each(
+      this.models, 
+      function(map) { 
+        if (map.attributes.name) {
+          callback(map);
+        }
+      }
+    );
+
+    var listener = this;
+    if (caller) listener = caller;
+ 
+    listener.listenTo(
+      this, 'add', 
+      function(map) {
+        callback(map);
+      }
+    );
+  },
+
+  stopOnEach: function(caller) {
+    caller.stopListening(
+      this, 'add'
+    );
+  },
+
+  fetchOnce: function(options) {
+    var that = this;
+
+    if (!this.fetched) {
+      this.fetched = true;
+      for (var i = 0 ; i < this.maps.models.length ; ++i) {
+        this.checkMap(this.maps.models[i]);
+      }
+      this.listenTo(this.maps, 'add', this.checkMap);
+    }
+  },
+
+  checkMap: function(map) {
+    if ( ! this.place.isOnMap(map.attributes._id)) {
+      this.addMap(map);        
+    } else {
+      this.listenToAdd(map);
+    }
+  },
+
+  addMap: function(map) {
+    this.add(map);
+    this.listenToRemove(map);        
+  },
+
+  removeMap: function(map) {
+    this.remove(map);
+    this.listenToAdd(map);
+  },
+
+  listenToAdd: function(map) {
+    var that = this;
+    this.place.on('change:parentMaps', function() {
+      if (! that.place.isOnMap(map.attributes._id)) {
+        that.addMap(map);
+      }
+    });
+  },
+
+  listenToRemove: function(map) {
+    var that = this;
+    this.place.on('change:parentMaps', function() {
+      if (that.place.isOnMap(map.attributes._id)) {
+        that.removeMap(map);
+      }
+    });
+  }
+});
+
 
 var Maps = Backbone.Collection.extend({
   model: Map,
@@ -173,6 +264,13 @@ var Maps = Backbone.Collection.extend({
 
   getParentMaps: function(place) {
     return new ParentMaps({
+      maps: this,
+      place: place
+    });
+  },
+
+  getAllButParentMaps: function(place) {
+    return new AllButParentMaps({
       maps: this,
       place: place
     });
@@ -243,7 +341,7 @@ var Place = Backbone.Model.extend({
       parentMaps: maps
     });
 
-    this.trigger('addedToMap', mapid);
+    this.trigger('addedToMap:' + mapid);
   },
   
   removeFromMap: function(mapid) {
@@ -767,16 +865,17 @@ var MapView = Backbone.View.extend({
 
     this.template = _.template($('#dropdown-map-template').html()),
     this.listenTo(this.model, 'change', this.render);
-
-    this.model.on('removeFromDropdown', function() {
-      that.$el.remove();
-    });
   },
  
   render: function() {
     this.setElement(this.template(this.model.toJSON()));
     return this;
   },
+
+  clear: function() {
+    this.$el.remove();
+  }
+
 });
 
 var MapsDropdownView = Backbone.View.extend({
@@ -784,7 +883,6 @@ var MapsDropdownView = Backbone.View.extend({
   initialize: function(options) {
     this.template = _.template($('#dropdown-maps-template').html()),
     this.maps = options.maps;
-    this.filter = options.filter;
   },
 
   render: function() {
@@ -793,9 +891,7 @@ var MapsDropdownView = Backbone.View.extend({
     var that = this;
 
     this.maps.onEach(function(map) {
-      if (that.filter(map)) {
-        that.addMap(map);
-      }
+      that.addMap(map);
     });
 
     return this;
@@ -809,6 +905,13 @@ var MapsDropdownView = Backbone.View.extend({
       e.preventDefault();
       that.trigger('mapDropdownClicked', map);
     });
+
+    //TODO I just don't like checking the id in general
+    this.maps.on('remove', function(removedMap) {
+      if (map.id == removedMap.id) { ///TODO: map.is(removedMap)
+        view.clear();
+      };
+    })
 
     this.$('ul').append(view.el);
   }
@@ -1231,10 +1334,6 @@ var MapView = Backbone.View.extend({
     e.preventDefault();
 
     this.trigger('removed');
-
-    /*// TODO: maybe parent maps collection should have 'removed' event
-    // and element should not clear itself on click but rather on call to 'clear' only
-    this.clear();*/
   },
 
   clear: function() {
@@ -1306,19 +1405,20 @@ var ParentMapsEditView = Backbone.View.extend({
   renderMapsDropdown: function() {
     var that = this;
 
-    this.mapsDropdownView = new MapsDropdownView({
-      maps: this.allMaps,
-      filter: function(map) {
-        return ! that.model.isOnMap(map.attributes._id);
-      }
+    var allButParentMaps = this.allMaps.getAllButParentMaps(this.model);
+
+    var mapsDropdownView = new MapsDropdownView({
+      maps: allButParentMaps
     });
 
-    this.mapsDropdownView.on('mapDropdownClicked', function(map) {
+    mapsDropdownView.on('mapDropdownClicked', function(map) {
       that.addPlaceToMap(map);
       that.trigger('showRemoveButton');
     });
 
-    this.$('.add-on-map').html(this.mapsDropdownView.render().el);
+    this.$('.add-on-map').html(mapsDropdownView.render().el);
+
+    allButParentMaps.fetch();
   },
 
   showEditButton: function() {
@@ -1350,14 +1450,10 @@ var ParentMapsEditView = Backbone.View.extend({
 
   addPlaceToMap: function(map) {
     this.model.addToMap(map.attributes._id);
-    //TODO: this should happen in maps dropdown view  
-    this.renderMapsDropdown();
   },
 
   removePlaceFromMap: function(map) {
     this.model.removeFromMap(map.attributes._id);
-    //TODO: this should happen in maps dropdown view  
-    this.renderMapsDropdown();
   }
 });
 
