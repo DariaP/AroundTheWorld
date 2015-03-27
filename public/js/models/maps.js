@@ -73,19 +73,15 @@ var ParentMaps = Backbone.Collection.extend({
     var that = this;
     // TODO: place now fires nice event when added on map
     // and I can actually make it faster (instead of checking strings)
-    this.place.on('change:parentMaps', function() {
-      if (that.place.isOnMap(map.attributes._id)) {
-        that.addMap(map);
-      }
+    this.place.on('addedToMap:' + map.attributes._id, function() {
+      that.addMap(map);
     });
   },
 
   listenToRemove: function(map) {
     var that = this;
-    this.place.on('change:parentMaps', function() {
-      if (!that.place.isOnMap(map.attributes._id)) {
-        that.removeMap(map);
-      }
+    this.place.on('removedFromMap:' + map.attributes._id, function() {
+      that.removeMap(map);
     });
   }
 });
@@ -161,19 +157,15 @@ var AllButParentMaps = Backbone.Collection.extend({
 
   listenToAdd: function(map) {
     var that = this;
-    this.place.on('change:parentMaps', function() {
-      if (! that.place.isOnMap(map.attributes._id)) {
-        that.addMap(map);
-      }
+    this.place.on('removedFromMap:' + map.attributes._id, function() {
+      that.addMap(map);
     });
   },
 
   listenToRemove: function(map) {
     var that = this;
-    this.place.on('change:parentMaps', function() {
-      if (that.place.isOnMap(map.attributes._id)) {
-        that.removeMap(map);
-      }
+    this.place.on('addedToMap:' + map.attributes._id, function() {
+      that.removeMap(map);
     });
   }
 });

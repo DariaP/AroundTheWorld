@@ -71,19 +71,15 @@ var PlacesOnMap = Backbone.Collection.extend({
 
   listenToAdd: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (place.isOnMap(that.mapid)) {
-        that.addPlace(place);
-      }
+    place.on('addedToMap:' + this.mapid, function() {
+      that.addPlace(place);
     });
   },
 
   listenToRemove: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (!place.isOnMap(that.mapid)) {
-        that.removePlace(place);
-      }
+    place.on('removedFromMap:' + this.mapid, function() {
+      that.removePlace(place);
     });
   }
 });
@@ -149,19 +145,15 @@ var PlacesNotOnMap = Backbone.Collection.extend({
 
   listenToAdd: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (! place.isOnMap(that.mapid)) {
-        that.addPlace(place);
-      }
+    place.on('removedFromMap:' + this.mapid, function() {
+      that.addPlace(place);
     });
   },
 
   listenToRemove: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (place.isOnMap(that.mapid)) {
-        that.removePlace(place);
-      }
+    place.on('addedToMap:' + this.mapid, function() {
+      that.removePlace(place);
     });
   }
 });
