@@ -1,10 +1,10 @@
 
 var config = {
-  dataServerPort: 29999,
-  dataServerAddress: 'http://localhost',
-  mongoAddress: "127.0.0.1",
-  mongoPort: 27017,
-  mongoTravelDb: 'Travel',
+  mongoAddress: process.env.AROUNDTHEWORLD_MONGO_ADDR,
+  mongoPort: process.env.AROUNDTHEWORLD_MONGO_PORT,
+  mongoTravelDb: process.env.AROUNDTHEWORLD_MONGO_DBNAME,
+  mongoUser: process.env.AROUNDTHEWORLD_MONGO_USERNAME,
+  mongoPasswd: process.env.AROUNDTHEWORLD_MONGO_PASSWORD,
   placesCollection: "places",
   mapsCollection: "maps",
   connectionsCollection: "connections"
