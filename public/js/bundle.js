@@ -56,6 +56,10 @@ var Map = Backbone.Model.extend({
       }
     );
   },
+
+  is: function(map) {
+    return this.attributes._id === map.attributes._id;
+  }
 });
 
 module.exports = Map;
@@ -135,19 +139,15 @@ var ParentMaps = Backbone.Collection.extend({
     var that = this;
     // TODO: place now fires nice event when added on map
     // and I can actually make it faster (instead of checking strings)
-    this.place.on('change:parentMaps', function() {
-      if (that.place.isOnMap(map.attributes._id)) {
-        that.addMap(map);
-      }
+    this.place.on('addedToMap:' + map.attributes._id, function() {
+      that.addMap(map);
     });
   },
 
   listenToRemove: function(map) {
     var that = this;
-    this.place.on('change:parentMaps', function() {
-      if (!that.place.isOnMap(map.attributes._id)) {
-        that.removeMap(map);
-      }
+    this.place.on('removedFromMap:' + map.attributes._id, function() {
+      that.removeMap(map);
     });
   }
 });
@@ -223,19 +223,15 @@ var AllButParentMaps = Backbone.Collection.extend({
 
   listenToAdd: function(map) {
     var that = this;
-    this.place.on('change:parentMaps', function() {
-      if (! that.place.isOnMap(map.attributes._id)) {
-        that.addMap(map);
-      }
+    this.place.on('removedFromMap:' + map.attributes._id, function() {
+      that.addMap(map);
     });
   },
 
   listenToRemove: function(map) {
     var that = this;
-    this.place.on('change:parentMaps', function() {
-      if (that.place.isOnMap(map.attributes._id)) {
-        that.removeMap(map);
-      }
+    this.place.on('addedToMap:' + map.attributes._id, function() {
+      that.removeMap(map);
     });
   }
 });
@@ -443,19 +439,15 @@ var PlacesOnMap = Backbone.Collection.extend({
 
   listenToAdd: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (place.isOnMap(that.mapid)) {
-        that.addPlace(place);
-      }
+    place.on('addedToMap:' + this.mapid, function() {
+      that.addPlace(place);
     });
   },
 
   listenToRemove: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (!place.isOnMap(that.mapid)) {
-        that.removePlace(place);
-      }
+    place.on('removedFromMap:' + this.mapid, function() {
+      that.removePlace(place);
     });
   }
 });
@@ -521,19 +513,15 @@ var PlacesNotOnMap = Backbone.Collection.extend({
 
   listenToAdd: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (! place.isOnMap(that.mapid)) {
-        that.addPlace(place);
-      }
+    place.on('removedFromMap:' + this.mapid, function() {
+      that.addPlace(place);
     });
   },
 
   listenToRemove: function(place) {
     var that = this;
-    place.on('change:parentMaps', function() {
-      if (place.isOnMap(that.mapid)) {
-        that.removePlace(place);
-      }
+    place.on('addedToMap:' + this.mapid, function() {
+      that.removePlace(place);
     });
   }
 });
@@ -906,9 +894,8 @@ var MapsDropdownView = Backbone.View.extend({
       that.trigger('mapDropdownClicked', map);
     });
 
-    //TODO I just don't like checking the id in general
     this.maps.on('remove', function(removedMap) {
-      if (map.id == removedMap.id) { ///TODO: map.is(removedMap)
+      if (map.is(removedMap)) {
         view.clear();
       };
     })
@@ -1115,10 +1102,8 @@ var MapsSidebarView = Backbone.View.extend({
 
     this.$('.content').html(view.render().el);
 
-    this.once('mapReady', function(m) {
-      if (m.attributes._id == map.attributes._id) {
-        map.places.fetch();
-      }
+    this.once('mapReady:' + map.attributes._id, function() {
+      map.places.fetch();
     });
 
     this.trigger('showMap', map);
@@ -1210,7 +1195,7 @@ var PageView = Backbone.View.extend({
     });
     this.mapsSidebar.on('showMap', function(map) {
       that.resetMap(map);
-      that.mapsSidebar.trigger('mapReady', map);
+      that.mapsSidebar.trigger('mapReady:' + map.attributes._id);
     });
     this.mapsSidebar.on('lookup', function(place) {
       that.worldMap.zoom(place);

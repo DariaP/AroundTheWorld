@@ -46,9 +46,8 @@ var MapsDropdownView = Backbone.View.extend({
       that.trigger('mapDropdownClicked', map);
     });
 
-    //TODO I just don't like checking the id in general
     this.maps.on('remove', function(removedMap) {
-      if (map.id == removedMap.id) { ///TODO: map.is(removedMap)
+      if (map.is(removedMap)) {
         view.clear();
       };
     })

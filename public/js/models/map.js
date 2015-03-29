@@ -50,6 +50,10 @@ var Map = Backbone.Model.extend({
       }
     );
   },
+
+  is: function(map) {
+    return this.attributes._id === map.attributes._id;
+  }
 });
 
 module.exports = Map;

@@ -37,10 +37,8 @@ var MapsSidebarView = Backbone.View.extend({
 
     this.$('.content').html(view.render().el);
 
-    this.once('mapReady', function(m) {
-      if (m.attributes._id == map.attributes._id) {
-        map.places.fetch();
-      }
+    this.once('mapReady:' + map.attributes._id, function() {
+      map.places.fetch();
     });
 
     this.trigger('showMap', map);
