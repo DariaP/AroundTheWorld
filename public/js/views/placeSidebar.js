@@ -24,7 +24,6 @@ var PlaceSidebarView = Backbone.View.extend({
     this.$el.show();
   },
 
-// TODO: change location on map if needed
   onPlaceChanged: function(place) {
     if ( ! place.isValid() ) {
       this.hide();

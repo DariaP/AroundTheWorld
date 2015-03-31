@@ -71,8 +71,6 @@ var ParentMaps = Backbone.Collection.extend({
 
   listenToAdd: function(map) {
     var that = this;
-    // TODO: place now fires nice event when added on map
-    // and I can actually make it faster (instead of checking strings)
     this.place.on('addedToMap:' + map.attributes._id, function() {
       that.addMap(map);
     });
