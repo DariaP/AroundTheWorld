@@ -49,6 +49,6 @@ function start(dbApi) {
   app.listen(app.get('port'));
 }
 
-mongo.init(function(dbApi) {
-  start(dbApi)
-});
+//mongo.init(function(dbApi) {
+  start(dbApi);
+//});
