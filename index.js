@@ -49,6 +49,7 @@ function start(dbApi) {
   app.listen(app.get('port'));
 }
 
+var dbApi=null;
 //mongo.init(function(dbApi) {
   start(dbApi);
 //});
