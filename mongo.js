@@ -80,27 +80,6 @@ function init(callback) {
           });
         },
 
-        getMapsWithIds: function(user, ids, callback) {
-          var idNums = [];
-          if( typeof ids === 'string' ) {
-            idNums = [ getId(ids) ];
-          } else {
-            idNums = ids.map(function(id) { return getId(id); } );
-          }
-          maps.find( { 
-              _id: { $in: idNums }, 
-              user:  { $eq : user }
-            }, 
-            {}, {w: 1}).
-            toArray ( function (err, res) {
-              if (err) {
-                callback({err: err});
-              } else {
-                callback(res);
-              }
-          });
-        },
-
         updatePlace: function(user, place, callback) {
           if ( ! place._id) {
             place.user = user;
