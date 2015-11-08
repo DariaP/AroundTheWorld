@@ -4,13 +4,25 @@ function start(dbApi) {
 
   var express = require('express'),
       cors = require('cors'),
-      bodyParser = require('body-parser');
+      bodyParser = require('body-parser'),
+      cookieParser = require("cookie-parser"),
+      methodOverride = require('method-override'),
+      session = require('express-session'),
+      facebook = require('./facebook.js');
 
   var app = express();
+
+  app.use(methodOverride());
+  app.use(session({ secret: 'keyboard cat' }));
+
+
+  app.use(facebook.initialize());
+  app.use(facebook.session());
 
   app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded());
+  app.use(cookieParser());
 
   app.set('port', (process.env.PORT || 8000));
   app.use('/', express.static(__dirname + '/public'));
@@ -22,7 +34,21 @@ function start(dbApi) {
     };
   };
 
+  app.get('/auth/facebook',
+    facebook.login(),
+    function(req, res){}
+  );
+
+  app.get('/auth/facebook/callback',
+    facebook.onFailure(),
+    function(req, res) {
+      console.log(req.user);  
+      res.redirect('/');
+    }
+  );
+
   app.get('/places', function (req, res) {
+    console.log(req.user);
     dbApi.getAllPlaces(callback(res));      
   });
 
@@ -49,7 +75,6 @@ function start(dbApi) {
   app.listen(app.get('port'));
 }
 
-var dbApi=null;
-//mongo.init(function(dbApi) {
+mongo.init(function(dbApi) {
   start(dbApi);
-//});
+});

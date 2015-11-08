@@ -4,3 +4,4 @@ node_modules
 runMongo.sh
 .gitignore
 setup.sh
+setup.txt
