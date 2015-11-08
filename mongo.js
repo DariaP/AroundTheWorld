@@ -58,19 +58,9 @@ function init(callback) {
 
       var dbApi = {
 
-        getAllPlaces: function(callback) {
-          places.find({}, {}, {w: 1}).toArray ( function (err, res) {
-            if (err) {
-              callback({err: err});
-            } else {
-
-              callback(res);
-            }
-          });
-        },
-
-        getAllMaps: function(callback) {
-          maps.find({}, {}, {w: 1}).toArray ( function (err, res) {
+        getAllPlaces: function(user, callback) {
+          places.find({ user:  { $eq : user } },
+            {}, {w: 1}).toArray ( function (err, res) {
             if (err) {
               callback({err: err});
             } else {
@@ -79,14 +69,28 @@ function init(callback) {
           });
         },
 
-        getMapsWithIds: function(ids, callback) {
+        getAllMaps: function(user, callback) {
+          maps.find({ user:  { $eq : user } }, 
+            {}, {w: 1}).toArray ( function (err, res) {
+            if (err) {
+              callback({err: err});
+            } else {
+              callback(res);
+            }
+          });
+        },
+
+        getMapsWithIds: function(user, ids, callback) {
           var idNums = [];
           if( typeof ids === 'string' ) {
             idNums = [ getId(ids) ];
           } else {
             idNums = ids.map(function(id) { return getId(id); } );
           }
-          maps.find( { _id: { $in: idNums }}, 
+          maps.find( { 
+              _id: { $in: idNums }, 
+              user:  { $eq : user }
+            }, 
             {}, {w: 1}).
             toArray ( function (err, res) {
               if (err) {
@@ -97,8 +101,9 @@ function init(callback) {
           });
         },
 
-        updatePlace: function(place, callback) {
+        updatePlace: function(user, place, callback) {
           if ( ! place._id) {
+            place.user = user;
             addPlace(place, callback);
           } else {
             places.find({_id: getId(place._id)}).limit(1).count(function (e, count) {
@@ -150,7 +155,8 @@ function init(callback) {
           });
         },
 
-        addMap: function (map, callback) {
+        addMap: function (user, map, callback) {
+          map.user = user;
           maps.insert(map, {w: 1}, function(err, doc) {
             if (err) {
               callback({err: err});

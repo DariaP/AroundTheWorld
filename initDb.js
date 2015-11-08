@@ -24,12 +24,14 @@ function initDb() {
         function(callback) {
           maps.insert({
             _id: 1,
+            user: 'facebook_583113908494831',
             name: "Chicago"
           }, callback);
         },
         function(callback) {
           maps.insert({
             _id: 2,
+            user: 'facebook_583113908494831',
             name: "Washington D.C."
           }, callback);        
         },
@@ -37,6 +39,7 @@ function initDb() {
 
           maps.insert({
             _id: 3,
+            user: 'facebook_583113908494831',
             name: "USA"
           }, callback);        
         },
@@ -44,6 +47,7 @@ function initDb() {
 
           maps.insert({
             _id: 4,
+            user: 'facebook_583113908494831',
             name: "Mountain trails"
           }, callback);        
         },
@@ -51,6 +55,7 @@ function initDb() {
 
           places.insert({
             name: "Haiku Stairs",
+            user: 'facebook_583113908494831',
             location: {
               lat: 21.400788,
               lng: -157.821934
@@ -67,6 +72,7 @@ function initDb() {
 
           places.insert({
             name: "Bean",
+            user: 'facebook_583113908494831',
             location: {
               lat: 41.883456,
               lng: -87.623132
@@ -80,6 +86,7 @@ function initDb() {
         function(callback) {
           places.insert({
             name: "Skydeck",
+            user: 'facebook_583113908494831',
             location: {
               lat: 41.879587,
               lng: -87.636159

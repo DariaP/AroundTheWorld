@@ -34,6 +34,10 @@ function start(dbApi) {
     };
   };
 
+  var userId = function(user) {
+    return user.provider + "_" + user.id;
+  }
+
   app.get('/auth/facebook',
     facebook.login(),
     function(req, res){}
@@ -42,22 +46,20 @@ function start(dbApi) {
   app.get('/auth/facebook/callback',
     facebook.onFailure(),
     function(req, res) {
-      console.log(req.user);  
       res.redirect('/');
     }
   );
 
   app.get('/places', function (req, res) {
-    console.log(req.user);
-    dbApi.getAllPlaces(callback(res));      
+    dbApi.getAllPlaces(userId(req.user), callback(res));      
   });
 
   app.post('/places', function (req, res) {
-    dbApi.updatePlace(req.body, callback(res));
+    dbApi.updatePlace(userId(req.user), req.body, callback(res));
   });
 
   app.get('/maps', function (req, res) {
-    dbApi.getAllMaps(callback(res));
+    dbApi.getAllMaps(userId(req.user), callback(res));
   });
 
   app.put('/map', function (req, res) {
@@ -65,7 +67,7 @@ function start(dbApi) {
   });
 
   app.post('/map', function (req, res) {
-    dbApi.addMap(req.body, callback(res));
+    dbApi.addMap(userId(req.user), req.body, callback(res));
   });
 
   app.delete('/map', function (req, res) {
