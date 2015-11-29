@@ -3,12 +3,14 @@ var MapView = Backbone.View.extend({
   initialize: function() {
     var that = this;
 
-    this.template = _.template($('#dropdown-map-template').html()),
     this.listenTo(this.model, 'change', this.render);
   },
  
   render: function() {
-    this.setElement(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/dropdownMap'}).render(this.model.toJSON());
+
+    this.setElement(html);
     return this;
   },
 
@@ -21,12 +23,14 @@ var MapView = Backbone.View.extend({
 var MapsDropdownView = Backbone.View.extend({
 
   initialize: function(options) {
-    this.template = _.template($('#dropdown-maps-template').html()),
     this.maps = options.maps;
   },
 
   render: function() {
-    this.setElement(this.template());
+    var html = new EJS({url:             
+        '/templates/dropdownMaps'}).render();
+
+    this.setElement(html);
 
     var that = this;
 

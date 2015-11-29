@@ -17,9 +17,6 @@ var PlaceDetailsView = Backbone.View.extend({
     var that = this;
 
     this.maps = options.maps;
-
-    this.template = _.template($('#place-details-template').html());
-    this.editTemplate = _.template($('#edit-place-name-template').html());
   },
 
   render: function() {
@@ -29,7 +26,10 @@ var PlaceDetailsView = Backbone.View.extend({
     var templateData = this.model.toJSON();
     templateData.picsHtml = this.renderPics();
 
-    this.$el.html(this.template(templateData));
+    var html = new EJS({url:             
+        '/templates/placeDetails'}).render(templateData);
+
+    this.$el.html(html);
 
     this.showLocation();
 
@@ -61,8 +61,11 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   editName: function() {
-    console.log(this.editTemplate(this.model.toJSON()));
-    this.$('.place-name').html(this.editTemplate(this.model.toJSON()));
+
+    var html = new EJS({url:             
+        '/templates/editPlaceName'}).render(this.model.toJSON());
+
+    this.$('.place-name').html(html);
     this.$('.place-name input').focus();
   },
 

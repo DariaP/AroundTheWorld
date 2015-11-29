@@ -6,13 +6,15 @@ var MapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.template = _.template($('#parent-map-edit-template').html());
   },
 
   render: function() {
     var that = this;
 
-    this.setElement(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/parentMapEdit'}).render(this.model.toJSON());
+
+    this.setElement(html);
 
     return this;
   },
@@ -50,15 +52,16 @@ var ParentMapsEditView = Backbone.View.extend({
     this.maps = options.maps;
     this.allMaps = options.allMaps;
 
-    this.template = _.template($('#parent-maps-edit-template').html());
-
     this.edit = false;
   },
 
   render: function() {
     var that = this;
 
-    this.setElement(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/parentMapsEdit'}).render(this.model.toJSON());
+
+    this.setElement(html);
 
     this.maps.onEach(function(map) {
       that.addMap(map);

@@ -12,15 +12,18 @@ var MapView = Backbone.View.extend({
   initialize: function() {
     // TODO: split?
  
-    this.template = _.template($('#map-template').html());
-    this.editTemplate = _.template($('#edit-map-template').html());
+    //this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
     this.listenTo(this.model, 'changed', this.render);
   },
 
   render: function() {
     // TODO: what if name is too long to fit?
-    this.$el.html(this.template(this.model.toJSON()));
+
+    var html = new EJS({url:             
+        '/templates/map'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     return this;
   },
 
@@ -53,7 +56,10 @@ var MapView = Backbone.View.extend({
   },
 
   edit: function() {
-    this.$el.html(this.editTemplate(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/editMap'}).render(this.model.toJSON());
+
+    this.$el.html(html);
   },
 
   save: function() {
@@ -72,11 +78,14 @@ var NewMapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.template = _.template($('#new-map-template').html());
   },
 
   render: function() {
-    this.$el.html(this.template());
+    var html = new EJS({url:             
+        '/templates/newMap'}).render();
+
+    this.$el.html(html);
+
     return this;
   },
 
@@ -94,15 +103,16 @@ var MapsListView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.template = _.template($('#maps-list-template').html());
-
     this.maps = options.maps;
   },
 
   render: function() {
     var that = this;
 
-    this.$el.html(this.template());
+    var html = new EJS({url:             
+        '/templates/mapsList'}).render();
+
+    this.$el.html(html);
 
     this.maps.onEach(function(map) {
       that.addMapToList(map);

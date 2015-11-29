@@ -7,13 +7,15 @@ var PlaceView = Backbone.View.extend({
 
   initialize: function(options) {
     this.mapid = options.mapid;
-    this.template = _.template($('#place-template').html());
   },
  
   render: function() {
     var that = this;
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/place'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     return this;
   },
@@ -46,13 +48,15 @@ var MapDetailsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.template = _.template($('#map-details-template').html());
   },
  
   render: function() {
     var that = this;
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/mapDetails'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     this.model.places.onEach(function(place) {
       that.addPlace(place);

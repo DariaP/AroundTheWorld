@@ -3,11 +3,13 @@ var Pic = require('../models/pic.js');
 var PicView = Backbone.View.extend({
 
   initialize: function(options) {
-    this.template = _.template($('#pic-link-template').html());
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/picFrame'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     return this;
   },
 });

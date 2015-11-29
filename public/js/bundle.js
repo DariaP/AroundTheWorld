@@ -594,11 +594,14 @@ var PlaceView = Backbone.View.extend({
 
   initialize: function(options) {
     this.mapid = options.mapid;
-    this.template = _.template($('#add-place-template').html());
   },
  
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/addPlace'}).render(this.model.toJSON());
+
+    this.$el.html(html);
+
     return this;
   },
 
@@ -621,14 +624,16 @@ var AddPlacesToMapView = Backbone.View.extend({
 
   initialize: function(options) {
     this.places = options.places;
-    this.template = _.template($('#add-places-template').html());
     this.newPlaces = {};
   },
 
   render: function() {
     var that = this;
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/addPlaces'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     this.places.onEach(function(place) {
       that.addPlace(place);
@@ -758,13 +763,15 @@ var PlaceView = Backbone.View.extend({
 
   initialize: function(options) {
     this.mapid = options.mapid;
-    this.template = _.template($('#place-template').html());
   },
  
   render: function() {
     var that = this;
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/place'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     return this;
   },
@@ -797,13 +804,15 @@ var MapDetailsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.template = _.template($('#map-details-template').html());
   },
  
   render: function() {
     var that = this;
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/mapDetails'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     this.model.places.onEach(function(place) {
       that.addPlace(place);
@@ -849,12 +858,14 @@ var MapView = Backbone.View.extend({
   initialize: function() {
     var that = this;
 
-    this.template = _.template($('#dropdown-map-template').html()),
     this.listenTo(this.model, 'change', this.render);
   },
  
   render: function() {
-    this.setElement(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/dropdownMap'}).render(this.model.toJSON());
+
+    this.setElement(html);
     return this;
   },
 
@@ -867,12 +878,14 @@ var MapView = Backbone.View.extend({
 var MapsDropdownView = Backbone.View.extend({
 
   initialize: function(options) {
-    this.template = _.template($('#dropdown-maps-template').html()),
     this.maps = options.maps;
   },
 
   render: function() {
-    this.setElement(this.template());
+    var html = new EJS({url:             
+        '/templates/dropdownMaps'}).render();
+
+    this.setElement(html);
 
     var that = this;
 
@@ -918,15 +931,18 @@ var MapView = Backbone.View.extend({
   initialize: function() {
     // TODO: split?
  
-    this.template = _.template($('#map-template').html());
-    this.editTemplate = _.template($('#edit-map-template').html());
+    //this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
     this.listenTo(this.model, 'changed', this.render);
   },
 
   render: function() {
     // TODO: what if name is too long to fit?
-    this.$el.html(this.template(this.model.toJSON()));
+
+    var html = new EJS({url:             
+        '/templates/map'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     return this;
   },
 
@@ -959,7 +975,10 @@ var MapView = Backbone.View.extend({
   },
 
   edit: function() {
-    this.$el.html(this.editTemplate(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/editMap'}).render(this.model.toJSON());
+
+    this.$el.html(html);
   },
 
   save: function() {
@@ -978,11 +997,14 @@ var NewMapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.template = _.template($('#new-map-template').html());
   },
 
   render: function() {
-    this.$el.html(this.template());
+    var html = new EJS({url:             
+        '/templates/newMap'}).render();
+
+    this.$el.html(html);
+
     return this;
   },
 
@@ -1000,15 +1022,16 @@ var MapsListView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.template = _.template($('#maps-list-template').html());
-
     this.maps = options.maps;
   },
 
   render: function() {
     var that = this;
 
-    this.$el.html(this.template());
+    var html = new EJS({url:             
+        '/templates/mapsList'}).render();
+
+    this.$el.html(html);
 
     this.maps.onEach(function(map) {
       that.addMapToList(map);
@@ -1294,13 +1317,15 @@ var MapView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.template = _.template($('#parent-map-edit-template').html());
   },
 
   render: function() {
     var that = this;
 
-    this.setElement(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/parentMapEdit'}).render(this.model.toJSON());
+
+    this.setElement(html);
 
     return this;
   },
@@ -1338,15 +1363,16 @@ var ParentMapsEditView = Backbone.View.extend({
     this.maps = options.maps;
     this.allMaps = options.allMaps;
 
-    this.template = _.template($('#parent-maps-edit-template').html());
-
     this.edit = false;
   },
 
   render: function() {
     var that = this;
 
-    this.setElement(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/parentMapsEdit'}).render(this.model.toJSON());
+
+    this.setElement(html);
 
     this.maps.onEach(function(map) {
       that.addMap(map);
@@ -1447,11 +1473,13 @@ var Pic = require('../models/pic.js');
 var PicView = Backbone.View.extend({
 
   initialize: function(options) {
-    this.template = _.template($('#pic-link-template').html());
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/picFrame'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     return this;
   },
 });
@@ -1477,9 +1505,6 @@ var PlaceDetailsView = Backbone.View.extend({
     var that = this;
 
     this.maps = options.maps;
-
-    this.template = _.template($('#place-details-template').html());
-    this.editTemplate = _.template($('#edit-place-name-template').html());
   },
 
   render: function() {
@@ -1489,7 +1514,10 @@ var PlaceDetailsView = Backbone.View.extend({
     var templateData = this.model.toJSON();
     templateData.picsHtml = this.renderPics();
 
-    this.$el.html(this.template(templateData));
+    var html = new EJS({url:             
+        '/templates/placeDetails'}).render(templateData);
+
+    this.$el.html(html);
 
     this.showLocation();
 
@@ -1521,8 +1549,11 @@ var PlaceDetailsView = Backbone.View.extend({
   },
 
   editName: function() {
-    console.log(this.editTemplate(this.model.toJSON()));
-    this.$('.place-name').html(this.editTemplate(this.model.toJSON()));
+
+    var html = new EJS({url:             
+        '/templates/editPlaceName'}).render(this.model.toJSON());
+
+    this.$('.place-name').html(html);
     this.$('.place-name input').focus();
   },
 
@@ -1606,15 +1637,15 @@ var PlaceLocationView = Backbone.View.extend({
   initialize: function() {
     var that = this;
 
-    this.template = _.template($('#place-location-template').html());
-    this.editTemplate = _.template($('#edit-place-location-template').html());
-
     this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/placeLocation'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     return this;
   },
@@ -1628,7 +1659,10 @@ var PlaceLocationView = Backbone.View.extend({
   },
 
   edit: function() {
-    this.$el.html(this.editTemplate(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/editPlaceLocation'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     this.$('input').focus();
   },
 
@@ -1734,15 +1768,15 @@ var PlaceNotesView = Backbone.View.extend({
   initialize: function() {
     var that = this;
 
-    this.template = _.template($('#place-notes-template').html());
-    this.editTemplate = _.template($('#edit-place-notes-template').html());
-
     this.listenTo(this.model, 'change', this.render);
   },
 
   render: function() {
 
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/placeNotes'}).render(this.model.toJSON());
+
+    this.$el.html(html);
 
     return this;
   },
@@ -1756,7 +1790,10 @@ var PlaceNotesView = Backbone.View.extend({
   },
 
   edit: function() {
-    this.$el.html(this.editTemplate(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/editPlaceNotes'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     this.$('textarea').focus();
   },
 
@@ -1820,11 +1857,13 @@ var SearchResultMenu = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.template = _.template($('#search-result-menu').html());
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/searchResultMenu'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     return this;
   },
 

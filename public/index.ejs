@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Travel planning app">
+  <meta name="author" content="Daria Kashcha dashka.kh@gmail.com">
+
+  <title>Around the world</title>
+
+  <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="css/lib/blueimp-gallery.min.css">
+  <link rel="stylesheet" href="css/lib/bootstrap-image-gallery.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script src="js/lib/jquery-1.11.1.min.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
+  <script src="js/lib/lodash.underscore.min.js"></script>
+  <script src="js/lib/backbone-min.js"></script>
+  <script src="js/lib/jquery.blueimp-gallery.min.js"></script>
+  <script src="js/lib/bootstrap-image-gallery.min.js"></script>
+  <script src="js/lib/jquery.jcarousel.js"></script>
+  <script src="js/lib/ejs.js"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+  
+  <script src='js/bundle.js'></script>
+
+</head>
+
+<body>
+
+  <div class = "tabbable map-container">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active" id='map-tab-nav'><a href="#map-tab" data-toggle="tab"><span class="glyphicon glyphicon-globe"></span> Map</a></li>
+            <li id="my-maps-nav">
+              <a href="#map-tab" data-toggle="tab"><span class="glyphicon glyphicon-th-list"></span> My maps</a>
+            </li>
+            <li><a href="#new-place-tab" data-toggle="tab" id='new-place-tab-nav'><span class="glyphicon glyphicon-map-marker"></span> New</a></li>
+          </ul>
+
+          <a href="/auth/facebook">Login</a>
+
+          <form class="navbar-form navbar-left search-form" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div><!-- /input-group -->
+          </form><!-- /search-form -->
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="tab-content map-container">
+      <div class="tab-pane active map-container" id="map-tab">
+
+        <div class="sidebar fixed-right place-details">
+          <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+          <div class="content"></div>
+        </div><!-- /details-sidebar -->
+
+        <div class="sidebar maps">
+          <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+          <div class="content">
+          </div><!-- /content -->
+        </div>
+
+        <div class="map-container map-canvas">
+        </div>
+
+      </div>
+      <div class="tab-pane" id="new-place-tab">
+
+        <div class="container">
+
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" name='name' placeholder="Name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="location" placeholder="Location">
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" cols="40" rows="5" name="notes" placeholder="Notes"></textarea>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" cols="40" rows="5" name="pics" placeholder="Pics"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div><!-- /tabbable -->
+
+  <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+  <div id="blueimp-gallery" class="blueimp-gallery">
+    <!-- The container for the modal slides -->
+    <div class="slides"></div>
+    <!-- Controls for the borderless lightbox -->
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->
+    <div class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body next"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left prev">
+              <i class="glyphicon glyphicon-chevron-left"></i>
+              Previous
+            </button>
+            <button type="button" class="btn btn-primary next">
+              Next
+              <i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+    <ul class="properties">
+
+      <li class="place-name property">
+  <table>
+    <tr>
+      <td class="property-value">
+        <%= name %>
+      </td>
+      <td>
+        <button type="button" class="btn btn-default btn-xs btn-right edit" style='display: none;'>
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+      </td>
+
+    </tr>
+  </table>
+      </li>
+
+      <li class="location property"></li>
+
+      <li class="notes property"></li>
+
+      <li class="property">
+
+        <div class="pics-container">
+            
+            <a href="#" class="pics-prev pics-control">&lsaquo;</a>
+
+            <div class="visible-pics">
+              <div class = "all-pics">
+                <%= picsHtml %>
+              </div>
+            </div>
+            
+            <a href="#" class="pics-next pics-control">&rsaquo;</a>
+
+        </div><!-- /pics-container -->
+      </li>
+
+      <li class="parent-maps property"></li>
+    </ul>

@@ -7,11 +7,13 @@ var SearchResultMenu = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.template = _.template($('#search-result-menu').html());
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    var html = new EJS({url:             
+        '/templates/searchResultMenu'}).render(this.model.toJSON());
+
+    this.$el.html(html);
     return this;
   },
 
