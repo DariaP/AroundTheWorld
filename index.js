@@ -12,20 +12,21 @@ function start(dbApi) {
 
   var app = express();
 
+  app.set('views', __dirname + '/public');
+  app.use(express.static('public'));
+  app.set('view engine', 'ejs');
+  app.set('port', (process.env.PORT || 8000));
+
+
   app.use(methodOverride());
-  app.use(session({ secret: 'keyboard cat' }));
-
-
-  app.use(facebook.initialize());
-  app.use(facebook.session());
-
   app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded());
   app.use(cookieParser());
+  app.use(session({ secret: 'keyboard cat' }));
 
-  app.set('port', (process.env.PORT || 8000));
-  app.use('/', express.static(__dirname + '/public'));
+  app.use(facebook.initialize());
+  app.use(facebook.session());
 
   var callback = function(resp) {
     return function(result) {
@@ -37,6 +38,10 @@ function start(dbApi) {
   var userId = function(user) {
     return user.provider + "_" + user.id;
   }
+
+  app.get('/', function(req, res){
+    res.render('index', { user: req.user });
+  });
 
   app.get('/auth/facebook',
     facebook.login(),
@@ -51,7 +56,11 @@ function start(dbApi) {
   );
 
   app.get('/places', function (req, res) {
-    dbApi.getAllPlaces(userId(req.user), callback(res));      
+    if (req.isAuthenticated()) {
+      dbApi.getAllPlaces(userId(req.user), callback(res));      
+    } else {
+      callback([]);
+    }
   });
 
   app.post('/places', function (req, res) {
@@ -59,7 +68,11 @@ function start(dbApi) {
   });
 
   app.get('/maps', function (req, res) {
-    dbApi.getAllMaps(userId(req.user), callback(res));
+    if (req.isAuthenticated()) {
+      dbApi.getAllMaps(userId(req.user), callback(res));
+    } else {
+      callback([]);
+    }
   });
 
   app.put('/map', function (req, res) {
