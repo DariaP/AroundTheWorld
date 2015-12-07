@@ -1,13 +1,57 @@
+var system = require('system');
+
+casper.on("resource.error", function(resourceError){
+//    console.log('Unable to load resource (#' + resourceError.id + 'URL:' + resourceError.url + ')');
+//    console.log('Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
+});
 
 casper.on('remote.message', function(message) {
   this.echo('remote message caught: ' + message);
 });
 
-casper.test.begin("Page load", 2, function(test) {
-
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+function login(test, callback) {
+  casper.start("http://localhost:8000", function() {
     test.assertTitle("Around the world", "title is the one expected");
-    test.assertExists('.gm-style', 'gmap is loaded');
+    this.click('a[href="/auth/facebook"]');
+    this.waitForText("Log into Facebook",
+      function pass () {
+        test.assertExists('div#loginform');
+        this.sendKeys('div#loginform input[name = "email"]',  system.env.FACEBOOK_USERNAME);
+        this.sendKeys('div#loginform input[name = "pass"]',  system.env.FACEBOOK_PASSWORD);
+        test.assertExists('#login_button_inline input');
+        this.click('#login_button_inline input');
+
+        this.waitForText("Hello, Daria Protsenko",
+          function pass () { 
+            callback(this);
+          },
+          function fail () {
+            test.fail("Did not load page");
+          }
+        );
+
+      },
+      function fail () {
+        test.fail("Did not load facebook login page");
+      }
+    );
+  });
+}
+
+casper.test.begin("Page load", 9, function(test) {
+
+  login(test, function(that) {
+    that.click('li#my-maps-nav a');
+
+    casper.then(function() {
+      test.assertVisible('.maps.sidebar');
+      test.assertElementCount('.maps.sidebar ul li', 4);
+      test.assertSelectorHasText('.maps.sidebar ul div#Washington-D-C- a', 'Washington D.C.');
+      test.assertSelectorHasText('.maps.sidebar ul div#USA a', 'USA');
+      test.assertSelectorHasText('.maps.sidebar ul div#Mountain-trails a', 'Mountain trails');
+      test.assertSelectorHasText('.maps.sidebar ul div#Chicago a', 'Chicago');
+    });
+
   });
 
   casper.run(function() {
@@ -15,9 +59,9 @@ casper.test.begin("Page load", 2, function(test) {
   });
 });
 
-casper.test.begin("My maps sidebar", 6, function(test) {
+/*casper.test.begin("My maps sidebar", 6, function(test) {
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -37,7 +81,7 @@ casper.test.begin("My maps sidebar", 6, function(test) {
 
 casper.test.begin("My maps sidebar - add new map", 2, function(test) {
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -69,7 +113,7 @@ casper.test.begin("My maps sidebar - add new map", 2, function(test) {
 
 casper.test.begin("My maps sidebar - delete new map", 8, function(test) {
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -100,7 +144,7 @@ casper.test.begin("My maps sidebar - add and delete map", 10, function(test) {
 
   casper.page.injectJs('/Users/daria/github/AroundTheWorld/js/lib/jquery-1.11.1.min.js');
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -148,7 +192,7 @@ casper.test.begin("My maps sidebar - add and delete map", 10, function(test) {
 
 casper.test.begin("My maps sidebar - delete existing map", 5, function(test) {
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -170,4 +214,4 @@ casper.test.begin("My maps sidebar - delete existing map", 5, function(test) {
   casper.run(function() {
     test.done();
   });
-});
+});*/

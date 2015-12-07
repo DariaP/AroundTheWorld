@@ -19,7 +19,7 @@ for script in $scripts; do
 	node ../../AroundTheWorld-server/initDb.js > /dev/null
 	node ../../AroundTheWorld-server/index.js 1> /dev/null 2> /dev/null &
 	pid=$(ps | grep 'index.js' | grep -v 'grep' | awk '{print $1;}')
-	casperjs test $script
+	casperjs --engine=slimerjs --ssl-protocol=any test $script
 	kill $pid
 done
 
