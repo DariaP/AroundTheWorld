@@ -46,7 +46,11 @@
             <li><a href="#new-place-tab" data-toggle="tab" id='new-place-tab-nav'><span class="glyphicon glyphicon-map-marker"></span> New</a></li>
           </ul>
 
-          <a href="/auth/facebook">Login</a>
+          <%if (user) { %>
+            Hello, <%= user.displayName %>
+          <% } else { %>
+            <a href="/auth/facebook">Login</a>
+          <% } %>
 
           <form class="navbar-form navbar-left search-form" role="search">
             <div class="input-group">
