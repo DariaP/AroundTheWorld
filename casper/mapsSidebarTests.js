@@ -38,40 +38,18 @@ function login(test, callback) {
   });
 }
 
-casper.test.begin("Page load", 9, function(test) {
+casper.test.begin("My maps sidebar", 9, function(test) {
 
   login(test, function(that) {
     that.click('li#my-maps-nav a');
 
-    casper.then(function() {
-      test.assertVisible('.maps.sidebar');
-      test.assertElementCount('.maps.sidebar ul li', 4);
-      test.assertSelectorHasText('.maps.sidebar ul div#Washington-D-C- a', 'Washington D.C.');
-      test.assertSelectorHasText('.maps.sidebar ul div#USA a', 'USA');
-      test.assertSelectorHasText('.maps.sidebar ul div#Mountain-trails a', 'Mountain trails');
-      test.assertSelectorHasText('.maps.sidebar ul div#Chicago a', 'Chicago');
-    });
-
-  });
-
-  casper.run(function() {
-    test.done();
-  });
-});
-
-/*casper.test.begin("My maps sidebar", 6, function(test) {
-
-  casper.start("http://localhost:8000", function() {
-    this.click('li#my-maps-nav a');
-  });
-
-  casper.then(function() {
     test.assertVisible('.maps.sidebar');
     test.assertElementCount('.maps.sidebar ul li', 4);
     test.assertSelectorHasText('.maps.sidebar ul div#Washington-D-C- a', 'Washington D.C.');
     test.assertSelectorHasText('.maps.sidebar ul div#USA a', 'USA');
     test.assertSelectorHasText('.maps.sidebar ul div#Mountain-trails a', 'Mountain trails');
     test.assertSelectorHasText('.maps.sidebar ul div#Chicago a', 'Chicago');
+
   });
 
   casper.run(function() {
@@ -83,26 +61,18 @@ casper.test.begin("My maps sidebar - add new map", 2, function(test) {
 
   casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
-  });
 
-  casper.then(function() {
     this.click('.maps.sidebar .new');
-  });
 
-  casper.then(function() {
     test.assertExists('.maps.sidebar form.new-map');
-  });
 
-  casper.then(function() {
     casper.fill(
       '.maps.sidebar form.new-map',
       {
         'name': 'NewMap1'
       });
     this.click('.maps.sidebar form.new-map .save');
-  });
 
-  casper.then(function() {
     test.assertSelectorHasText('.maps.sidebar ul li:nth-child(5) a', 'NewMap1');
   });
 
@@ -142,7 +112,7 @@ casper.test.begin("My maps sidebar - delete new map", 8, function(test) {
 
 casper.test.begin("My maps sidebar - add and delete map", 10, function(test) {
 
-  casper.page.injectJs('/Users/daria/github/AroundTheWorld/js/lib/jquery-1.11.1.min.js');
+  //casper.page.injectJs('/Users/daria/github/AroundTheWorld/js/lib/jquery-1.11.1.min.js');
 
   casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
@@ -214,4 +184,4 @@ casper.test.begin("My maps sidebar - delete existing map", 5, function(test) {
   casper.run(function() {
     test.done();
   });
-});*/
+});

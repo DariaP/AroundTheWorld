@@ -1,19 +1,47 @@
+var system = require('system');
+
+casper.on("resource.error", function(resourceError){
+});
 
 casper.on('remote.message', function(message) {
   this.echo('remote message caught: ' + message);
 });
 
-casper.test.begin("View map details", 3, function(test) {
+function login(test, callback) {
+  casper.start("http://localhost:8000", function() {
+    test.assertTitle("Around the world", "title is the one expected");
+    this.click('a[href="/auth/facebook"]');
+    this.waitForText("Log into Facebook",
+      function pass () {
+        test.assertExists('div#loginform');
+        this.sendKeys('div#loginform input[name = "email"]',  system.env.FACEBOOK_USERNAME);
+        this.sendKeys('div#loginform input[name = "pass"]',  system.env.FACEBOOK_PASSWORD);
+        test.assertExists('#login_button_inline input');
+        this.click('#login_button_inline input');
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
-    this.click('#my-maps-nav a');
+        this.waitForText("Hello, Daria Protsenko",
+          function pass () { 
+            callback(this);
+          },
+          function fail () {
+            test.fail("Did not load page");
+          }
+        );
+
+      },
+      function fail () {
+        test.fail("Did not load facebook login page");
+      }
+    );
   });
+}
 
-  casper.then(function() {
-    this.click('.maps.sidebar #Chicago a');
-  });
+casper.test.begin("View map details", 6, function(test) {
 
-  casper.then(function() {
+  login(test, function(that) {
+    that.click('#my-maps-nav a');
+    that.click('.maps.sidebar #Chicago a');
+ 
     test.assertElementCount('.maps.sidebar ul li', 2);
     test.assertSelectorHasText('.maps.sidebar ul #Skydeck a', 'Skydeck');
     test.assertSelectorHasText('.maps.sidebar ul #Bean a', 'Bean');
@@ -27,7 +55,7 @@ casper.test.begin("View map details", 3, function(test) {
 
 casper.test.begin("View edited map details", 3, function(test) {
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('#my-maps-nav a');
   });
 
@@ -61,7 +89,7 @@ casper.test.begin("View edited map details", 3, function(test) {
 
 casper.test.begin("Reload details several times", 30, function(test) {
 
-  casper.start("file:///Users/daria/github/AroundTheWorld/index.html", function() {
+  casper.start("http://localhost:8000", function() {
     this.click('li#my-maps-nav a');
   });
 

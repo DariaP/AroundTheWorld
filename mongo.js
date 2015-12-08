@@ -1,4 +1,5 @@
 var MongoClient = require('mongodb').MongoClient,
+    ObjectID = require('mongodb').ObjectID,
     config = require('./config.js').config
 
 function init(callback) {
@@ -20,7 +21,7 @@ function init(callback) {
 
       function getId(id) {
         if (id.length == 24) 
-          return mongodb.ObjectID(id);
+          return ObjectID.createFromHexString(id);
         else 
           return parseInt(id);
       };
@@ -110,6 +111,7 @@ function init(callback) {
         },
 
         deleteMap: function(id, callback) {
+          console.log(id); 
           maps.remove({_id: getId(id)}, {w: 1}, function (err, result) {
             if (result == 1) {
               callback({});
