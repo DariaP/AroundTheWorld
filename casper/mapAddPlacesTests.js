@@ -8,7 +8,7 @@ casper.on('remote.message', function(message) {
 });
 
 function login(test, callback) {
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     test.assertTitle("Around the world", "title is the one expected");
     this.click('a[href="/auth/facebook"]');
     this.waitForText("Log into Facebook",
@@ -37,7 +37,6 @@ function login(test, callback) {
 }
 
 casper.test.begin("View map details", 9, function(test) {
-
   login(test, function(that) {
     that.click('#my-maps-nav a');
 
@@ -65,7 +64,7 @@ casper.test.begin("View map details", 9, function(test) {
 
 casper.test.begin("Add places to map", 7, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('#my-maps-nav a');
   });
 
@@ -103,7 +102,7 @@ casper.test.begin("Add places to map", 7, function(test) {
 
 casper.test.begin("Add places to map one by one", 12, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -161,7 +160,7 @@ casper.test.begin("Add places to map one by one", 12, function(test) {
 
 casper.test.begin("Check and uncheck place", 3, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -196,7 +195,7 @@ casper.test.begin("Check and uncheck place", 3, function(test) {
 
 casper.test.begin("Check, uncheck and check place", 4, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 

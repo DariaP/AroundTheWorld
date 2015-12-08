@@ -10,7 +10,7 @@ casper.on('remote.message', function(message) {
 });
 
 function login(test, callback) {
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     test.assertTitle("Around the world", "title is the one expected");
     this.click('a[href="/auth/facebook"]');
     this.waitForText("Log into Facebook",
@@ -59,7 +59,7 @@ casper.test.begin("My maps sidebar", 9, function(test) {
 
 casper.test.begin("My maps sidebar - add new map", 2, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
 
     this.click('.maps.sidebar .new');
@@ -83,7 +83,7 @@ casper.test.begin("My maps sidebar - add new map", 2, function(test) {
 
 casper.test.begin("My maps sidebar - delete new map", 8, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -114,7 +114,7 @@ casper.test.begin("My maps sidebar - add and delete map", 10, function(test) {
 
   //casper.page.injectJs('/Users/daria/github/AroundTheWorld/js/lib/jquery-1.11.1.min.js');
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 
@@ -162,7 +162,7 @@ casper.test.begin("My maps sidebar - add and delete map", 10, function(test) {
 
 casper.test.begin("My maps sidebar - delete existing map", 5, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 

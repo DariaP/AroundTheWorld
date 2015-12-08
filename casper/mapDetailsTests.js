@@ -8,7 +8,7 @@ casper.on('remote.message', function(message) {
 });
 
 function login(test, callback) {
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     test.assertTitle("Around the world", "title is the one expected");
     this.click('a[href="/auth/facebook"]');
     this.waitForText("Log into Facebook",
@@ -55,7 +55,7 @@ casper.test.begin("View map details", 6, function(test) {
 
 casper.test.begin("View edited map details", 3, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('#my-maps-nav a');
   });
 
@@ -89,7 +89,7 @@ casper.test.begin("View edited map details", 3, function(test) {
 
 casper.test.begin("Reload details several times", 30, function(test) {
 
-  casper.start("http://localhost:8000", function() {
+  casper.start(casper.cli.get("addr"), function() {
     this.click('li#my-maps-nav a');
   });
 
