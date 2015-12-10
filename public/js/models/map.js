@@ -30,7 +30,7 @@ var Map = Backbone.Model.extend({
 
     this.setUrl();
 
-    this.listenTo(this, 'change', function() { 
+    this.listenTo(this, 'change', function() {
       this.save();
     });
   },
@@ -53,6 +53,29 @@ var Map = Backbone.Model.extend({
 
   is: function(map) {
     return this.attributes._id === map.attributes._id;
+  },
+
+  delete: function() {
+    this.trigger("deleted");
+    if (this.attributes._id) {
+      this.destroy({
+        error: function() {
+          ;//TODO
+          console.log("error");
+        }
+      });
+    } else {
+      this.listenTo(this, 'change', function() {
+        if(this.hasChanged('_id') && this.attributes._id) {
+          this.destroy({
+            error: function() {
+              ;//TODO
+              console.log("error");
+            }
+          });          
+        }
+      });
+    }
   }
 });
 

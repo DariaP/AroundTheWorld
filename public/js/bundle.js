@@ -36,7 +36,7 @@ var Map = Backbone.Model.extend({
 
     this.setUrl();
 
-    this.listenTo(this, 'change', function() { 
+    this.listenTo(this, 'change', function() {
       this.save();
     });
   },
@@ -59,6 +59,29 @@ var Map = Backbone.Model.extend({
 
   is: function(map) {
     return this.attributes._id === map.attributes._id;
+  },
+
+  delete: function() {
+    this.trigger("deleted");
+    if (this.attributes._id) {
+      this.destroy({
+        error: function() {
+          ;//TODO
+          console.log("error");
+        }
+      });
+    } else {
+      this.listenTo(this, 'change', function() {
+        if(this.hasChanged('_id') && this.attributes._id) {
+          this.destroy({
+            error: function() {
+              ;//TODO
+              console.log("error");
+            }
+          });          
+        }
+      });
+    }
   }
 });
 
@@ -930,9 +953,9 @@ var MapView = Backbone.View.extend({
 
   initialize: function() {
     // TODO: split?
- 
     //this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
+    this.listenTo(this.model, 'deleted', this.clear);
     this.listenTo(this.model, 'changed', this.render);
   },
 
@@ -952,11 +975,7 @@ var MapView = Backbone.View.extend({
 
   onDeleteClick: function(e) {
     e.preventDefault();
-    this.model.destroy({
-      error: function() {
-        ;//TODO
-      }
-    });
+    this.model.delete();
   },
 
   onEditClick: function(e) {
@@ -985,7 +1004,7 @@ var MapView = Backbone.View.extend({
     this.model.set({
       name : this.$('input[name="name"]').val()
     });
-    this.render();
+    //this.render();
     // TODO: why does this work? o_O
     this.trigger('refreshed');
   }
