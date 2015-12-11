@@ -1517,7 +1517,8 @@ var PlaceDetailsView = Backbone.View.extend({
     "click .place-name button.edit": "editName",
     "mouseover .place-name": "showEditButton",
     "mouseout .place-name": "hideEditButton",
-    "focusout input.name-edit": "saveName"
+    "focusout input.name-edit": "saveName",
+    "submit form": "submitName"
   },
 
   initialize: function(options) {
@@ -1582,6 +1583,11 @@ var PlaceDetailsView = Backbone.View.extend({
     });
 
     this.render();
+  },
+
+  submitName: function(e) {
+    e.preventDefault();
+    this.saveName();
   },
 
   showParentMaps: function() {
@@ -1650,7 +1656,8 @@ var PlaceLocationView = Backbone.View.extend({
     "click button.edit": "edit",
     "mouseover": "showEditButton",
     "mouseout": "hideEditButton",
-    "focusout input": "save"
+    "focusout input": "save",
+    "submit form": "submit"
   },
 
   initialize: function() {
@@ -1683,6 +1690,11 @@ var PlaceLocationView = Backbone.View.extend({
 
     this.$el.html(html);
     this.$('input').focus();
+  },
+  
+  submit: function(e) {
+    e.preventDefault();
+    this.save();
   },
 
   save: function() {
@@ -1781,7 +1793,8 @@ var PlaceNotesView = Backbone.View.extend({
     "click button.edit": "edit",
     "mouseover": "showEditButton",
     "mouseout": "hideEditButton",
-    "focusout textarea": "save"
+    "focusout textarea": "save",
+    "submit form": "submit"
   },
 
   initialize: function() {
@@ -1814,6 +1827,11 @@ var PlaceNotesView = Backbone.View.extend({
 
     this.$el.html(html);
     this.$('textarea').focus();
+  },
+
+  submit: function(e) {
+    e.preventDefault();
+    this.save();
   },
 
   save: function() {

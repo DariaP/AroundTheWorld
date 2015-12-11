@@ -4,7 +4,8 @@ var PlaceNotesView = Backbone.View.extend({
     "click button.edit": "edit",
     "mouseover": "showEditButton",
     "mouseout": "hideEditButton",
-    "focusout textarea": "save"
+    "focusout textarea": "save",
+    "submit form": "submit"
   },
 
   initialize: function() {
@@ -37,6 +38,11 @@ var PlaceNotesView = Backbone.View.extend({
 
     this.$el.html(html);
     this.$('textarea').focus();
+  },
+
+  submit: function(e) {
+    e.preventDefault();
+    this.save();
   },
 
   save: function() {

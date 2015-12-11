@@ -6,7 +6,8 @@ var PlaceLocationView = Backbone.View.extend({
     "click button.edit": "edit",
     "mouseover": "showEditButton",
     "mouseout": "hideEditButton",
-    "focusout input": "save"
+    "focusout input": "save",
+    "submit form": "submit"
   },
 
   initialize: function() {
@@ -39,6 +40,11 @@ var PlaceLocationView = Backbone.View.extend({
 
     this.$el.html(html);
     this.$('input').focus();
+  },
+  
+  submit: function(e) {
+    e.preventDefault();
+    this.save();
   },
 
   save: function() {

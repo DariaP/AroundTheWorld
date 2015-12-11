@@ -10,7 +10,8 @@ var PlaceDetailsView = Backbone.View.extend({
     "click .place-name button.edit": "editName",
     "mouseover .place-name": "showEditButton",
     "mouseout .place-name": "hideEditButton",
-    "focusout input.name-edit": "saveName"
+    "focusout input.name-edit": "saveName",
+    "submit form": "submitName"
   },
 
   initialize: function(options) {
@@ -75,6 +76,11 @@ var PlaceDetailsView = Backbone.View.extend({
     });
 
     this.render();
+  },
+
+  submitName: function(e) {
+    e.preventDefault();
+    this.saveName();
   },
 
   showParentMaps: function() {
