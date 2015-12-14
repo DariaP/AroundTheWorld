@@ -948,13 +948,10 @@ var MapView = Backbone.View.extend({
     "click .delete" : "onDeleteClick",
     "click .edit" : "onEditClick",
     "click a" : "onLinkClick",
-//    "click .save" : 'onSaveClick',
     "submit form" : 'onSaveClick'
   },
 
   initialize: function() {
-    // TODO: split?
-    //this.editTemplate = _.template($('#edit-map-template').html());
     this.listenTo(this.model, 'destroy', this.clear);
     this.listenTo(this.model, 'deleted', this.clear);
     this.listenTo(this.model, 'changed', this.render);
@@ -1006,7 +1003,6 @@ var MapView = Backbone.View.extend({
       name : this.$('input[name="name"]').val()
     });
     this.render();
-    // TODO: why does this work? o_O
     this.trigger('refreshed');
   }
 });
@@ -1428,7 +1424,7 @@ var ParentMapsEditView = Backbone.View.extend({
       view.clear();
     });
 
-    this.$('ul.parent-maps').append(view.render().el);
+    this.$('ul.parent-maps-list').append(view.render().el);
   },
 
   renderMapsDropdown: function() {

@@ -97,7 +97,7 @@ var ParentMapsEditView = Backbone.View.extend({
       view.clear();
     });
 
-    this.$('ul.parent-maps').append(view.render().el);
+    this.$('ul.parent-maps-list').append(view.render().el);
   },
 
   renderMapsDropdown: function() {
