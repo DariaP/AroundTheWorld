@@ -948,7 +948,8 @@ var MapView = Backbone.View.extend({
     "click .delete" : "onDeleteClick",
     "click .edit" : "onEditClick",
     "click a" : "onLinkClick",
-    "click .save" : 'onSaveClick'
+//    "click .save" : 'onSaveClick',
+    "submit form" : 'onSaveClick'
   },
 
   initialize: function() {
@@ -1004,7 +1005,7 @@ var MapView = Backbone.View.extend({
     this.model.set({
       name : this.$('input[name="name"]').val()
     });
-    //this.render();
+    this.render();
     // TODO: why does this work? o_O
     this.trigger('refreshed');
   }
