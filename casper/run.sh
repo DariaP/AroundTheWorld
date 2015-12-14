@@ -16,14 +16,18 @@ if [[ "$serverPid" != "" ]]; then
 fi
 
 for script in $scripts; do
-	node ../../AroundTheWorld-server/initDb.js > /dev/null
-	node ../../AroundTheWorld-server/index.js 1> /dev/null 2> /dev/null &
+	cd ..
+	node initDb.js > /dev/null
+	node index.js 1> /dev/null 2> /dev/null &
 	pid=$(ps | grep 'index.js' | grep -v 'grep' | awk '{print $1;}')
+	cd casper
 	casperjs --engine=slimerjs --ssl-protocol=any test $script --addr=http://localhost:8000
 	kill $pid
 done
 
-node ../../AroundTheWorld-server/initDb.js > /dev/null
+cd ..
+node initDb.js > /dev/null
+
 if [[ "$serverPid" != "" ]]; then
-	node ../../AroundTheWorld-server/index.js &
+	node index.js &
 fi
