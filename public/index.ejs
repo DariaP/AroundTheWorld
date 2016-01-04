@@ -33,7 +33,6 @@
 
 <body>
 
-  <div class = "tabbable map-container">
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
 
@@ -67,27 +66,26 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="tab-content map-container">
-      <div class="tab-pane active map-container" id="map-tab">
+    <div class="container map-container">
+        <div class="row row-content map-container"  id="map-tab">
 
-        <div class="sidebar fixed-right place-details">
-          <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-          <div class="content"></div>
-        </div><!-- /details-sidebar -->
+            <div class="maps sidebar">
+              <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+              <div class="content"></div>
+            </div>
 
-        <div class="sidebar maps">
-          <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-          <div class="content">
-          </div><!-- /content -->
+
+            <div class="col-xs-12 map-container map-canvas">
+            </div>
+
+            <div class="place-details sidebar">
+              <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+              <div class="content"></div>
+            </div>
+
         </div>
 
-        <div class="map-container map-canvas">
-        </div>
-
-      </div>
-      <div class="tab-pane" id="new-place-tab">
-
-        <div class="container">
+        <div class="row row-content"  id="new-place-tab">
 
           <form>
             <div class="form-group">
@@ -106,9 +104,13 @@
           </form>
 
         </div>
-      </div>
+
     </div>
-  </div><!-- /tabbable -->
+
+
+
+
+
 
   <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
   <div id="blueimp-gallery" class="blueimp-gallery">
