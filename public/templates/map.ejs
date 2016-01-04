@@ -1,9 +1,17 @@
-<div id=<% var divId = name.replace(/[.|\s]/g, '-') %><%= divId %>>
-  <a href='#' class='bootstrap-style-link'><%= name %></a>
-  <button type="button" class="btn btn-default btn-xs btn-right delete">
-    <span class="glyphicon glyphicon-remove"></span>
-  </button>
-  <button type="button" class="btn btn-default btn-xs btn-right edit">
-    <span class="glyphicon glyphicon-pencil"></span>
-  </button>
-</div>
+<tr>
+  <td class="text-nowrap">
+    <a href="#" id=<% var divId = name.replace(/[.|\s]/g, '-') %><%= divId %>>
+      <%= name %>
+    </a>
+  </td>
+  <td class="text-right text-nowrap">
+    <div class="btn-toolbar pull-right" role="toolbar">
+      <button type="button" class="btn btn-default btn-xs delete">
+        <span class="glyphicon glyphicon-remove"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-xs edit">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+    </div>
+  </td>
+</tr>

@@ -1,6 +1,4 @@
 var MapView = Backbone.View.extend({
-
-  tagName:  "li",
   
   events: {
     "click .delete" : "onDeleteClick",
@@ -21,7 +19,7 @@ var MapView = Backbone.View.extend({
     var html = new EJS({url:             
         '/templates/map'}).render(this.model.toJSON());
 
-    this.$el.html(html);
+    this.setElement(html);
     return this;
   },
 
@@ -126,7 +124,7 @@ var MapsListView = Backbone.View.extend({
       that.$el.hide().fadeIn('fast');
     })
 
-    this.$('ul').append(view.el);
+    this.$('tbody').append(view.el);
   },
 
   newMap: function(e) {
@@ -139,7 +137,7 @@ var MapsListView = Backbone.View.extend({
       this.addingNew = true;
 
       var view = new NewMapView();
-      this.$('ul').before(view.render().el);
+      this.$('tbody').before(view.render().el);
 
       view.once('newMap', function(name) {
         that.addMap(name);

@@ -1,0 +1,32 @@
+var system = require('system');
+
+function login(test, callback) {
+  casper.start("http://localhost:8000", function() {
+    test.assertTitle("Around the world", "title is the one expected");
+    this.click('a[href="/auth/facebook"]');
+    this.waitForText("Log into Facebook",
+      function pass () {
+        test.assertExists('div#loginform');
+        this.sendKeys('div#loginform input[name = "email"]',  system.env.FACEBOOK_USERNAME);
+        this.sendKeys('div#loginform input[name = "pass"]',  system.env.FACEBOOK_PASSWORD);
+        test.assertExists('#login_button_inline input');
+        this.click('#login_button_inline input');
+
+        this.waitForText("Hello, Daria Protsenko",
+          function pass () { 
+            callback(this);
+          },
+          function fail () {
+            test.fail("Did not load page");
+          }
+        );
+
+      },
+      function fail () {
+        test.fail("Did not load facebook login page");
+      }
+    );
+  });
+}
+
+module.exports = login;

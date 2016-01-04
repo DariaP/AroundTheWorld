@@ -34,7 +34,7 @@ body {
   right: 0;
 }*/
 
-.btn-right {
+/*.btn-right {
   margin-left: 1px;
   margin-right: 1px;
   float: right;
@@ -42,16 +42,16 @@ body {
 
 .chbx-right {
   float: right;
-}
+}*/
 
-ul {
+/*ul {
   list-style: none;
   padding-left: 20px;
 }
 
 li {
   padding-bottom: 8px;
-}
+}*/
 
 h4 {
   padding-top: 10px;
@@ -59,12 +59,12 @@ h4 {
   padding-bottom: 8px;
 }
 
-.bootstrap-style-link {
+/*.bootstrap-style-link {
   text-align: center;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 14px;
   color: #333;
-}
+}*/
 
 .scrollable {
   height: 100%;
