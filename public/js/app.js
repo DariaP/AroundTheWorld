@@ -1,79 +1,115 @@
 'use strict';
 
 angular.module('aroundTheWorld', ['ui.router'])
-    .config(function($stateProvider, $urlRouterProvider) {
-        $stateProvider
-        
-            // route for the main page
-            .state('app', {
-                url:'/',
-                views: {
-                    'header': {
-                        templateUrl : 'views/header.html',
-                        controller  : 'HeaderController'
-                    },
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
 
-                    'content': {
-                        templateUrl : 'views/gmap.html',
-                        controller  : 'IndexController'
-                    }
-                }
+  .state('app', {
+    url:'/',
+    views: {
+      'header': {
+        templateUrl : 'views/header.html',
+        controller  : 'HeaderController'
+      },
 
-            })
-    
-        $urlRouterProvider.otherwise('/');
-    })
+      'content': {
+        templateUrl : 'views/gmap.html',
+        controller  : 'IndexController'
+      }
+    }
 
-    .controller('MapCtrl', function ($scope, $rootScope) {
+  })
 
-        var mapOptions = {
-            center: new google.maps.LatLng(30, -30),
-            zoom: 3
+  $urlRouterProvider.otherwise('/');
+})
+
+.controller('MapCtrl', function ($scope, $rootScope, markersService) {
+
+  var mapOptions = {
+    center: new google.maps.LatLng(30, -30),
+    zoom: 3
+  }
+
+  $scope.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var placesSearchService = new google.maps.places.PlacesService($scope.map);
+
+  var autocomplete = new google.maps.places.Autocomplete(
+    document.querySelector(".search-form input"));
+
+  $rootScope.$on('search', function (event, searchText) {
+    search(searchText);
+  });
+
+  function search(searchText) {
+    var request = {
+      query: searchText
+    };
+
+    placesSearchService.textSearch(request, function(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createSearchMarker(results[i]);
         }
+      }
+    });
+  }
 
-        $scope.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  function createSearchMarker(searchResult) {
+    var marker = markersService.getMarker({
+      map: $scope.map,
+      title: searchResult.formatted_address,
+      location: {
+        lat: searchResult.geometry.location.lat(), 
+        lng: searchResult.geometry.location.lng()
+      },
+      color: '78FF69'
+    });
 
-        var placesSearchService = new google.maps.places.PlacesService($scope.map);
+    var off = $rootScope.$on('search', function (event, searchText) {
+      marker.clear();
+      off();
+    });
+  }
 
-        var autocomplete = new google.maps.places.Autocomplete(
-          document.querySelector(".search-form input"));
+})
 
-        $rootScope.$on('search', function (event, searchText) {
-          search(searchText);
-        });
+.controller('HeaderController', function ($scope, $rootScope) {
 
-        function search(searchText) {
-            var request = {
-                  query: searchText
-                };
+  $scope.searchText = "";
 
-            //TODO:this.trigger('newSearch');
+  $scope.search = function() {
+    $rootScope.$emit('search', $scope.searchText);
+  }
+})
 
-            placesSearchService.textSearch(request, function(results, status) {
-              if (status == google.maps.places.PlacesServiceStatus.OK) {
-                for (var i = 0; i < results.length; i++) {
-                  createSearchMarker(results[i]);
-                }
-              }
-            });
-        }
+.controller('IndexController', function() {
 
-        function createSearchMarker(searchResult) {
-            console.log(searchResult);
-        }
+})
 
-    })
+.service('markersService', function() {
 
-    .controller('HeaderController', function ($scope, $rootScope) {
+  function getPin (color) {
+    return new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0,0),
+      new google.maps.Point(10, 34));  
+  }
 
-        $scope.searchText = "";
+  this.getMarker = function(params) {
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(params.location.lat, params.location.lng),
+      map: params.map,
+      title: params.title,
+      icon: getPin(params.color)
+    });
 
-        $scope.search = function() {
-            $rootScope.$emit('search', $scope.searchText);
-        }
-    })
+    return {
+      clear: function() {
+        marker.setMap(null);
+      }
+    }
+  };
 
-    .controller('IndexController', function() {
-        
-    })
+})
 ;
