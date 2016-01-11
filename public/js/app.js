@@ -21,6 +21,29 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
 
   })
 
+  .state('app.maps', {
+    url:'/maps',
+    views: {
+      'header': {
+        templateUrl : 'views/header.html',
+        controller  : 'HeaderController',
+        params: { user: {displayName: "test"} }
+      },
+
+      'content': {
+        templateUrl : 'views/gmap.html',
+        controller  : 'IndexController'
+      },
+
+      'maps': {
+        templateUrl : 'views/mapsSidebar.html',
+        controller  : 'MapsController'
+      }
+
+    }
+
+  })
+
   $urlRouterProvider.otherwise('/');
 })
 
@@ -75,8 +98,12 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
 
 })
 
-.controller('HeaderController', ['$scope', '$rootScope', 'userName', 
-  function ($scope, $rootScope, userName) {
+.controller('HeaderController', ['$scope', '$rootScope', 'userName', '$location',
+  function ($scope, $rootScope, userName, $location) {
+
+    $scope.isActive = function (viewLocation) { 
+      return viewLocation === $location.path();
+    };
 
     $scope.userName = userName;
     $scope.searchText = "";
@@ -88,6 +115,10 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
 ])
 
 .controller('IndexController', function() {
+
+})
+
+.controller('MapsController', function() {
 
 })
 
@@ -115,5 +146,9 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
     }
   };
 
+})
+
+.service('mapsService', '$resource', 'baseURL', function($resource, baseURL) {
+;
 })
 ;
