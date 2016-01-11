@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('aroundTheWorld', ['ui.router'])
+angular.module('aroundTheWorld', ['ui.router', 'user'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -9,7 +9,8 @@ angular.module('aroundTheWorld', ['ui.router'])
     views: {
       'header': {
         templateUrl : 'views/header.html',
-        controller  : 'HeaderController'
+        controller  : 'HeaderController',
+        params: { user: {displayName: "test"} }
       },
 
       'content': {
@@ -74,14 +75,17 @@ angular.module('aroundTheWorld', ['ui.router'])
 
 })
 
-.controller('HeaderController', function ($scope, $rootScope) {
+.controller('HeaderController', ['$scope', '$rootScope', 'userName', 
+  function ($scope, $rootScope, userName) {
 
-  $scope.searchText = "";
+    $scope.userName = userName;
+    $scope.searchText = "";
 
-  $scope.search = function() {
-    $rootScope.$emit('search', $scope.searchText);
+    $scope.search = function() {
+      $rootScope.$emit('search', $scope.searchText);
+    }
   }
-})
+])
 
 .controller('IndexController', function() {
 

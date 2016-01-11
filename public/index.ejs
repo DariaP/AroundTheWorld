@@ -71,7 +71,20 @@
   <script src="js/lib/ejs.js"></script>
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script> 
-  
+
+  <script>
+    
+
+    var userName = null;
+
+    <%if (user) { %>
+      userName = "<%= user.displayName %>"
+    <% } %>
+
+     angular.module('user', [])
+       .constant('userName', userName);
+  </script>
+
   <script src='js/app.js'></script>
   
 

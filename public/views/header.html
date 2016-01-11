@@ -41,13 +41,12 @@
       </form><!-- /search-form -->
 
       <div class="nav navbar-right">
-        <div class="navbar-text">
-          <%if (user) { %>
-            Hello, <%= user.displayName %>
-          <% } else { %>
+        <div class="navbar-text" ng-if="userName">
+            Hello, {{ userName }}
+        </div>
+        <div class="navbar-text" ng-if="!userName">
             <a href="/auth/facebook">Login</a>
-          <% } %>
-        </div>   
+        </div>
       </div> 
 
     </div><!-- /.navbar-collapse -->        
