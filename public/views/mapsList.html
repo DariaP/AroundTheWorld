@@ -1,14 +1,31 @@
 <div>
-<h4>
-  Maps
-  <button type="button" class="btn btn-default btx-xs pull-right new">
-    <span class="glyphicon glyphicon-plus"></span> New 
-  </button>
-</h4>
- <div class="panel panel-default scrollable">
-  <table class="table table-hover">
-    <tbody>
-    </tbody>
-  </table>
- </div>
+  <h4>
+    Maps
+    <button type="button" class="btn btn-default btx-xs pull-right new">
+      <span class="glyphicon glyphicon-plus"></span> New 
+    </button>
+  </h4>
+  <div class="panel panel-default scrollable">
+    <table class="table table-hover">
+      <tbody>
+        <tr ng-repeat="map in maps">
+          <td class="text-nowrap">
+            <a href="#">
+              {{ map.name }}
+            </a>
+          </td>
+          <td class="text-right text-nowrap">
+            <div class="btn-toolbar pull-right" role="toolbar">
+              <button type="button" class="btn btn-default btn-xs delete">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+              <button type="button" class="btn btn-default btn-xs edit">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

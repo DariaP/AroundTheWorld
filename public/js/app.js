@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('aroundTheWorld', ['ui.router', 'user'])
+angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
+.constant("baseURL","http://localhost:8000/")
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -37,6 +38,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
       }
     }
   })
+
   $urlRouterProvider.otherwise('/');
 })
 
@@ -107,9 +109,20 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
   }
 ])
 
-.controller('MapsListController', function() {
+.controller('MapsListController', ['$scope', 'mapsService', function($scope, mapsService) {
 
-})
+    $scope.showMaps = true;
+    $scope.message = "Loading ...";
+    $scope.maps = mapsService.getMaps().query(
+        function(response) {
+            $scope.maps = response;
+            $scope.showMaps = true;
+        },
+        function(response) {
+            $scope.message = "Error: "+response.status + " " + response.statusText;
+        });
+//    console.log($scope.maps);
+}])
 
 .service('markersService', function() {
 
@@ -137,7 +150,10 @@ angular.module('aroundTheWorld', ['ui.router', 'user'])
 
 })
 
-.service('mapsService', '$resource', 'baseURL', function($resource, baseURL) {
-;
-})
+.service('mapsService', ['$resource', 'baseURL', function($resource, baseURL) {
+  this.getMaps = function() {
+    return $resource(baseURL + "maps", null,  {'update': {method: 'PUT' }});
+  }
+}])
+
 ;
