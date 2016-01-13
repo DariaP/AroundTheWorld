@@ -68,8 +68,18 @@ function start(dbApi) {
   });
 
   app.get('/maps', function (req, res) {
+
     if (req.isAuthenticated()) {
       dbApi.getAllMaps(userId(req.user), callback(res));
+    } else {
+      callback([]);
+    }
+  });
+
+  app.get('/maps/:id', function (req, res) {
+
+    if (req.isAuthenticated()) {
+      dbApi.getMap(req.params.id, userId(req.user), callback(res));
     } else {
       callback([]);
     }

@@ -81,6 +81,17 @@ function init(callback) {
           });
         },
 
+        getMap: function(mapId, user, callback) {
+          maps.find({ user:  { $eq : user }, _id: getId(mapId) }, 
+            {}, {w: 1}).toArray ( function (err, res) {
+            if (err) {
+              callback({err: err});
+            } else {
+              callback(res[0]);
+            }
+          });
+        },
+
         updatePlace: function(user, place, callback) {
           if ( ! place._id) {
             place.user = user;

@@ -21,7 +21,6 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   })
 
   .state('app.mapsSidebar', {
-    url:'/maps',
     views: {
       'mapsSidebar': {
         templateUrl : 'views/mapsSidebar.html'
@@ -30,7 +29,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   })
 
   .state('app.mapsSidebar.maps', {
-    url:'/maps',
+    url:'maps',
     views: {
       'mapsSidebarContent': {
         templateUrl : 'views/mapsList.html',
@@ -38,6 +37,17 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
       }
     }
   })
+
+  // route for the dishdetail page
+  .state('app.mapsSidebar.map', {
+      url: 'map/:id',
+      views: {
+          'mapsSidebarContent': {
+              templateUrl : 'views/map.html',
+              controller  : 'MapController'
+         }
+      }
+  });
 
   $urlRouterProvider.otherwise('/');
 })
@@ -113,7 +123,9 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
 
     $scope.showMaps = true;
     $scope.message = "Loading ...";
-    $scope.maps = mapsService.getMaps().query(
+    $scope.maps = {};
+
+    mapsService.getMaps().query(
         function(response) {
             $scope.maps = response;
             $scope.showMaps = true;
@@ -121,7 +133,22 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
         function(response) {
             $scope.message = "Error: "+response.status + " " + response.statusText;
         });
-//    console.log($scope.maps);
+}])
+
+.controller('MapController', ['$scope', '$stateParams', 'mapsService', function($scope, $stateParams, mapsService) {
+
+    $scope.showMap = true;
+    $scope.message="Loading ...";
+    $scope.map = mapsService.getMaps().get({id:parseInt($stateParams.id,10)})
+        .$promise.then(
+            function(response){
+                $scope.map = response;
+                $scope.showMap = true;
+            },
+            function(response) {
+                $scope.message = "Error: "+response.status + " " + response.statusText;
+            }
+        );   
 }])
 
 .service('markersService', function() {
@@ -152,7 +179,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
 
 .service('mapsService', ['$resource', 'baseURL', function($resource, baseURL) {
   this.getMaps = function() {
-    return $resource(baseURL + "maps", null,  {'update': {method: 'PUT' }});
+    return $resource(baseURL + "maps/:id", null,  {'update': {method: 'PUT' }});
   }
 }])
 
