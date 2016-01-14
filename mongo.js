@@ -59,7 +59,7 @@ function init(callback) {
 
       var dbApi = {
 
-        getAllPlaces: function(user, callback) {
+        getPlaces: function(mapId, user, callback) {
           places.find({ user:  { $eq : user } },
             {}, {w: 1}).toArray ( function (err, res) {
             if (err) {
@@ -107,9 +107,12 @@ function init(callback) {
           }
         },
 
-        getPlacesOnMap: function(params, callback) {
+        getPlacesOnMap: function(mapId, user, callback) {
           places.find(
-            {parentMaps: { $all : [ getId(params.map) ]} }, 
+            {
+              user:  { $eq : user }, 
+              parentMaps: { $all : [ getId(mapId) ]} 
+            }, 
             {}, 
             {w: 1}
           ).toArray ( function (err, res) {

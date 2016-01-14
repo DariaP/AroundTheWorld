@@ -10,12 +10,12 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
     views: {
       'header': {
         templateUrl : 'views/header.html',
-        controller  : 'HeaderController',
-        params: { user: {displayName: "test"} }
+        controller  : 'HeaderController'
       },
 
       'content': {
-        templateUrl : 'views/gmap.html'
+        templateUrl : 'views/gmap.html',
+        controller: 'WorldMapController'
       }
     }
   })
@@ -52,7 +52,9 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   $urlRouterProvider.otherwise('/');
 })
 
-.controller('MapCtrl', function ($scope, $rootScope, markersService) {
+.controller('WorldMapController', [
+  '$scope', '$rootScope', 'markersService', 'placesService', 
+  function ($scope, $rootScope, markersService, placesService) {
 
   var mapOptions = {
     center: new google.maps.LatLng(30, -30),
@@ -69,6 +71,19 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   $rootScope.$on('search', function (event, searchText) {
     search(searchText);
   });
+
+  $rootScope.$on('showMap', function (event, mapId) {
+    placesService.getPlaces().query({mapId: mapId},
+      function(response) {
+          for (var i = 0; i < response.length; i++) {
+            createPlaceMarker(response[i]);
+          }
+      },
+      function(response) {
+          //TODO
+      });
+    }
+  );
 
   function search(searchText) {
     var request = {
@@ -101,7 +116,23 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
     });
   }
 
-})
+  function createPlaceMarker(place) {
+    var marker = markersService.getMarker({
+      map: $scope.map,
+      title: place.name,
+      location: {
+        lat: place.location.lat, 
+        lng: place.location.lng
+      },
+      color: 'FE7569'
+    });
+
+    var off = $rootScope.$on('showMap', function (event, searchText) {
+      marker.clear();
+      off();
+    });
+  }
+}])
 
 .controller('HeaderController', ['$scope', '$rootScope', 'userName', '$location',
   function ($scope, $rootScope, userName, $location) {
@@ -135,7 +166,8 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
         });
 }])
 
-.controller('MapController', ['$scope', '$stateParams', 'mapsService', function($scope, $stateParams, mapsService) {
+.controller('MapController', ['$scope', '$rootScope', '$stateParams', 'mapsService', 
+  function($scope, $rootScope, $stateParams, mapsService) {
 
     $scope.showMap = true;
     $scope.message="Loading ...";
@@ -144,6 +176,8 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
             function(response){
                 $scope.map = response;
                 $scope.showMap = true;
+
+                $rootScope.$emit('showMap', $scope.map._id);
             },
             function(response) {
                 $scope.message = "Error: "+response.status + " " + response.statusText;
@@ -183,4 +217,9 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   }
 }])
 
+.service('placesService', ['$resource', 'baseURL', function($resource, baseURL) {
+  this.getPlaces = function() {
+    return $resource(baseURL + "places/:mapId", null,  {'update': {method: 'PUT' }});
+  }
+}])
 ;
