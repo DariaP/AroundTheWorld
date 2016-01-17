@@ -59,7 +59,7 @@ function start(dbApi) {
     if (req.isAuthenticated()) {
       dbApi.getPlacesOnMap(req.params.mapId, userId(req.user), callback(res));      
     } else {
-      callback([]);
+      callback(res)([]);
     }
   });
 
@@ -72,7 +72,7 @@ function start(dbApi) {
     if (req.isAuthenticated()) {
       dbApi.getAllMaps(userId(req.user), callback(res));
     } else {
-      callback([]);
+      callback(res)([]);
     }
   });
 
@@ -81,7 +81,8 @@ function start(dbApi) {
     if (req.isAuthenticated()) {
       dbApi.getMap(req.params.id, userId(req.user), callback(res));
     } else {
-      callback([]);
+      console.log('empty')
+      callback(res)([]);
     }
   });
 
