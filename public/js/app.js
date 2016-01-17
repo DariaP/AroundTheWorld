@@ -190,23 +190,53 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
     }
 }])
 
-.controller('MapController', ['$scope', '$rootScope', '$stateParams', 'mapsService', 
-  function($scope, $rootScope, $stateParams, mapsService) {
+.controller('MapController', [
+  '$scope',
+  '$rootScope',
+  '$state',
+  '$stateParams',
+  'mapsService',
+  'placesService',
+  'userName', 
+
+  function(
+    $scope, 
+    $rootScope,
+    $state, 
+    $stateParams, 
+    mapsService,
+    placesService,
+    userName) {
 
     $scope.showMap = false;
     $scope.message="Loading ...";
-    $scope.map = mapsService.getMaps().get({id:parseInt($stateParams.id,10)})
-        .$promise.then(
-            function(response){
-                $scope.map = response;
-                $scope.showMap = true;
 
-                $rootScope.$emit('showMap', $scope.map._id);
-            },
-            function(response) {
-                $scope.message = "Error: "+response.status + " " + response.statusText;
-            }
-        );   
+    if (userName) {
+      mapsService.getMaps().get({id: parseInt($stateParams.id,10)})
+        .$promise.then(
+          function(response){
+              $scope.map = response;
+              $scope.showMap = true;
+
+              $rootScope.$emit('showMap', $scope.map._id);
+          },
+          function(response) {
+              $scope.message = "Error: "+response.status + " " + response.statusText;
+          }
+      );
+
+    placesService.getPlaces().query({mapId: parseInt($stateParams.id,10)},
+      function(response) {
+        $scope.places = response;
+      },
+      function(response) {
+          //TODO
+      }
+    );
+
+    } else {
+      $state.go('app.mapsSidebar.login');
+    }
 }])
 
 .service('markersService', function() {

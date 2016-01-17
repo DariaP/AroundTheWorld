@@ -1,9 +1,37 @@
+<div>
   <h4>
   {{ map.name }}
     <button type="button" class="btn btn-default btn-right add">
       <span class="glyphicon glyphicon-plus"> Place</span>
     </button>
   </h4>
-  <div class="scrollable">
-    <ul></ul>
+
+  <div ng-if="places.length !== 0">
+    <div class="panel panel-default scrollable">
+      <table class="table table-hover">
+        <tbody>
+          <tr ng-repeat="place in places">
+            <td class="text-nowrap">
+              <a ui-sref="app">
+                {{ place.name }}
+              </a>
+            </td>
+            <td class="text-right text-nowrap">
+              <div class="btn-toolbar pull-right" role="toolbar">
+			    <button type="button" class="btn btn-default btn-xs remove">
+			      <span class="glyphicon glyphicon-minus"></span>
+			    </button>
+			    <button type="button" class="btn btn-default btn-xs lookup">
+			      <span class="glyphicon glyphicon-search"></span>
+			    </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  <div ng-if="places.length === 0">
+      <p>This map is empty</p>
+  </div>
+</div>
