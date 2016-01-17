@@ -5,27 +5,33 @@
       <span class="glyphicon glyphicon-plus"></span> New 
     </button>
   </h4>
-  <div class="panel panel-default scrollable">
-    <table class="table table-hover">
-      <tbody>
-        <tr ng-repeat="map in maps">
-          <td class="text-nowrap">
-            <a ui-sref="app.mapsSidebar.map({id: map._id})">
-              {{ map.name }}
-            </a>
-          </td>
-          <td class="text-right text-nowrap">
-            <div class="btn-toolbar pull-right" role="toolbar">
-              <button type="button" class="btn btn-default btn-xs delete">
-                <span class="glyphicon glyphicon-remove"></span>
-              </button>
-              <button type="button" class="btn btn-default btn-xs edit">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+  <div ng-if="maps.length !== 0">
+    <div class="panel panel-default scrollable">
+      <table class="table table-hover">
+        <tbody>
+          <tr ng-repeat="map in maps">
+            <td class="text-nowrap">
+              <a ui-sref="app.mapsSidebar.map({id: map._id})">
+                {{ map.name }}
+              </a>
+            </td>
+            <td class="text-right text-nowrap">
+              <div class="btn-toolbar pull-right" role="toolbar">
+                <button type="button" class="btn btn-default btn-xs delete">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-xs edit">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div ng-if="maps.length === 0">
+      <p>You don't have any maps yet.</p>
   </div>
 </div>
