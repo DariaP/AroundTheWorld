@@ -1,4 +1,4 @@
-<div>
+<div ng-if="showMap && showPlaces">
   <h4>
   {{ map.name }}
     <button type="button" class="btn btn-default btn-right add">
@@ -31,7 +31,13 @@
       </table>
     </div>
   </div>
+
   <div ng-if="places.length === 0">
       <p>This map is empty</p>
   </div>
+
+</div>
+
+<div ng-if="!showPlaces">
+  {{message}}
 </div>

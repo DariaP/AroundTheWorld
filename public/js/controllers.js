@@ -150,6 +150,7 @@ angular.module('aroundTheWorld')
     userName) {
 
     $scope.showMap = false;
+    $scope.showPlaces = false;
     $scope.message="Loading ...";
 
     if (userName) {
@@ -158,7 +159,6 @@ angular.module('aroundTheWorld')
           function(response){
               $scope.map = response;
               $scope.showMap = true;
-
               $rootScope.$emit('showMap', $scope.map._id);
           },
           function(response) {
@@ -169,6 +169,7 @@ angular.module('aroundTheWorld')
     placesService.getPlaces().query({mapId: parseInt($stateParams.id,10)},
       function(response) {
         $scope.places = response;
+        $scope.showPlaces = true;
       },
       function(response) {
           //TODO
