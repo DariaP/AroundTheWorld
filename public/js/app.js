@@ -28,6 +28,15 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
     }
   })
 
+  .state('app.mapsSidebar.login', {
+    url:'mapslogin',
+    views: {
+      'mapsSidebarContent': {
+        templateUrl : 'views/login.html'
+      }
+    }
+  })
+
   .state('app.mapsSidebar.maps', {
     url:'maps',
     views: {
@@ -150,26 +159,41 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   }
 ])
 
-.controller('MapsListController', ['$scope', 'mapsService', function($scope, mapsService) {
+.controller('MapsListController', [
+  '$scope', 
+  '$state',
+  'mapsService', 
+  'userName', 
+  function (
+      $scope, 
+      $state, 
+      mapsService, 
+      userName 
+    ) 
+  {
 
-    $scope.showMaps = true;
+    $scope.showMaps = false;
     $scope.message = "Loading ...";
     $scope.maps = {};
 
-    mapsService.getMaps().query(
-        function(response) {
-            $scope.maps = response;
-            $scope.showMaps = true;
-        },
-        function(response) {
-            $scope.message = "Error: "+response.status + " " + response.statusText;
-        });
+    if (userName) {
+      mapsService.getMaps().query(
+          function(response) {
+              $scope.maps = response;
+              $scope.showMaps = true;
+          },
+          function(response) {
+              $scope.message = "Error: " + response.status + " " + response.statusText;
+          });
+    } else {
+      $state.go('app.mapsSidebar.login');
+    }
 }])
 
 .controller('MapController', ['$scope', '$rootScope', '$stateParams', 'mapsService', 
   function($scope, $rootScope, $stateParams, mapsService) {
 
-    $scope.showMap = true;
+    $scope.showMap = false;
     $scope.message="Loading ...";
     $scope.map = mapsService.getMaps().get({id:parseInt($stateParams.id,10)})
         .$promise.then(
