@@ -1,9 +1,17 @@
 <div ng-if="showMap && showPlaces">
   <h4>
-  {{ map.name }}
-    <button type="button" class="btn btn-default btn-right add">
-      <span class="glyphicon glyphicon-plus"> Place</span>
-    </button>
+    {{ map.name }}
+    <div class="btn-toolbar pull-right" role="toolbar">
+      <button type="button" class="btn btn-default btn-xs" ng-click="delete()">
+        <span class="glyphicon glyphicon-remove"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-xs">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-xs">
+        <span class="glyphicon glyphicon-plus"> place</span>
+      </button>
+    </div>
   </h4>
 
   <div ng-if="places.length !== 0">
@@ -18,12 +26,12 @@
             </td>
             <td class="text-right text-nowrap">
               <div class="btn-toolbar pull-right" role="toolbar">
-			    <button type="button" class="btn btn-default btn-xs remove">
-			      <span class="glyphicon glyphicon-minus"></span>
-			    </button>
-			    <button type="button" class="btn btn-default btn-xs lookup">
-			      <span class="glyphicon glyphicon-search"></span>
-			    </button>
+      			    <button type="button" class="btn btn-default btn-xs remove">
+      			      <span class="glyphicon glyphicon-minus"></span>
+      			    </button>
+      			    <button type="button" class="btn btn-default btn-xs lookup">
+      			      <span class="glyphicon glyphicon-search"></span>
+      			    </button>
               </div>
             </td>
           </tr>
