@@ -126,7 +126,7 @@ angular.module('aroundTheWorld')
       userName 
     ) 
   {
-console.log('MapsListController');
+
     $scope.showMaps = false;
     $scope.message = "Loading ...";
     $scope.maps = {};
@@ -172,7 +172,7 @@ console.log('MapsListController');
     $scope.message="Loading ...";
 
     if (userName) {
-      mapsService.getMaps().get({id: parseInt($stateParams.id,10)})
+      mapsService.getMaps().get({id: $stateParams.id})
         .$promise.then(
           function(response){
               $scope.map = response;
@@ -184,7 +184,7 @@ console.log('MapsListController');
           }
       );
 
-      placesService.getPlaces().query({mapId: parseInt($stateParams.id,10)},
+      placesService.getPlaces().query({mapId: $stateParams.id},
         function(response) {
           $scope.places = response;
           $scope.showPlaces = true;

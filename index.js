@@ -30,7 +30,7 @@ function start(dbApi) {
 
   var callback = function(resp) {
     return function(result) {
-      if(result.err) resp.status(500).send(result);
+      if(!result || result.err) resp.status(500).send(result);
       else resp.send(result);
     };
   };
@@ -94,6 +94,10 @@ function start(dbApi) {
       console.log('empty')
       callback(res)([]);
     }
+  });
+
+  app.post('/maps', function (req, res) {
+    dbApi.addMap(userId(req.user), req.body, callback(res));
   });
 
   app.put('/map', function (req, res) {
