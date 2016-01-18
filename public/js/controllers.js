@@ -2,10 +2,11 @@
 
 angular.module('aroundTheWorld')
 
-.controller('WorldMapController', [
+.controller('GMapController', [
   '$scope', '$rootScope', 'markersService', 'placesService', 
   function ($scope, $rootScope, markersService, placesService) {
 
+console.log('GMapController');
   var mapOptions = {
     center: new google.maps.LatLng(30, -30),
     zoom: 3
@@ -100,6 +101,22 @@ angular.module('aroundTheWorld')
   }
 ])
 
+
+
+.controller('GMapLayoutController',
+  function ($scope) 
+  {
+    $scope.$parent.mapsSidebarClasses = "col-xs-hide";
+    $scope.$parent.gmapClasses = "col-xs-12";
+})
+
+.controller('MapsSidebarController',
+  function ($scope) 
+  {
+    $scope.$parent.mapsSidebarClasses = "col-xs-3";
+    $scope.$parent.gmapClasses = "col-xs-9";
+  })
+
 .controller('MapsListController', [
   '$scope', 
   '$state',
@@ -113,6 +130,7 @@ angular.module('aroundTheWorld')
     ) 
   {
 
+console.log('MapsListController');
     $scope.showMaps = false;
     $scope.message = "Loading ...";
     $scope.maps = {};

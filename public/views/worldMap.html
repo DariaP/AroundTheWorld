@@ -1,0 +1,12 @@
+<div class="container map-container">
+    <div class="row row-content map-container">
+
+      <div ui-view="mapsSidebar" ng-class="$parent.mapsSidebarClasses"></div>
+
+      <div ng-class="gmapClasses" class="map-container" id="map-canvas"></div>
+      <div ui-view="map-layout"></div>
+
+      <div ui-view="placeSidebar" ng-class="$parent.placeSidebarClasses"></div>
+
+    </div>
+</div>

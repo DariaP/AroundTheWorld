@@ -6,7 +6,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   $stateProvider
 
   .state('app', {
-    url:'/',
+    abstract: true,
     views: {
       'header': {
         templateUrl : 'views/header.html',
@@ -14,22 +14,35 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
       },
 
       'content': {
-        templateUrl : 'views/gmap.html',
-        controller: 'WorldMapController'
+        templateUrl : 'views/worldMap.html',
+        controller  : 'GMapController'
+      }
+    }
+  })
+
+  .state('app.map', {
+    url:'/',
+    views: {
+      'map-layout': {
+        template : " ",
+        controller  : 'GMapLayoutController'
       }
     }
   })
 
   .state('app.mapsSidebar', {
+    abstract: true,
     views: {
+
       'mapsSidebar': {
-        templateUrl : 'views/mapsSidebar.html'
+        templateUrl : 'views/mapsSidebar.html',
+        controller: 'MapsSidebarController'
       }
     }
   })
 
   .state('app.mapsSidebar.login', {
-    url:'mapslogin',
+    url:'/mapslogin',
     views: {
       'mapsSidebarContent': {
         templateUrl : 'views/login.html'
@@ -38,7 +51,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   })
 
   .state('app.mapsSidebar.maps', {
-    url:'maps',
+    url:'/maps',
     views: {
       'mapsSidebarContent': {
         templateUrl : 'views/mapsList.html',
