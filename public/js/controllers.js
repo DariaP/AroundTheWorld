@@ -129,6 +129,11 @@ angular.module('aroundTheWorld')
     } else {
       $state.go('app.mapsSidebar.login');
     }
+
+    $scope.delete = function(id, index) {
+      mapsService.getMaps().delete({id:id});
+      $scope.maps.splice(index, 1);
+    }
 }])
 
 .controller('MapController', [

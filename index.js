@@ -86,6 +86,16 @@ function start(dbApi) {
     }
   });
 
+  app.delete('/maps/:id', function (req, res) {
+
+    if (req.isAuthenticated()) {
+      dbApi.deleteMap(req.params.id, userId(req.user), callback(res));
+    } else {
+      console.log('empty')
+      callback(res)([]);
+    }
+  });
+
   app.put('/map', function (req, res) {
     dbApi.updateMap(req.body, callback(res));
   });

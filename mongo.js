@@ -124,9 +124,9 @@ function init(callback) {
           });
         },
 
-        deleteMap: function(id, callback) {
+        deleteMap: function(id, user, callback) {
           console.log(id); 
-          maps.remove({_id: getId(id)}, {w: 1}, function (err, result) {
+          maps.remove({_id: getId(id), user: user}, {w: 1}, function (err, result) {
             if (result == 1) {
               callback({});
             } else {
