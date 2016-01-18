@@ -60,6 +60,16 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
     }
   })
 
+  .state('app.mapsSidebar.maps.add', {
+    url:'/add',
+    views: {
+      'addMap': {
+        templateUrl : 'views/addMap.html',
+        controller  : 'NewMapController'
+      }
+    }
+  })
+
   // route for the dishdetail page
   .state('app.mapsSidebar.map', {
       url: 'map/:id',

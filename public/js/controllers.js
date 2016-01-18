@@ -6,7 +6,6 @@ angular.module('aroundTheWorld')
   '$scope', '$rootScope', 'markersService', 'placesService', 
   function ($scope, $rootScope, markersService, placesService) {
 
-console.log('GMapController');
   var mapOptions = {
     center: new google.maps.LatLng(30, -30),
     zoom: 3
@@ -101,8 +100,6 @@ console.log('GMapController');
   }
 ])
 
-
-
 .controller('GMapLayoutController',
   function ($scope) 
   {
@@ -129,7 +126,6 @@ console.log('GMapController');
       userName 
     ) 
   {
-
 console.log('MapsListController');
     $scope.showMaps = false;
     $scope.message = "Loading ...";
@@ -146,6 +142,10 @@ console.log('MapsListController');
           });
     } else {
       $state.go('app.mapsSidebar.login');
+    }
+
+    $scope.newMap = function() {
+      $state.go('app.mapsSidebar.maps.add');
     }
 }])
 
@@ -203,4 +203,28 @@ console.log('MapsListController');
         $state.go('app.mapsSidebar.maps');
       });
     }
-}]);
+}])
+
+.controller('NewMapController', [
+  '$scope',
+  '$state',
+  'mapsService',
+  'userName',
+  function ($scope, $state, mapsService, userName) 
+  {
+    $scope.newMapName = "";
+    $scope.addNewMap = function() {
+      if ($scope.newMapName.length !== 0) {
+        mapsService.getMaps().save({
+          name: $scope.newMapName
+        }, function (result) {
+          $scope.$parent.$parent.maps.push({
+            name: $scope.newMapName,
+            _id: result._id
+          });
+          $state.go('app.mapsSidebar.maps');
+        });
+      }
+    }
+  }])
+;
