@@ -235,6 +235,11 @@ li .parent-map {
   padding-right: 20px;
 }
 
+form.new-map {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 /* --- New place tab -------------------- */
 
 div#new-place-tab {
