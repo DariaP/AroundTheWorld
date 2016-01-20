@@ -124,6 +124,23 @@ function init(callback) {
           });
         },
 
+        getPlace: function(id, user, callback) {
+          places.findOne(
+            {
+              user:  { $eq : user }, 
+              _id: getId(id) 
+            }, 
+            {}, 
+            {w: 1},
+            function (err, res) {
+            if (err) {
+              callback({err: err});
+            } else {
+              callback(res);
+            }
+          });
+        },
+
         deleteMap: function(id, user, callback) {
           console.log(id); 
           maps.remove({_id: getId(id), user: user}, {w: 1}, function (err, result) {

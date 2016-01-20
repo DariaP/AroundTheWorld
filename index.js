@@ -63,6 +63,15 @@ function start(dbApi) {
     }
   });
 
+  app.get('/place/:id', function (req, res) {
+
+    if (req.isAuthenticated()) {
+      dbApi.getPlace(req.params.id, userId(req.user), callback(res));
+    } else {
+      callback(res)([]);
+    }
+  });
+
   app.post('/places', function (req, res) {
     dbApi.updatePlace(userId(req.user), req.body, callback(res));
   });

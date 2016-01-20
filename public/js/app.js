@@ -71,14 +71,24 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
   })
 
   .state('app.mapsSidebar.map', {
-      url: '/map/:id',
+      url: '/map/:mapId',
       views: {
           'mapsSidebarContent': {
               templateUrl : 'views/map.html',
               controller  : 'MapController'
          }
       }
-  });
+  })
+
+  .state('app.mapsSidebar.map.place', {
+      url: '/place/:placeId',
+      views: {
+          'placeDetails' : {
+              templateUrl : "views/placeDetails.html",
+              controller  : 'PlaceController'
+         }
+      }
+  })
 
   $urlRouterProvider.otherwise('/');
 });

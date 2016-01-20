@@ -172,7 +172,7 @@ angular.module('aroundTheWorld')
     $scope.message="Loading ...";
 
     if (userName) {
-      mapsService.getMaps().get({id: $stateParams.id})
+      mapsService.getMaps().get({id: $stateParams.mapId})
         .$promise.then(
           function(response){
               $scope.map = response;
@@ -184,7 +184,7 @@ angular.module('aroundTheWorld')
           }
       );
 
-      placesService.getPlaces().query({mapId: $stateParams.id},
+      placesService.getPlaces().query({mapId: $stateParams.mapId},
         function(response) {
           $scope.places = response;
           $scope.showPlaces = true;
@@ -226,5 +226,28 @@ angular.module('aroundTheWorld')
         });
       }
     }
+  }])
+
+.controller('PlaceController', [
+  '$scope',
+  '$state',
+  '$stateParams',
+  'placesService',
+  'userName',
+  function ($scope, $state, $stateParams, placesService, userName) 
+  {
+    $scope.showPlace = false;
+    $scope.message="Loading ...";
+
+    placesService.getPlace().get({id: $stateParams.placeId})
+      .$promise.then(
+        function(response){
+            $scope.place = response;
+            $scope.showPlace = true;
+        },
+        function(response) {
+            $scope.message = "Error: "+response.status + " " + response.statusText;
+        }
+    );
   }])
 ;

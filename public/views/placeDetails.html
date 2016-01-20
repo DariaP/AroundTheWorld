@@ -1,0 +1,21 @@
+<div ng-if="showPlaces">
+
+  <div class="panel panel-default scrollable">
+
+    <div class="media">
+      <a class="media-left" href="#" ng-if="place.pics.length !== 0">
+        <img class="media-object" data-src="{{ place.pics[0] }}" alt="{{ place.name }}">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">{{ place.name }}</h4>
+        <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
+        {{ place.notes }}  </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div ng-if="!showPlaces">
+  {{message}}
+</div>

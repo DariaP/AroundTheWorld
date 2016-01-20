@@ -20,7 +20,7 @@
         <tbody>
           <tr ng-repeat="place in places">
             <td class="text-nowrap">
-              <a ui-sref="app">
+              <a ui-sref="app.mapsSidebar.map.place({mapId: map._id, placeId: place._id})">
                 {{ place.name }}
               </a>
             </td>
@@ -38,6 +38,8 @@
         </tbody>
       </table>
     </div>
+
+    <div ui-view="placeDetails"></div>
   </div>
 
   <div ng-if="places.length === 0">

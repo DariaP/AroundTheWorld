@@ -38,4 +38,9 @@ angular.module('aroundTheWorld')
   this.getPlaces = function() {
     return $resource(baseURL + "places/:mapId", null,  {'update': {method: 'PUT' }});
   }
+
+  this.getPlace = function() {
+    return $resource(baseURL + "place/:id", null,  {'update': {method: 'PUT' }});
+  }
+
 }]);
