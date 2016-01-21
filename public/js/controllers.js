@@ -238,7 +238,8 @@ angular.module('aroundTheWorld')
   {
     $scope.showPlace = false;
     $scope.message="Loading ...";
-
+    $scope.noWrapSlides = false;
+    
     placesService.getPlace().get({id: $stateParams.placeId})
       .$promise.then(
         function(response){

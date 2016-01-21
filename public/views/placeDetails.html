@@ -1,21 +1,31 @@
-<div ng-if="showPlaces">
+<div ng-if="showPlace">
 
-  <div class="panel panel-default scrollable">
+  <div class="panel panel-default scrollable" ng-if="place.pics.length !== 0">
 
-    <div class="media">
-      <a class="media-left" href="#" ng-if="place.pics.length !== 0">
-        <img class="media-object" data-src="{{ place.pics[0] }}" alt="{{ place.name }}">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">{{ place.name }}</h4>
-        <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
-        {{ place.notes }}  </div>
+        <div class="place-pics">
+          <uib-carousel no-wrap="noWrapSlides">
+            <uib-slide ng-repeat="pic in place.pics">
+              <div class='pic-frame'>
+                <a style="background-image: url('{{pic}}');" 
+                href="{{pic}}" target="_blank"></a>
+              </div>
+            </uib-slide>
+          </uib-carousel>
+        </div>
+
+        <div class="place-details">
+        <h4>{{ place.name }}</h4>
+        <p ng-show="place.location && place.location.lat && place.location.lng">
+          <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
+        </p>
+        <p ng-show="place.notes">
+          {{ place.notes }}
+        </p>
       </div>
-    </div>
 
   </div>
 </div>
 
-<div ng-if="!showPlaces">
+<div ng-if="!showPlace">
   {{message}}
 </div>

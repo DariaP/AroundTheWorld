@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource'])
+angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstrap'])
 .constant("baseURL","http://localhost:8000/")
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider

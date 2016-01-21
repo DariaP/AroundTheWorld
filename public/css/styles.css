@@ -90,118 +90,28 @@ div#map-tab {
 /* --- Place details ----------------------- */
 
 
-/*.place-details {
-  margin-top: 10px;
-  border-radius: 6px 6px 6px 6px;
-  width: 370px;
-}*/
-
-.place-details .content {
-  height: 100%;
-}
-
-.property-name {
-width: 75px;
-text-align: right;
-padding-right: 10px;
-color: #DED9D9;
-}
-
-.property-value {
-  width: 200px;
-}
-
-.property td {
-  vertical-align: top;
-  min-width: 22px;
-}
-
-.property table {
-min-height: 22px;
-}
-
-.place-name .property-value{
-  width: 273px;
-  line-height: 3;
-  font-size: 18px;
-  margin: 0;
-}
-
-.place-name td {
-  vertical-align: middle;
-}
-
-.place-details .pics-container {
-  height: 130px;
-  position: relative;
-}
-
-.visible-pics {
-  margin: 10px;
-  float: left;
-    width: 250px;
-    overflow: hidden;
-    position: relative;
-}
-
-.all-pics {
-  width: 20000px;
-  height: 100px;
-  position: relative;
+.place-details {
+  margin-left: 10px;
 }
 
 .pic-frame {
-  float: left;
-  max-width: 100px;
-  height: 100px;
+  height: 200px;
   overflow: hidden;
-  margin: 5px;
 }
 
-.pics-control {
-  float: left;
-  font-size: 40px;
-  color: black;
-  text-decoration: none;
-}
+.pic-frame a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    background-size: cover;
+  }
 
-.pics-control:hover {
-  text-decoration: none;
-}
 
-.pics-control:active {
-  text-decoration: none;
-}
 
-.pics-control:link {
-    text-decoration: none;
-}
 
-.pics-control.inactive {
-  color: #DED9D9;
-  cursor: default;
-  text-decoration: none;
-}
 
-.pic-frame img {
-  height: 100px;
-}
 
-ul.properties {
-  padding-right: 30px;
-}
-
-li.property {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: #DED9D9;
-}
-
-.location.property div {
-  height: 20px;
-}
 
 .modal-header {
   border-bottom: 0;
