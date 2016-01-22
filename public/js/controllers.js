@@ -221,6 +221,14 @@ angular.module('aroundTheWorld')
         $scope.showEditNameForm = false;
       }
     }
+
+    $scope.showButtons = [];
+    $scope.placeHoverIn = function(i) {
+      $scope.showButtons[i] = true;
+    }
+    $scope.placeHoverOut = function(i) {
+      $scope.showButtons[i] = false;
+    }
 }])
 
 .controller('NewMapController', [
