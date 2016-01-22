@@ -222,9 +222,9 @@ angular.module('aroundTheWorld')
             name: $scope.newMapName,
             _id: result._id
           });
-          $state.go('app.mapsSidebar.maps');
         });
       }
+      $state.go('app.mapsSidebar.maps');
     }
   }])
 
