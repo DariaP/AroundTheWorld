@@ -152,9 +152,9 @@ function init(callback) {
           })
         },
 
-        updateMap: function(map, callback) {
+        updateMap: function(mapId, map, user, callback) {
           maps.update(
-            { _id:  getId(map._id) },
+            { _id:  getId(mapId), user: user },
             { $set:  { name: map.name }
           },
           {w: 1},

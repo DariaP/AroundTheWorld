@@ -203,6 +203,24 @@ angular.module('aroundTheWorld')
         $state.go('app.mapsSidebar.maps');
       });
     }
+
+    $scope.showEditNameForm = false;
+    $scope.editName = function() {
+      $scope.showEditNameForm = true;
+    }
+
+    $scope.saveNewName = function(newName) {
+      if (newName && newName.length !== 0) {
+        mapsService.getMaps().update({id:$scope.map._id}, {name: newName}, 
+          function (result) {
+            $scope.map.name = newName;
+            $scope.showEditNameForm = false;
+          }
+        );
+      } else {
+        $scope.showEditNameForm = false;
+      }
+    }
 }])
 
 .controller('NewMapController', [

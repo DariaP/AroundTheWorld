@@ -109,8 +109,8 @@ function start(dbApi) {
     dbApi.addMap(userId(req.user), req.body, callback(res));
   });
 
-  app.put('/map', function (req, res) {
-    dbApi.updateMap(req.body, callback(res));
+  app.put('/maps/:id', function (req, res) {
+    dbApi.updateMap(req.params.id, req.body, userId(req.user), callback(res));
   });
 
   app.post('/map', function (req, res) {

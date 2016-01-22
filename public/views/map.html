@@ -1,18 +1,26 @@
 <div ng-if="showMap && showPlaces">
-  <h4>
-    {{ map.name }}
+  <h4 ng-show="!showEditNameForm">
+    <span ng-click="editName()">{{ map.name }}</span>
     <div class="btn-toolbar pull-right" role="toolbar">
       <button type="button" class="btn btn-default btn-xs" ng-click="delete()">
         <span class="glyphicon glyphicon-remove"></span>
-      </button>
-      <button type="button" class="btn btn-default btn-xs">
-        <span class="glyphicon glyphicon-pencil"></span>
       </button>
       <button type="button" class="btn btn-default btn-xs">
         <span class="glyphicon glyphicon-plus"> place</span>
       </button>
     </div>
   </h4>
+
+  <form class="my-inline" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="New name..." ng-model="newName">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+      </span>
+    </div>
+  </form>
 
   <div ng-if="places.length !== 0">
     <div class="panel panel-default scrollable">
