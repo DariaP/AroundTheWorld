@@ -6,14 +6,16 @@ angular.module('aroundTheWorld')
   '$scope', '$rootScope', 'markersService', 'placesService', 
   function ($scope, $rootScope, markersService, placesService) {
 
+  var markers = {};
+
   var mapOptions = {
     center: new google.maps.LatLng(30, -30),
     zoom: 3
   }
 
-  $scope.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-  var placesSearchService = new google.maps.places.PlacesService($scope.map);
+  var placesSearchService = new google.maps.places.PlacesService(map);
 
   var autocomplete = new google.maps.places.Autocomplete(
     document.querySelector(".search-form input"));
@@ -28,12 +30,37 @@ angular.module('aroundTheWorld')
           for (var i = 0; i < response.length; i++) {
             createPlaceMarker(response[i]);
           }
+          zoomToShowMap(markers);
       },
       function(response) {
           //TODO
       });
     }
   );
+
+  $rootScope.$on('placeLookup', function (event, placeId) {
+    markers[placeId].setColor("000000");
+    zoomToShowPlace(markers[placeId].getPosition());
+  });
+
+  function zoomToShowPlace(placeLocation) {
+    map.setCenter(placeLocation);
+    if (map.getZoom() < 15) {
+      map.setZoom(15);
+    }
+  }
+
+  function zoomToShowMap(markers) {
+    var bounds = new google.maps.LatLngBounds();
+
+    for(var id in markers) {
+      if (markers[id]) {
+        bounds.extend(markers[id].getPosition());
+      }
+    }
+
+    map.fitBounds(bounds);
+  }
 
   function search(searchText) {
     var request = {
@@ -51,7 +78,7 @@ angular.module('aroundTheWorld')
 
   function createSearchMarker(searchResult) {
     var marker = markersService.getMarker({
-      map: $scope.map,
+      map: map,
       title: searchResult.formatted_address,
       location: {
         lat: searchResult.geometry.location.lat(), 
@@ -68,7 +95,7 @@ angular.module('aroundTheWorld')
 
   function createPlaceMarker(place) {
     var marker = markersService.getMarker({
-      map: $scope.map,
+      map: map,
       title: place.name,
       location: {
         lat: place.location.lat, 
@@ -77,11 +104,35 @@ angular.module('aroundTheWorld')
       color: 'FE7569'
     });
 
+    markers[place._id] = marker;
+
     var off = $rootScope.$on('showMap', function (event, searchText) {
       marker.clear();
+      markers[place._id] = undefined;
       off();
     });
   }
+
+  function createMarker(place) {
+    var marker = markersService.getMarker({
+      map: map,
+      title: place.name,
+      location: {
+        lat: place.location.lat, 
+        lng: place.location.lng
+      },
+      color: 'FE7569'
+    });
+
+    markers[place._id] = marker;
+
+    var off = $rootScope.$on('showMap', function (event, searchText) {
+      marker.clear();
+      markers[place._id] = undefined;
+      off();
+    });
+  }
+
 }])
 
 .controller('HeaderController', ['$scope', '$rootScope', 'userName', '$location',
@@ -228,6 +279,10 @@ angular.module('aroundTheWorld')
     }
     $scope.placeHoverOut = function(i) {
       $scope.showButtons[i] = false;
+    }
+
+    $scope.lookUpPlace = function(placeId) {
+      $rootScope.$emit('placeLookup', placeId);
     }
 }])
 

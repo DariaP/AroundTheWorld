@@ -22,10 +22,17 @@ angular.module('aroundTheWorld')
     return {
       clear: function() {
         marker.setMap(null);
+      },
+
+      setColor: function(color) {
+        marker.setOptions({color: color});
+      },
+
+      getPosition: function() {
+        return marker.getPosition();
       }
     }
   };
-
 })
 
 .service('mapsService', ['$resource', 'baseURL', function($resource, baseURL) {
