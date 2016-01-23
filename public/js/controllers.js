@@ -284,6 +284,17 @@ angular.module('aroundTheWorld')
     $scope.lookUpPlace = function(placeId) {
       $rootScope.$emit('placeLookup', placeId);
     }
+
+    $scope.removePlace = function(placeId, i) {
+      var parentMaps = $scope.places[i].parentMaps;
+      parentMaps.splice(parentMaps.indexOf($scope.map._id), 1);
+
+      placesService.getPlace().update({id: placeId}, {parentMaps: parentMaps}, 
+        function (result) {
+          $scope.places.splice(i, 1);
+        }
+      );
+    }
 }])
 
 .controller('NewMapController', [

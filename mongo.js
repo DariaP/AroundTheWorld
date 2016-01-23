@@ -92,12 +92,12 @@ function init(callback) {
           });
         },
 
-        updatePlace: function(user, place, callback) {
+        updatePlace: function(placeId, user, place, callback) {
           if ( ! place._id) {
             place.user = user;
             addPlace(place, callback);
           } else {
-            places.find({_id: getId(place._id)}).limit(1).count(function (e, count) {
+            places.find({_id: getId(placeId)}).limit(1).count(function (e, count) {
               if (count == 0) {
                 addPlace(place, callback);
               } else {
@@ -105,6 +105,24 @@ function init(callback) {
               }
             });
           }
+        },
+
+        editPlace: function(placeId, user, place, callback) {
+        places.update(
+          { _id:  getId(placeId),
+            user: user },
+          { 
+            $set:  place
+          },
+          {w: 1},
+          function (err, result) {
+            if (result == 1) {
+              callback({});
+            } else {
+              callback({err: err});
+            }
+          }
+        );
         },
 
         getPlacesOnMap: function(mapId, user, callback) {

@@ -35,11 +35,12 @@
             </td>
             <td class="text-right text-nowrap" ng-show="showButtons[$index]">
               <div class="btn-toolbar pull-right" role="toolbar">
-      			    <button type="button" class="btn btn-default btn-xs remove">
+      			    <button type="button" class="btn btn-default btn-xs" 
+                  ng-click="removePlace(place._id, $index)">
       			      <span class="glyphicon glyphicon-minus"></span>
       			    </button>
       			    <button type="button" class="btn btn-default btn-xs" 
-                ng-click="lookUpPlace(place._id)">
+                  ng-click="lookUpPlace(place._id)">
       			      <span class="glyphicon glyphicon-search"></span>
       			    </button>
               </div>
