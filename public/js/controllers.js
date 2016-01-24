@@ -198,6 +198,10 @@ angular.module('aroundTheWorld')
     $scope.newMap = function() {
       $state.go('app.mapsSidebar.maps.add');
     }
+
+    $scope.close = function() {
+      $state.go('app.map');
+    }
 }])
 
 .controller('MapController', [
@@ -295,6 +299,15 @@ angular.module('aroundTheWorld')
         }
       );
     }
+
+    $scope.close = function() {
+      if ($state.current.name === "app.mapsSidebar.map") {
+        $state.go('app.map');
+      } else {
+        var placeId = $state.$current.locals.globals.$stateParams.placeId;
+        $state.go('app.mapsSidebar.place', {placeId: placeId});
+      }
+    }
 }])
 
 .controller('NewMapController', [
@@ -342,5 +355,14 @@ angular.module('aroundTheWorld')
             $scope.message = "Error: "+response.status + " " + response.statusText;
         }
     );
+
+    $scope.close = function() {
+      if ($state.current.name === "app.mapsSidebar.place") {
+        $state.go('app.map');
+      } else {
+        $state.go('app.mapsSidebar.map', {mapId: $stateParams.mapId});
+      }
+    }
+
   }])
 ;

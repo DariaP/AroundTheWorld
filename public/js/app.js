@@ -83,10 +83,23 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   .state('app.mapsSidebar.map.place', {
       url: '/place/:placeId',
       views: {
-          'placeDetails' : {
-              templateUrl : "views/placeDetails.html",
-              controller  : 'PlaceController'
-         }
+        'placeDetails' : {
+          templateUrl : "views/placeDetails.html",
+          controller  : 'PlaceController'
+        },
+        'sidebarSeparator' : {
+          templateUrl : "views/hr.html"
+        }
+      }
+  })
+
+  .state('app.mapsSidebar.place', {
+      url: '/place/:placeId',
+      views: {
+        'mapsSidebarContent' : {
+          templateUrl : "views/placeDetails.html",
+          controller  : 'PlaceController'
+        }
       }
   })
 

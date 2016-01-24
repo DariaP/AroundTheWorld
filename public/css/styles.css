@@ -54,7 +54,6 @@ li {
 }*/
 
 h4 {
-  padding-top: 10px;
   padding-left: 20px;
   padding-bottom: 8px;
 }
@@ -162,6 +161,21 @@ div#new-place-tab {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 .one-line {
   width: 100%;
 }
+
+.close-button-wrapper {
+  margin-top: 5px;
+  height:30px;
+}
+
+.sidebar-hr {
+    margin: 5px -20px 5px -20px;
+    border: none;
+    height: 2px;
+    color: #eee;
+    background-color: #eee;
+}
+
