@@ -319,6 +319,15 @@ angular.module('aroundTheWorld')
         });
       }
     }
+
+    $scope.updatePlace = function(placeId, place) {
+      for (var i = 0 ; i < $scope.places.length ; ++i) {
+        if ($scope.places[i]._id === placeId) {
+          $scope.places[i] = place;
+          break;
+        }
+      }
+    }
 }])
 
 .controller('NewMapController', [
@@ -386,7 +395,7 @@ angular.module('aroundTheWorld')
           function (result) {
             $scope.place.name = newName;
             if ($scope.$parent.map) {
-              ;//TODO
+              $scope.$parent.updatePlace($scope.place._id, $scope.place);
             }
             $scope.showEditNameForm = false;
           }
