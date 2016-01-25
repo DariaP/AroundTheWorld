@@ -3,9 +3,9 @@
 </div>
 
 <div ng-if="showPlace">
-  <div class="panel panel-default scrollable" ng-if="place.pics.length !== 0">
+  <div class="panel panel-default scrollable">
 
-        <div class="place-pics">
+        <div class="place-pics"  ng-if="place.pics.length !== 0">
           <uib-carousel no-wrap="noWrapSlides">
             <uib-slide ng-repeat="pic in place.pics">
               <div class='pic-frame'>
@@ -17,7 +17,22 @@
         </div>
 
         <div class="place-details">
-        <h4>{{ place.name }}</h4>
+
+          <h4 ng-click="editName()" ng-show="!showEditNameForm">{{ place.name }}</h4>
+
+          <form class="my-inline" 
+          ng-show="showEditNameForm" 
+          ng-submit='saveNewName(newName)'>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="New name..." ng-model="newName">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                  <span class="glyphicon glyphicon-ok"></span>
+                </button>
+              </span>
+            </div>
+          </form>
+
         <p ng-show="place.location && place.location.lat && place.location.lng">
           <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
         </p>

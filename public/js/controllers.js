@@ -375,6 +375,27 @@ angular.module('aroundTheWorld')
       }
     }
 
+    $scope.showEditNameForm = false;
+    $scope.editName = function() {
+      $scope.showEditNameForm = true;
+    }
+
+    $scope.saveNewName = function(newName) {
+      if (newName && newName.length !== 0) {
+        placesService.getPlace().update({id:$scope.place._id}, {name: newName}, 
+          function (result) {
+            $scope.place.name = newName;
+            if ($scope.$parent.map) {
+              ;//TODO
+            }
+            $scope.showEditNameForm = false;
+          }
+        );
+      } else {
+        $scope.showEditNameForm = false;
+      }
+    }
+
 
   }])
 
