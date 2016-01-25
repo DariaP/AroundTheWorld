@@ -308,6 +308,17 @@ angular.module('aroundTheWorld')
         $state.go('app.mapsSidebar.place', {placeId: placeId});
       }
     }
+
+    $scope.placeLinkClick = function(event, placeId) {
+      event.preventDefault();
+      // Need this workaround because link has buttons in it
+      if(event.target.tagName.toLowerCase() === 'a') {
+        $state.go("app.mapsSidebar.map.place", {
+          mapId: $stateParams.mapId, 
+          placeId: placeId
+        });
+      }
+    }
 }])
 
 .controller('NewMapController', [

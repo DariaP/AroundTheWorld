@@ -28,30 +28,25 @@
 
   <div ng-if="places.length !== 0">
     <div class="panel panel-default scrollable">
-      <table class="table table-hover">
-        <tbody>
-          <tr ng-repeat="place in places" 
-          ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)">
-            <td class="text-nowrap">
-              <a ui-sref="app.mapsSidebar.map.place({mapId: map._id, placeId: place._id})">
-                {{ place.name }}
-              </a>
-            </td>
-            <td class="text-right text-nowrap" ng-show="showButtons[$index]">
-              <div class="btn-toolbar pull-right" role="toolbar">
-      			    <button type="button" class="btn btn-default btn-xs" 
-                  ng-click="removePlace(place._id, $index)">
-      			      <span class="glyphicon glyphicon-minus"></span>
-      			    </button>
-      			    <button type="button" class="btn btn-default btn-xs" 
-                  ng-click="lookUpPlace(place._id)">
-      			      <span class="glyphicon glyphicon-search"></span>
-      			    </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="list-group">
+        <a href="#" ng-click="placeLinkClick($event, place._id)" 
+        class="list-group-item" ng-repeat="place in places"
+        ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)">
+          {{ place.name }}
+          <div class="btn-toolbar pull-right" role="toolbar" ng-show="showButtons[$index]">
+            <button type="button" class="btn btn-default btn-xs" 
+              ng-click="removePlace(place._id, $index)">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs" 
+              ng-click="lookUpPlace(place._id)">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </div>
+        </a>
+      </div>
+
     </div>
 
     <div ui-view="sidebarSeparator"></div>

@@ -12,17 +12,12 @@
   <div ng-if="maps.length !== 0 && showMaps">
     <div ui-view="addMap"></div>
     <div class="panel panel-default scrollable">
-      <table class="table table-hover">
-        <tbody>
-          <tr ng-repeat="map in maps">
-            <td class="text-nowrap">
-              <a ui-sref="app.mapsSidebar.map({mapId: map._id})">
-                {{ map.name }}
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="list-group">
+        <a ui-sref="app.mapsSidebar.map({mapId: map._id})" 
+        class="list-group-item" ng-repeat="map in maps">
+          {{ map.name }}
+        </a>
+      </div>
     </div>
   </div>
 
