@@ -125,6 +125,17 @@ function init(callback) {
         );
         },
 
+        addPlace: function(user, place, callback) {
+          place.user = user;
+          places.insert(place, {w: 1}, function(err, doc){
+            if (err) {
+              callback({err: err});
+            } else {
+              callback({_id: doc[0]._id});
+            }
+          });
+        },
+
         getPlacesOnMap: function(mapId, user, callback) {
           places.find(
             {

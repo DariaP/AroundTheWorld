@@ -9,20 +9,20 @@
 
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li ng-class="{active: isActive('/')}" id='map-tab-nav'>
+        <li ng-class="{active: isActive('/')}">
           <a ui-sref="app.map">
             <span class="glyphicon glyphicon-globe"></span> 
             Map
           </a>
         </li>
-        <li ng-class="{active: isActive('//maps')}" id="my-maps-nav">
+        <li ng-class="{active: isActive('/maps')}">
           <a ui-sref="app.mapsSidebar.maps">
             <span class="glyphicon glyphicon-th-list"></span> 
             My maps
           </a>
         </li>
-        <li>
-          <a href="#new-place-tab" id='new-place-tab-nav'>
+        <li ng-class="{active: isActive('/newPlace')}">
+          <a ui-sref="app.newPlace">
             <span class="glyphicon glyphicon-map-marker"></span> 
             New
           </a>

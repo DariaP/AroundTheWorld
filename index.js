@@ -82,7 +82,7 @@ function start(dbApi) {
   });
 
   app.post('/places', function (req, res) {
-    dbApi.updatePlace(userId(req.user), req.body, callback(res));
+    dbApi.addPlace(userId(req.user), req.body, callback(res));
   });
 
   app.get('/maps', function (req, res) {

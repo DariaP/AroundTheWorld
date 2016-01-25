@@ -355,7 +355,7 @@ angular.module('aroundTheWorld')
     $scope.showPlace = false;
     $scope.message="Loading ...";
     $scope.noWrapSlides = false;
-    
+
     placesService.getPlace().get({id: $stateParams.placeId})
       .$promise.then(
         function(response){
@@ -374,6 +374,74 @@ angular.module('aroundTheWorld')
         $state.go('app.mapsSidebar.map', {mapId: $stateParams.mapId});
       }
     }
+
+
+  }])
+
+.controller('NewPlaceController', [
+  '$scope',
+  '$state',
+  '$stateParams',
+  'placesService',
+  'userName',
+  function ($scope, $state, $stateParams, placesService, userName) 
+  {
+    $scope.newPlace = {
+      name: "",
+      location: "",
+      notes: "",
+      pics: "",
+      parentMaps: []
+    };
+
+    $scope.save = function() {
+
+      $scope.newPlace.location = parseLocation($scope.newPlace.location);
+      $scope.newPlace.pics = parsePics($scope.newPlace.pics);
+      placesService.getPlaces().save(
+          $scope.newPlace, 
+          function (result) {
+            $state.go('app.mapsSidebar.place', {placeId: result._id});
+        });
+    }
+
+    function parsePics(picsStr) {
+      if (picsStr.length == 0)
+        return [];
+      else
+        return picsStr.split(/[, \n]+/);
+    }
+
+    function parseLocation(locationStr) {
+      var latlng = locationStr.split(/[, ]+/);
+      return {
+        lat: latlng[0],
+        lng: latlng[1]
+      };
+    }
+    /*$scope.showPlace = false;
+    $scope.message="Loading ...";
+    $scope.noWrapSlides = false;
+    
+    placesService.getPlace().get({id: $stateParams.placeId})
+      .$promise.then(
+        function(response){
+            $scope.place = response;
+            $scope.showPlace = true;
+        },
+        function(response) {
+            $scope.message = "Error: "+response.status + " " + response.statusText;
+        }
+    );
+
+    $scope.close = function() {
+      if ($state.current.name === "app.mapsSidebar.place") {
+        $state.go('app.map');
+      } else {
+        $state.go('app.mapsSidebar.map', {mapId: $stateParams.mapId});
+      }
+    }*/
+
 
   }])
 ;

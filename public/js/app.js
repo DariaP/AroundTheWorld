@@ -103,5 +103,15 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
       }
   })
 
+  .state('app.newPlace', {
+    url: '/newPlace',
+    views: {
+      'content@': {
+        templateUrl : 'views/addPlace.html',
+        controller  : 'NewPlaceController'
+      }
+    }
+  })
+
   $urlRouterProvider.otherwise('/');
 });
