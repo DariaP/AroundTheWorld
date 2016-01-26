@@ -387,10 +387,12 @@ angular.module('aroundTheWorld')
     $scope.showEditNameForm = false;
     $scope.editName = function() {
       $scope.showEditNameForm = true;
+      $scope.newName = $scope.place.name;
     }
 
+    $scope.newName = "";
     $scope.saveNewName = function(newName) {
-      if (newName && newName.length !== 0) {
+      if (newName && newName.length !== 0 && newName !== $scope.place.name) {
         placesService.getPlace().update({id:$scope.place._id}, {name: newName}, 
           function (result) {
             $scope.place.name = newName;
