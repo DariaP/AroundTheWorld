@@ -407,6 +407,29 @@ angular.module('aroundTheWorld')
       }
     }
 
+    $scope.showEditLocationForm = false;
+    $scope.editLocation = function() {
+      $scope.showEditLocationForm = true;
+      $scope.newLocation = $scope.place.location.lat + ", " + $scope.place.location.lng;
+    }
+
+    $scope.newLocation = "";
+    $scope.saveNewLocation = function(newLocation) {
+      if (newLocation && newLocation.length !== 0) {
+        placesService.getPlace().update({id:$scope.place._id}, 
+          {
+            location: parseLocation(newLocation)
+          }, 
+          function (result) {
+            $scope.place.location = parseLocation(newLocation);
+            //TODO: update marker, only if available
+            $scope.showEditLocationForm = false;
+          }
+        );
+      } else {
+        $scope.showEditLocationForm = false;
+      }
+    }
 
   }])
 
@@ -437,20 +460,7 @@ angular.module('aroundTheWorld')
         });
     }
 
-    function parsePics(picsStr) {
-      if (picsStr.length == 0)
-        return [];
-      else
-        return picsStr.split(/[, \n]+/);
-    }
 
-    function parseLocation(locationStr) {
-      var latlng = locationStr.split(/[, ]+/);
-      return {
-        lat: latlng[0],
-        lng: latlng[1]
-      };
-    }
     /*$scope.showPlace = false;
     $scope.message="Loading ...";
     $scope.noWrapSlides = false;
@@ -477,3 +487,19 @@ angular.module('aroundTheWorld')
 
   }])
 ;
+
+    function parsePics(picsStr) {
+      if (picsStr.length == 0)
+        return [];
+      else
+        return picsStr.split(/[, \n]+/);
+    }
+
+    function parseLocation(locationStr) {
+      var latlng = locationStr.split(/[, ]+/);
+      return {
+        lat: latlng[0],
+        lng: latlng[1]
+      };
+    }
+
