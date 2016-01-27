@@ -384,14 +384,21 @@ angular.module('aroundTheWorld')
       }
     }
 
-    $scope.showEditNameForm = false;
+    $scope.showEdit = {};
+    $scope.cancelEdit = function(property) {
+      $scope.showEdit[property] = false;
+    }
+
     $scope.editName = function() {
-      $scope.showEditNameForm = true;
+      $scope.showEdit['name'] = true;
       $scope.newName = $scope.place.name;
     }
 
     $scope.newName = "";
     $scope.saveNewName = function(newName) {
+      if(!$scope.showEdit['name']) {
+        return;
+      }
       if (newName && newName.length !== 0 && newName !== $scope.place.name) {
         placesService.getPlace().update({id:$scope.place._id}, {name: newName}, 
           function (result) {
@@ -399,11 +406,11 @@ angular.module('aroundTheWorld')
             if ($scope.$parent.map) {
               $scope.$parent.updatePlace($scope.place._id, $scope.place);
             }
-            $scope.showEditNameForm = false;
+            $scope.showEdit['name'] = false;
           }
         );
       } else {
-        $scope.showEditNameForm = false;
+        $scope.showEdit['name'] = false;
       }
     }
 
@@ -503,3 +510,18 @@ angular.module('aroundTheWorld')
       };
     }
 
+    function getLocationStr(location) {
+      if (location.lat && location.lng) {
+        return location.lat + ", " + location.lng;
+      }
+
+      if (location.lng) {
+        return "lng: " + location.lng;
+      }
+
+      if (location.lat) {
+        return "lat: " + location.lat;
+      }
+
+      return "";
+    }

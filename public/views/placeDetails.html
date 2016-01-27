@@ -18,16 +18,19 @@
 
         <div class="place-details">
 
-          <h4 ng-click="editName()" ng-show="!showEditNameForm">{{ place.name }}</h4>
+          <h4 ng-click="editName()" ng-show="!showEdit['name']">{{ place.name }}</h4>
 
           <form class="my-inline" 
-          ng-show="showEditNameForm" 
+          ng-show="showEdit['name']" 
           ng-submit='saveNewName(newName)'>
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Name" ng-model="newName" autofocus>
               <span class="input-group-btn">
                 <button class="btn btn-default" type="submit">
                   <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button class="btn btn-default" ng-click="cancelEdit('name')">
+                  <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </span>
             </div>
