@@ -389,12 +389,40 @@ angular.module('aroundTheWorld')
       $scope.showEdit[property] = false;
     }
 
+    $scope.newProperties = {};
+    $scope.edit = function(property) {
+      $scope.showEdit[property] = true;
+      $scope.newProperties[property] = $scope.place[property];
+    }
+
+    $scope.save = function(property) {
+      if(!$scope.showEdit[property]) {
+        return;
+      }
+
+      var value = $scope.newProperties[property];
+      if (value && value !== $scope.place[property]) {
+        placesService.getPlace().update({id:$scope.place._id}, $scope.newProperties, 
+          function (result) {
+            $scope.place[property] = value;
+            if ($scope.$parent.map) {
+              $scope.$parent.updatePlace($scope.place._id, $scope.place);
+            }
+            $scope.showEdit[property] = false;
+          }
+        );
+      } else {
+        $scope.showEdit[property] = false;
+      }
+    }
+
+
+    $scope.newName = "";
     $scope.editName = function() {
       $scope.showEdit['name'] = true;
       $scope.newName = $scope.place.name;
     }
 
-    $scope.newName = "";
     $scope.saveNewName = function(newName) {
       if(!$scope.showEdit['name']) {
         return;
