@@ -50,4 +50,43 @@ angular.module('aroundTheWorld')
     return $resource(baseURL + "place/:id", null,  {'update': {method: 'PUT' }});
   }
 
-}]);
+}])
+
+.service('placesCachedService', ['placesService', function(placesService) {
+  var cache = {};
+
+  this.getPlace = function(placeId, callback) {
+    if(cache[placeId]) {
+      callback(cache[placeId]);
+    } else {
+      placesService.getPlace().get({id: placeId})
+        .$promise.then(
+          function(response){
+              cache[placeId] = response;
+              callback(response);
+          },
+          function(response) {
+            //TODO
+          }
+      );
+    }
+  }
+
+  this.getPlaces = function(mapId, callback) {
+    placesService.getPlaces().query({mapId: mapId},
+      function(response) {
+        for (var i = 0 ; i < response.length ; ++i) {
+          var place = response[i];
+          cache[place._id] = place;
+        }
+        callback(response);
+      },
+      function(response) {
+          //TODO
+      }
+    );
+  }
+
+}])
+
+;

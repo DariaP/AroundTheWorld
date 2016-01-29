@@ -211,6 +211,7 @@ angular.module('aroundTheWorld')
   '$stateParams',
   'mapsService',
   'placesService',
+  'placesCachedService',
   'userName', 
 
   function(
@@ -220,6 +221,7 @@ angular.module('aroundTheWorld')
     $stateParams, 
     mapsService,
     placesService,
+    placesCachedService,
     userName) {
 
     $scope.showMap = false;
@@ -239,7 +241,12 @@ angular.module('aroundTheWorld')
           }
       );
 
-      placesService.getPlaces().query({mapId: $stateParams.mapId},
+      placesCachedService.getPlaces($stateParams.mapId, function(places) {
+        $scope.places = places;
+        $scope.showPlaces = true;        
+      });
+
+     /* placesService.getPlaces().query({mapId: $stateParams.mapId},
         function(response) {
           $scope.places = response;
           $scope.showPlaces = true;
@@ -247,7 +254,7 @@ angular.module('aroundTheWorld')
         function(response) {
             //TODO
         }
-      );
+      );*/
 
     } else {
       $state.go('app.mapsSidebar.login');
@@ -358,23 +365,18 @@ angular.module('aroundTheWorld')
   '$state',
   '$stateParams',
   'placesService',
+  'placesCachedService',
   'userName',
-  function ($scope, $state, $stateParams, placesService, userName) 
+  function ($scope, $state, $stateParams, placesService, placesCachedService, userName) 
   {
     $scope.showPlace = false;
     $scope.message="Loading ...";
     $scope.noWrapSlides = false;
 
-    placesService.getPlace().get({id: $stateParams.placeId})
-      .$promise.then(
-        function(response){
-            $scope.place = response;
-            $scope.showPlace = true;
-        },
-        function(response) {
-            $scope.message = "Error: "+response.status + " " + response.statusText;
-        }
-    );
+    placesCachedService.getPlace($stateParams.placeId, function(place) {
+      $scope.place = place;
+      $scope.showPlace = true;
+    });
 
     $scope.close = function() {
       if ($state.current.name === "app.mapsSidebar.place") {
@@ -408,9 +410,6 @@ angular.module('aroundTheWorld')
           newProperties, 
           function (result) {
             $scope.place[property] = value;
-            if ($scope.$parent.map) {
-              $scope.$parent.updatePlace($scope.place._id, $scope.place);
-            }
             $scope.showEdit[property] = false;
           }
         );
