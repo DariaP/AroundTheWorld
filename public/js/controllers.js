@@ -392,7 +392,7 @@ angular.module('aroundTheWorld')
     $scope.newProperties = {};
     $scope.edit = function(property) {
       $scope.showEdit[property] = true;
-      $scope.newProperties[property] = $scope.place[property];
+      $scope.newProperties[property] = toStr[property]($scope.place[property]);
     }
 
     $scope.save = function(property) {
@@ -400,9 +400,12 @@ angular.module('aroundTheWorld')
         return;
       }
 
-      var value = $scope.newProperties[property];
-      if (value && value !== $scope.place[property]) {
-        placesService.getPlace().update({id:$scope.place._id}, $scope.newProperties, 
+      var value = parse[property]($scope.newProperties[property]);
+      if (value && value !== $scope.place[property]) {//TODO: validate value?
+        var newProperties = {};
+        newProperties[property] = value;
+        placesService.getPlace().update({id:$scope.place._id}, 
+          newProperties, 
           function (result) {
             $scope.place[property] = value;
             if ($scope.$parent.map) {
@@ -415,57 +418,6 @@ angular.module('aroundTheWorld')
         $scope.showEdit[property] = false;
       }
     }
-
-
-    $scope.newName = "";
-    $scope.editName = function() {
-      $scope.showEdit['name'] = true;
-      $scope.newName = $scope.place.name;
-    }
-
-    $scope.saveNewName = function(newName) {
-      if(!$scope.showEdit['name']) {
-        return;
-      }
-      if (newName && newName.length !== 0 && newName !== $scope.place.name) {
-        placesService.getPlace().update({id:$scope.place._id}, {name: newName}, 
-          function (result) {
-            $scope.place.name = newName;
-            if ($scope.$parent.map) {
-              $scope.$parent.updatePlace($scope.place._id, $scope.place);
-            }
-            $scope.showEdit['name'] = false;
-          }
-        );
-      } else {
-        $scope.showEdit['name'] = false;
-      }
-    }
-
-    $scope.showEditLocationForm = false;
-    $scope.editLocation = function() {
-      $scope.showEditLocationForm = true;
-      $scope.newLocation = $scope.place.location.lat + ", " + $scope.place.location.lng;
-    }
-
-    $scope.newLocation = "";
-    $scope.saveNewLocation = function(newLocation) {
-      if (newLocation && newLocation.length !== 0) {
-        placesService.getPlace().update({id:$scope.place._id}, 
-          {
-            location: parseLocation(newLocation)
-          }, 
-          function (result) {
-            $scope.place.location = parseLocation(newLocation);
-            //TODO: update marker, only if available
-            $scope.showEditLocationForm = false;
-          }
-        );
-      } else {
-        $scope.showEditLocationForm = false;
-      }
-    }
-
   }])
 
 .controller('NewPlaceController', [
@@ -486,7 +438,7 @@ angular.module('aroundTheWorld')
 
     $scope.save = function() {
 
-      $scope.newPlace.location = parseLocation($scope.newPlace.location);
+      $scope.newPlace.location = parse.location($scope.newPlace.location);
       $scope.newPlace.pics = parsePics($scope.newPlace.pics);
       placesService.getPlaces().save(
           $scope.newPlace, 
@@ -494,62 +446,41 @@ angular.module('aroundTheWorld')
             $state.go('app.mapsSidebar.place', {placeId: result._id});
         });
     }
-
-
-    /*$scope.showPlace = false;
-    $scope.message="Loading ...";
-    $scope.noWrapSlides = false;
-    
-    placesService.getPlace().get({id: $stateParams.placeId})
-      .$promise.then(
-        function(response){
-            $scope.place = response;
-            $scope.showPlace = true;
-        },
-        function(response) {
-            $scope.message = "Error: "+response.status + " " + response.statusText;
-        }
-    );
-
-    $scope.close = function() {
-      if ($state.current.name === "app.mapsSidebar.place") {
-        $state.go('app.map');
-      } else {
-        $state.go('app.mapsSidebar.map', {mapId: $stateParams.mapId});
-      }
-    }*/
-
-
   }])
 ;
 
-    function parsePics(picsStr) {
-      if (picsStr.length == 0)
-        return [];
-      else
-        return picsStr.split(/[, \n]+/);
+var parse = {
+  name: function(name) { return name;},
+  location: function(locationStr) {
+    var latlng = locationStr.split(/[, ]+/);
+    return {
+      lat: latlng[0],
+      lng: latlng[1]
+    };
+  },
+  pics: function(picsStr) {
+    if (picsStr.length == 0)
+      return [];
+    else
+      return picsStr.split(/[, \n]+/);
+  }
+}
+
+var toStr = {
+  name: function(name) {return name;},
+  location: function(location) {
+    if (location.lat && location.lng) {
+      return location.lat + ", " + location.lng;
     }
 
-    function parseLocation(locationStr) {
-      var latlng = locationStr.split(/[, ]+/);
-      return {
-        lat: latlng[0],
-        lng: latlng[1]
-      };
+    if (location.lng) {
+      return "lng: " + location.lng;
     }
 
-    function getLocationStr(location) {
-      if (location.lat && location.lng) {
-        return location.lat + ", " + location.lng;
-      }
-
-      if (location.lng) {
-        return "lng: " + location.lng;
-      }
-
-      if (location.lat) {
-        return "lat: " + location.lat;
-      }
-
-      return "";
+    if (location.lat) {
+      return "lat: " + location.lat;
     }
+
+    return "";
+  } 
+}

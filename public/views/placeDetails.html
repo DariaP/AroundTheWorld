@@ -24,7 +24,8 @@
           ng-show="showEdit['name']" 
           ng-submit="save('name')">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Name" ng-model="newProperties['name']" autofocus>
+              <input type="text" class="form-control" placeholder="Name" 
+              ng-model="newProperties['name']" autofocus>
               <span class="input-group-btn">
                 <button class="btn btn-default" type="submit">
                   <span class="glyphicon glyphicon-ok"></span>
@@ -36,19 +37,23 @@
             </div>
           </form>
 
-        <p ng-show="!showEditLocationForm"
-         ng-click="editLocation()">
+        <p ng-show="!showEdit['location']"
+         ng-click="edit('location')">
           <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
         </p>
 
           <form class="my-inline" 
-          ng-show="showEditLocationForm" 
-          ng-submit='saveNewLocation(newLocation)'>
+          ng-show="showEdit['location']" 
+          ng-submit="save('location')">
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="newLocation" placeholder="Location" autofocus>
+              <input type="text" class="form-control" placeholder="Location"
+              ng-model="newProperties['location']" autofocus>
               <span class="input-group-btn">
                 <button class="btn btn-default" type="submit">
                   <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button class="btn btn-default" ng-click="cancelEdit('location')">
+                  <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </span>
             </div>
