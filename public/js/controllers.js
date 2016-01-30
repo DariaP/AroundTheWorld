@@ -3,8 +3,18 @@
 angular.module('aroundTheWorld')
 
 .controller('GMapController', [
-  '$scope', '$rootScope', 'markersService', 'placesService', 
-  function ($scope, $rootScope, markersService, placesService) {
+  '$scope', 
+  '$rootScope', 
+  '$state',  
+  'markersService', 
+  'placesService', 
+  function (
+    $scope, 
+    $rootScope, 
+    $state,  
+    markersService, 
+    placesService) 
+  {
 
   var markers = {};
 
@@ -101,10 +111,23 @@ angular.module('aroundTheWorld')
         lat: place.location.lat, 
         lng: place.location.lng
       },
-      color: 'FE7569'
+      color: 'FE7569',
+      id: place._id
     });
 
     markers[place._id] = marker;
+
+    marker.onClick(function(placeId) {
+      if ($state.current.name === "app.mapsSidebar.map.place" ||
+          $state.current.name === "app.mapsSidebar.map") {
+        $state.go('app.mapsSidebar.map.place', {
+          placeId: placeId,
+          mapId: $state.params.mapId
+        });
+      } else {
+        $state.go('app.mapsSidebar.place', {placeId: placeId});
+      }
+    })
 
     var off = $rootScope.$on('showMap', function (event, searchText) {
       marker.clear();

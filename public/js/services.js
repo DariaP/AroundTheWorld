@@ -4,6 +4,8 @@ angular.module('aroundTheWorld')
 
 .service('markersService', function() {
 
+  var callbacks = {};
+
   function getPin (color) {
     return new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
       new google.maps.Size(21, 34),
@@ -19,6 +21,12 @@ angular.module('aroundTheWorld')
       icon: getPin(params.color)
     });
 
+    google.maps.event.addListener(marker, 'click', function() {
+      if (callbacks.onClick) {
+        callbacks.onClick(params.id);
+      }
+    });
+
     return {
       clear: function() {
         marker.setMap(null);
@@ -30,6 +38,10 @@ angular.module('aroundTheWorld')
 
       getPosition: function() {
         return marker.getPosition();
+      },
+
+      onClick: function(callback) {
+        callbacks.onClick = callback;
       }
     }
   };
