@@ -1,0 +1,136 @@
+'use strict';
+
+angular.module('aroundTheWorld')
+
+.controller('MapController', [
+  '$scope',
+  '$rootScope',
+  '$state',
+  '$stateParams',
+  'mapsService',
+  'placesService',
+  'placesCachedService',
+  'userName', 
+
+  function(
+    $scope, 
+    $rootScope,
+    $state, 
+    $stateParams, 
+    mapsService,
+    placesService,
+    placesCachedService,
+    userName) {
+
+    $scope.showMap = false;
+    $scope.showPlaces = false;
+    $scope.message="Loading ...";
+
+    if (userName) {
+      mapsService.getMaps().get({id: $stateParams.mapId})
+        .$promise.then(
+          function(response){
+              $scope.map = response;
+              $scope.showMap = true;
+              $rootScope.$emit('showMap', $scope.map._id);
+          },
+          function(response) {
+              $scope.message = "Error: "+response.status + " " + response.statusText;
+          }
+      );
+
+      placesCachedService.getPlaces($stateParams.mapId, function(places) {
+        $scope.places = places;
+        $scope.showPlaces = true;        
+      });
+
+     /* placesService.getPlaces().query({mapId: $stateParams.mapId},
+        function(response) {
+          $scope.places = response;
+          $scope.showPlaces = true;
+        },
+        function(response) {
+            //TODO
+        }
+      );*/
+
+    } else {
+      $state.go('app.mapsSidebar.login');
+    }
+
+    $scope.delete = function() {
+      mapsService.getMaps().delete({id:$scope.map._id}, function () {
+        $state.go('app.mapsSidebar.maps');
+      });
+    }
+
+    $scope.showEditNameForm = false;
+    $scope.editName = function() {
+      $scope.showEditNameForm = true;
+    }
+
+    $scope.saveNewName = function(newName) {
+      if (newName && newName.length !== 0) {
+        mapsService.getMaps().update({id:$scope.map._id}, {name: newName}, 
+          function (result) {
+            $scope.map.name = newName;
+            $scope.showEditNameForm = false;
+          }
+        );
+      } else {
+        $scope.showEditNameForm = false;
+      }
+    }
+
+    $scope.showButtons = [];
+    $scope.placeHoverIn = function(i) {
+      $scope.showButtons[i] = true;
+    }
+    $scope.placeHoverOut = function(i) {
+      $scope.showButtons[i] = false;
+    }
+
+    $scope.lookUpPlace = function(placeId) {
+      $rootScope.$emit('placeLookup', placeId);
+    }
+
+    $scope.removePlace = function(placeId, i) {
+      var parentMaps = $scope.places[i].parentMaps;
+      parentMaps.splice(parentMaps.indexOf($scope.map._id), 1);
+
+      placesService.getPlace().update({id: placeId}, {parentMaps: parentMaps}, 
+        function (result) {
+          $scope.places.splice(i, 1);
+        }
+      );
+    }
+
+    $scope.close = function() {
+      if ($state.current.name === "app.mapsSidebar.map") {
+        $state.go('app.map');
+      } else {
+        var placeId = $state.$current.locals.globals.$stateParams.placeId;
+        $state.go('app.mapsSidebar.place', {placeId: placeId});
+      }
+    }
+
+    $scope.placeLinkClick = function(event, placeId) {
+      event.preventDefault();
+      // Need this workaround because link has buttons in it
+      if(event.target.tagName.toLowerCase() === 'a') {
+        $state.go("app.mapsSidebar.map.place", {
+          mapId: $stateParams.mapId, 
+          placeId: placeId
+        });
+      }
+    }
+
+    $scope.updatePlace = function(placeId, place) {
+      for (var i = 0 ; i < $scope.places.length ; ++i) {
+        if ($scope.places[i]._id === placeId) {
+          $scope.places[i] = place;
+          break;
+        }
+      }
+    }
+}]);
