@@ -6,12 +6,16 @@ angular.module('aroundTheWorld')
   '$scope', 
   '$rootScope', 
   '$state',  
+  '$compile',
+  '$templateRequest',
   'markersService', 
   'placesService', 
   function (
     $scope, 
     $rootScope, 
     $state,  
+    $compile,
+    $templateRequest,
     markersService, 
     placesService) 
   {
@@ -128,6 +132,19 @@ angular.module('aroundTheWorld')
         $state.go('app.mapsSidebar.place', {placeId: placeId});
       }
     })
+
+    marker.onMouseOver(function(placeId) {
+      $scope.marker = markers[placeId];
+      $templateRequest("views/markerInfoWindow.html").then(function(templateHtml){
+        var template = angular.element(templateHtml);
+        var html = $compile(template)($scope);
+        marker.showInfo(html[0]);
+      });
+    });
+
+    marker.onMouseOut(function(placeId) {
+      marker.hideInfo();
+    });
 
     var off = $rootScope.$on('showMap', function (event, searchText) {
       marker.clear();
