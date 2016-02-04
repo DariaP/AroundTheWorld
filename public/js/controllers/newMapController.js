@@ -15,6 +15,7 @@ angular.module('aroundTheWorld')
         mapsService.getMaps().save({
           name: $scope.newMapName
         }, function (result) {
+          console.log($scope)
           $scope.$parent.$parent.maps.push({
             name: $scope.newMapName,
             _id: result._id
