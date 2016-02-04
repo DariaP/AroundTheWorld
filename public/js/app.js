@@ -80,6 +80,16 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
       }
   })
 
+  .state('app.mapsSidebar.addPlaces', {
+      url: '/addplaces/:mapId',
+      views: {
+          'mapsSidebarContent': {
+              templateUrl : 'views/addPlacesOnMap.html',
+              controller  : 'AddPlacesOnMapController'
+         }
+      }
+  })
+
   .state('app.mapsSidebar.map.place', {
       url: '/place/:placeId',
       views: {

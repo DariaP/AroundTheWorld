@@ -134,6 +134,21 @@ angular.module('aroundTheWorld')
     );
   }
 
+  this.getAllPlaces = function(callback) {
+    placesService.getPlaces().query(
+      function(response) {
+        for (var i = 0 ; i < response.length ; ++i) {
+          var place = response[i];
+          cache[place._id] = place;
+        }
+        callback(response);
+      },
+      function(response) {
+          //TODO
+      }
+    );
+  }
+
 }])
 
 ;

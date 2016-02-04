@@ -64,6 +64,10 @@ angular.module('aroundTheWorld')
       });
     }
 
+    $scope.addPlace = function() {
+      $state.go('app.mapsSidebar.addPlaces', {mapId: $scope.map._id});
+    };
+
     $scope.showEditNameForm = false;
     $scope.editName = function() {
       $scope.showEditNameForm = true;
