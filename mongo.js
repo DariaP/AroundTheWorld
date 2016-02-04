@@ -59,17 +59,6 @@ function init(callback) {
 
       var dbApi = {
 
-        getPlaces: function(mapId, user, callback) {
-          places.find({ user:  { $eq : user } },
-            {}, {w: 1}).toArray ( function (err, res) {
-            if (err) {
-              callback({err: err});
-            } else {
-              callback(res);
-            }
-          });
-        },
-
         getAllMaps: function(user, callback) {
           maps.find({ user:  { $eq : user } }, 
             {}, {w: 1}).toArray ( function (err, res) {
@@ -139,8 +128,31 @@ function init(callback) {
         getPlacesOnMap: function(mapId, user, callback) {
           places.find(
             {
-              user:  { $eq : user }, 
-              parentMaps: { $all : [ getId(mapId) ]} 
+              $or: [{
+                parentMaps: { $all : [ getId(mapId) ]}
+              },{
+                parentMaps: { $all : [ mapId ]}
+              }
+              ],
+              user:  { $eq : user } 
+            }, 
+            {}, 
+            {w: 1}
+          ).toArray ( function (err, res) {
+            console.log(res);
+            console.log(getId(mapId));
+            if (err) {
+              callback({err: err});
+            } else {
+              callback(res);
+            }
+          });
+        },
+
+        getPlaces: function(user, callback) {
+          places.find(
+            {
+              user:  { $eq : user } 
             }, 
             {}, 
             {w: 1}
@@ -171,7 +183,6 @@ function init(callback) {
         },
 
         deleteMap: function(id, user, callback) {
-          console.log(id); 
           maps.remove({_id: getId(id), user: user}, {w: 1}, function (err, result) {
             if (result == 1) {
               callback({});

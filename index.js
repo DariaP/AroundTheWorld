@@ -55,6 +55,14 @@ function start(dbApi) {
     }
   );
 
+  app.get('/places/', function (req, res) {
+    if (req.isAuthenticated()) {
+      dbApi.getPlaces(userId(req.user), callback(res));      
+    } else {
+      callback(res)([]);
+    }
+  });
+
   app.get('/places/:mapId', function (req, res) {
     if (req.isAuthenticated()) {
       dbApi.getPlacesOnMap(req.params.mapId, userId(req.user), callback(res));      
