@@ -9,8 +9,9 @@
     </button>
   </h4>
 
+  <div ui-view="addMap"></div>
+  
   <div ng-if="maps.length !== 0 && showMaps">
-    <div ui-view="addMap"></div>
     <div class="panel panel-default scrollable">
       <div class="list-group">
         <a ui-sref="app.mapsSidebar.map({mapId: map._id})" 
