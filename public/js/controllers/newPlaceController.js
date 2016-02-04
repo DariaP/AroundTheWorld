@@ -21,7 +21,7 @@ angular.module('aroundTheWorld')
     $scope.save = function() {
 
       $scope.newPlace.location = parse.location($scope.newPlace.location);
-      $scope.newPlace.pics = parsePics($scope.newPlace.pics);
+      $scope.newPlace.pics = parse.pics($scope.newPlace.pics);
       placesService.getPlaces().save(
           $scope.newPlace, 
           function (result) {
