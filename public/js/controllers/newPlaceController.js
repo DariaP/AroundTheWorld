@@ -6,17 +6,24 @@ angular.module('aroundTheWorld')
   '$scope',
   '$state',
   '$stateParams',
+  '$location',
   'placesService',
   'userName',
-  function ($scope, $state, $stateParams, placesService, userName) 
+  function ($scope, $state, $stateParams, $location, placesService, userName) 
   {
+    var query = $location.search();
+
     $scope.newPlace = {
-      name: "",
-      location: "",
+      name: query.title,
+      location: query.location,
       notes: "",
       pics: "",
       parentMaps: []
     };
+
+    if (query.parentMap) {
+      $scope.newPlace.parentMaps.push(query.parentMap);
+    }
 
     $scope.save = function() {
 
