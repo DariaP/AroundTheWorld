@@ -91,7 +91,7 @@ angular.module('aroundTheWorld')
   }
 
   function createSearchMarker(searchResult) {
-    var marker = markersService.getMarker({
+    var result = {
       map: map,
       title: searchResult.formatted_address,
       location: {
@@ -99,7 +99,20 @@ angular.module('aroundTheWorld')
         lng: searchResult.geometry.location.lng()
       },
       color: '78FF69'
-    });
+    };
+
+    var marker = markersService.getMarker(result);
+
+    marker.onClick(function() {
+      var scope = $rootScope.$new(true);
+      scope.searchResult = result;
+      $templateRequest("views/searchResultInfoWindow.html").then(function(templateHtml){
+        var template = angular.element(templateHtml);
+        var html = $compile(template)(scope);
+        console.log(html);
+        marker.showInfo(html[0]);
+      });
+    })
 
     var off = $rootScope.$on('search', function (event, searchText) {
       marker.clear();
