@@ -22,6 +22,8 @@ angular.module('aroundTheWorld')
     placesCachedService,
     userName) {
 
+    $scope.mapId = $stateParams.mapId;
+    
     $scope.showPlaces = false;
     $scope.message="Loading ...";
 
