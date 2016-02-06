@@ -20,7 +20,8 @@ angular.module('aroundTheWorld')
     placesService) 
   {
 
-  var markers = {};
+  var markers = {},
+      searchMarkers = [];
 
   var mapOptions = {
     center: new google.maps.LatLng(30, -30),
@@ -44,7 +45,7 @@ angular.module('aroundTheWorld')
           for (var i = 0; i < response.length; i++) {
             createPlaceMarker(response[i]);
           }
-          zoomToShowMap(markers);
+          zoomToShowMap(markers, searchMarkers);
       },
       function(response) {
           //TODO
@@ -78,7 +79,7 @@ angular.module('aroundTheWorld')
     }
   }
 
-  function zoomToShowMap(markers) {
+  function zoomToShowMap(markers, searchMarkers) {
     var bounds = new google.maps.LatLngBounds();
 
     for(var id in markers) {
@@ -87,10 +88,17 @@ angular.module('aroundTheWorld')
       }
     }
 
+    for(var i = 0 ; i < searchMarkers.length ; ++i) {
+      bounds.extend(searchMarkers[i].getPosition());
+    }
+
     map.fitBounds(bounds);
   }
 
   function search(searchText) {
+
+    searchMarkers = [];
+
     var request = {
       query: searchText
     };
@@ -100,6 +108,7 @@ angular.module('aroundTheWorld')
         for (var i = 0; i < results.length; i++) {
           createSearchMarker(results[i]);
         }
+        zoomToShowMap(markers, searchMarkers);
       }
     });
   }
@@ -116,6 +125,7 @@ angular.module('aroundTheWorld')
     };
 
     var marker = markersService.getMarker(result);
+    searchMarkers.push(marker);
 
     marker.onClick(function() {
       var scope = $rootScope.$new(true);
