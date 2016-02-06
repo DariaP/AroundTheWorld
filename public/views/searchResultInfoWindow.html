@@ -4,8 +4,12 @@
   href='https://www.google.com/maps/place/{{ searchResult.title }}'>
     View  on gmaps
   </a></p>
-  <a href="/#/newPlace?title={{searchResult.title}}&location={{searchResult.location.lat}},{{searchResult.location.lng}}">
+  <p><a href="/#/newPlace?title={{searchResult.title}}&location={{searchResult.location.lat}},{{searchResult.location.lng}}">
     <span class='glyphicon glyphicon-plus'></span>
     Add place
-  </a>
+  </a></p>
+  <p><a href="/#/newPlace?title={{searchResult.title}}&location={{searchResult.location.lat}},{{searchResult.location.lng}}&parentMap={{mapId}}">
+    <span class='glyphicon glyphicon-plus'></span>
+    Add place on this map
+  </a></p>
 </div>

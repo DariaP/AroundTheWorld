@@ -106,6 +106,7 @@ angular.module('aroundTheWorld')
     marker.onClick(function() {
       var scope = $rootScope.$new(true);
       scope.searchResult = result;
+      scope.mapId = $rootScope.currentMap;
       $templateRequest("views/searchResultInfoWindow.html").then(function(templateHtml){
         var template = angular.element(templateHtml);
         var html = $compile(template)(scope);

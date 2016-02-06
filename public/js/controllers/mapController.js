@@ -26,6 +26,8 @@ angular.module('aroundTheWorld')
     $scope.showPlaces = false;
     $scope.message="Loading ...";
 
+    $rootScope.currentMap = $stateParams.mapId;
+
     if (userName) {
       mapsService.getMaps().get({id: $stateParams.mapId})
         .$promise.then(
