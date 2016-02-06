@@ -129,6 +129,7 @@ angular.module('aroundTheWorld')
           placeId: placeId
         });
       }
+      $rootScope.$emit('placeSelected', placeId);
     }
 
     $scope.updatePlace = function(placeId, place) {

@@ -57,6 +57,20 @@ angular.module('aroundTheWorld')
     zoomToShowPlace(markers[placeId].getPosition());
   });
 
+  $rootScope.$on('placeSelected', function(event, placeId) {
+    var placeMarker = markers[placeId];
+    if (placeMarker) {
+      placeMarker.setColor("FFFF00");
+      placeMarker.bigger();
+    }
+
+    var off = $rootScope.$on('placeSelected', function() {
+      placeMarker.setColor("FE7569");
+      placeMarker.smaller();
+      off();
+    })
+  });
+
   function zoomToShowPlace(placeLocation) {
     map.setCenter(placeLocation);
     if (map.getZoom() < 15) {
@@ -110,7 +124,6 @@ angular.module('aroundTheWorld')
       $templateRequest("views/searchResultInfoWindow.html").then(function(templateHtml){
         var template = angular.element(templateHtml);
         var html = $compile(template)(scope);
-        console.log(html);
         marker.showInfo(html[0]);
       });
     })

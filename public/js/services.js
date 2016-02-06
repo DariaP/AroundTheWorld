@@ -5,22 +5,30 @@ angular.module('aroundTheWorld')
 .service('markersService', 
   function() {
 
-    function getPin (color) {
-      return new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
-        new google.maps.Size(21, 34),
-        new google.maps.Point(0,0),
-        new google.maps.Point(10, 34));  
+    function getPin (color, size) {
+      return new google.maps.MarkerImage(
+        "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
+        null,
+        null,
+        null,
+        new google.maps.Size(0.6 * size, size));  
+    }
+
+    function createMarker(params) {
+
     }
 
     this.getMarker = function(params) {
       var callbacks = {},
+          color = params.color,
+          size = 34, 
           menu = null;
 
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(params.location.lat, params.location.lng),
         map: params.map,
         title: params.title,
-        icon: getPin(params.color)
+        icon: getPin(color, size)
       });
 
       google.maps.event.addListener(marker, 'click', function() {
@@ -47,8 +55,19 @@ angular.module('aroundTheWorld')
           marker.setMap(null);
         },
 
-        setColor: function(color) {
-          marker.setOptions({color: color});
+        setColor: function(newColor) {
+          color = newColor;
+          marker.setIcon(getPin(color, size));
+        },
+
+        bigger: function() {
+          size = 40;
+          marker.setIcon(getPin(color, size));
+        },
+
+        smaller: function() {
+          size = 34;
+          marker.setIcon(getPin(color, size));
         },
 
         getPosition: function() {
