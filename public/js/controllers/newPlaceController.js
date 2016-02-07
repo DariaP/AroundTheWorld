@@ -32,7 +32,11 @@ angular.module('aroundTheWorld')
       placesService.getPlaces().save(
           $scope.newPlace, 
           function (result) {
-            $state.go('app.mapsSidebar.place', {placeId: result._id});
+            if (query.parentMap) {
+              $state.go('app.mapsSidebar.map.place', {mapId: query.parentMap, placeId: result._id});
+            } else {
+              $state.go('app.mapsSidebar.place', {placeId: result._id});              
+            }
         });
     }
   }])
