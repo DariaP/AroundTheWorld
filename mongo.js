@@ -98,7 +98,10 @@ function init(callback) {
 
         editPlace: function(placeId, user, place, callback) {
         places.update(
-          { _id:  getId(placeId),
+          { 
+            _id:  {
+              $in: [getId(placeId), placeId]
+            },
             user: user },
           { 
             $set:  place
