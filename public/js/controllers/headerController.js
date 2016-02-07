@@ -10,10 +10,11 @@ angular.module('aroundTheWorld')
     };
 
     $scope.userName = userName;
-    $scope.searchText = "";
 
     $scope.search = function() {
-      $rootScope.$emit('search', $scope.searchText);
+      // Google autocomplete doesn't work with angular models
+      var searchText = document.querySelector(".search-form input").value;
+      $rootScope.$emit('search', searchText);
     }
   }
 ]);
