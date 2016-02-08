@@ -113,7 +113,7 @@ angular.module('aroundTheWorld')
 
     $scope.close = function() {
       if ($state.current.name === "app.mapsSidebar.map") {
-        $state.go('app.map');
+        $state.go('app');
       } else {
         var placeId = $state.$current.locals.globals.$stateParams.placeId;
         $state.go('app.mapsSidebar.place', {placeId: placeId});

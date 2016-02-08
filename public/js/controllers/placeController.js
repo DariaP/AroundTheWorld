@@ -22,7 +22,7 @@ angular.module('aroundTheWorld')
 
     $scope.close = function() {
       if ($state.current.name === "app.mapsSidebar.place") {
-        $state.go('app.map');
+        $state.go('app');
       } else {
         $state.go('app.mapsSidebar.map', {mapId: $stateParams.mapId});
       }

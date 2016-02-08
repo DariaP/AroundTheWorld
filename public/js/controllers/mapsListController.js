@@ -37,6 +37,6 @@ angular.module('aroundTheWorld')
     }
 
     $scope.close = function() {
-      $state.go('app.map');
+      $state.go('app');
     }
 }])

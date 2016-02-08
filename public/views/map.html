@@ -1,65 +1,65 @@
-<div class="close-button-wrapper">
-  <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
-</div>
+<div ng-class="$root.col1Classes">
+  <div class="close-button-wrapper">
+    <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+  </div>
 
-<div ng-if="showMap && showPlaces">
-  <h4 ng-show="!showEditNameForm">
-    <span ng-click="editName()">{{ map.name }}</span>
-    <div class="btn-toolbar pull-right" role="toolbar">
-      <button type="button" class="btn btn-default btn-xs" ng-click="delete()">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
-      <button type="button" class="btn btn-default btn-xs" ng-click="addPlace()">
-        <span class="glyphicon glyphicon-plus"> place</span>
-      </button>
-    </div>
-  </h4>
-
-  <form class="my-inline" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="New name..." ng-model="newName">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="submit">
-          <span class="glyphicon glyphicon-ok"></span>
+  <div ng-if="showMap && showPlaces">
+    <h4 ng-show="!showEditNameForm">
+      <span ng-click="editName()">{{ map.name }}</span>
+      <div class="btn-toolbar pull-right" role="toolbar">
+        <button type="button" class="btn btn-default btn-xs" ng-click="delete()">
+          <span class="glyphicon glyphicon-remove"></span>
         </button>
-      </span>
-    </div>
-  </form>
-
-  <div ng-if="places.length !== 0">
-    <div class="panel panel-default scrollable">
-
-      <div class="list-group">
-        <a href="#" ng-click="placeLinkClick($event, place._id)" 
-        class="list-group-item" ng-repeat="place in places"
-        ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)">
-          {{ place.name }}
-          <div class="btn-toolbar pull-right" role="toolbar" ng-show="showButtons[$index]">
-            <button type="button" class="btn btn-default btn-xs" 
-              ng-click="removePlace(place._id, $index)">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-xs" 
-              ng-click="lookUpPlace(place._id)">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </div>
-        </a>
+        <button type="button" class="btn btn-default btn-xs" ng-click="addPlace()">
+          <span class="glyphicon glyphicon-plus"> place</span>
+        </button>
       </div>
+    </h4>
 
+    <form class="my-inline" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="New name..." ng-model="newName">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </span>
+      </div>
+    </form>
+
+    <div ng-if="places.length !== 0">
+      <div class="panel panel-default scrollable">
+
+        <div class="list-group">
+          <a href="#" ng-click="placeLinkClick($event, place._id)" 
+          class="list-group-item" ng-repeat="place in places"
+          ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)">
+            {{ place.name }}
+            <div class="btn-toolbar pull-right" role="toolbar" ng-show="showButtons[$index]">
+              <button type="button" class="btn btn-default btn-xs" 
+                ng-click="removePlace(place._id, $index)">
+                <span class="glyphicon glyphicon-minus"></span>
+              </button>
+              <button type="button" class="btn btn-default btn-xs" 
+                ng-click="lookUpPlace(place._id)">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </div>
+          </a>
+        </div>
+
+      </div>
     </div>
 
-    <div ui-view="sidebarSeparator"></div>
+    <div ng-if="places.length === 0">
+        <p>This map is empty</p>
+    </div>
 
-    <div ui-view="placeDetails"></div>
   </div>
 
-  <div ng-if="places.length === 0">
-      <p>This map is empty</p>
+  <div ng-if="!showPlaces">
+    {{message}}
   </div>
-
 </div>
 
-<div ng-if="!showPlaces">
-  {{message}}
-</div>
+<div ui-view="placeDetails" ng-class="$root.col2Classes"></div>
