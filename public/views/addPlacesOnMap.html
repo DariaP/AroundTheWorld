@@ -1,22 +1,24 @@
-<h4>
-  <span ng-click="editName()">Add places:</span>
-  <div class="btn-toolbar pull-right" role="toolbar">
-    <a href="/#/newPlace?parentMap={{mapId}}"
-     class="btn btn-default btn-xs">
-      <span class="glyphicon glyphicon-plus"> New</span>
+<div  ng-class="$root.col1Classes">
+  <h4>
+    <span ng-click="editName()">Add places:</span>
+    <div class="btn-toolbar pull-right" role="toolbar">
+      <a href="/#/newPlace?parentMap={{mapId}}"
+       class="btn btn-default btn-xs">
+        <span class="glyphicon glyphicon-plus"> New</span>
+      </a>
+    </div>
+  </h4>
+
+  <div class="list-group">
+    <a href="#" ng-click="placeLinkClick($event, place._id)" 
+    class="list-group-item" ng-repeat="place in places">
+      {{place.name}}
+      <div class="btn-toolbar pull-right" role="toolbar">
+        <button type="button" class="btn btn-default btn-xs" 
+          ng-click="addPlace(place._id, $index)">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
     </a>
   </div>
-</h4>
-
-<div class="list-group">
-  <a href="#" ng-click="placeLinkClick($event, place._id)" 
-  class="list-group-item" ng-repeat="place in places">
-    {{place.name}}
-    <div class="btn-toolbar pull-right" role="toolbar">
-      <button type="button" class="btn btn-default btn-xs" 
-        ng-click="addPlace(place._id, $index)">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
-    </div>
-  </a>
 </div>
