@@ -12,7 +12,7 @@ angular.module('aroundTheWorld')
   function ($scope, $state, $stateParams, $location, placesService, userName) 
   {
     var query = $location.search();
-
+console.log("test");
     $scope.newPlace = {
       name: query.title,
       location: query.location,
