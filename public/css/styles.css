@@ -66,7 +66,7 @@ h4 {
 }*/
 
 .scrollable {
-  height: 100%;
+  max-height: 100%;
   overflow: scroll; 
 }
 
@@ -170,6 +170,11 @@ div#new-place-tab {
 .close-button-wrapper {
   margin-top: 5px;
   height:30px;
+}
+
+.sidebar {
+  height: 100%;
+  overflow: hidden;
 }
 
 .sidebar-hr {

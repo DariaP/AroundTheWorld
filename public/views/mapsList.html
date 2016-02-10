@@ -1,4 +1,4 @@
-<div ng-class="$root.col1Classes">
+<div ng-class="$root.col1Classes" class="sidebar">
   <div class="close-button-wrapper">
     <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
   </div>
@@ -11,7 +11,7 @@
 
   <div ui-view="addMap"></div>
   
-  <div ng-if="maps.length !== 0 && showMaps">
+  <div ng-if="maps.length !== 0 && showMaps" class="sidebar">
     <div class="panel panel-default scrollable">
       <div class="list-group">
         <a ui-sref="app.mapsSidebar.map({mapId: map._id})" 

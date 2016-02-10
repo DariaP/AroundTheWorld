@@ -1,4 +1,9 @@
-<div  ng-class="$root.col1Classes">
+<div ng-class="$root.col1Classes" class="sidebar">
+
+  <div class="close-button-wrapper">
+    <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+  </div>
+
   <h4>
     <span ng-click="editName()">Add places:</span>
     <div class="btn-toolbar pull-right" role="toolbar">
@@ -9,16 +14,23 @@
     </div>
   </h4>
 
-  <div class="list-group">
-    <a href="#" ng-click="placeLinkClick($event, place._id)" 
-    class="list-group-item" ng-repeat="place in places">
-      {{place.name}}
-      <div class="btn-toolbar pull-right" role="toolbar">
-        <button type="button" class="btn btn-default btn-xs" 
-          ng-click="addPlace(place._id, $index)">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
+  <div set-height>
+    <div class="panel panel-default scrollable">
+      <div class="list-group">
+        <a href="#" ng-click="placeLinkClick($event, place._id)" 
+        class="list-group-item" ng-repeat="place in places">
+          {{place.name}}
+          <div class="btn-toolbar pull-right" role="toolbar">
+            <button type="button" class="btn btn-default btn-xs" 
+              ng-click="addPlace(place._id, $index)">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </div>
+        </a>
       </div>
-    </a>
+    </div>
   </div>
+
+  
+
 </div>

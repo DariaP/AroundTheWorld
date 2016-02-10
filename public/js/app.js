@@ -115,4 +115,12 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   $urlRouterProvider.otherwise('/');
-});
+})
+
+.directive('setHeight', function($window){
+  return{
+    link: function(scope, element, attrs){
+      element.height(element.parent().height() - element.position().top);
+    }
+  }
+})
