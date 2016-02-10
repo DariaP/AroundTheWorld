@@ -36,7 +36,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.login', {
-    url:'/mapslogin',
+    url:'mapslogin/',
     views: {
       'mapsSidebarContent': {
         templateUrl : 'views/login.html'
@@ -45,7 +45,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.maps', {
-    url:'/maps',
+    url:'maps/',
     views: {
       'mapsSidebarContent': {
         templateUrl : 'views/mapsList.html',
@@ -55,7 +55,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.maps.add', {
-    url:'/add',
+    url:'add/',
     views: {
       'addMap': {
         templateUrl : 'views/addMap.html',
@@ -65,7 +65,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.map', {
-      url: '/map/:mapId',
+      url: 'map/:mapId/',
       views: {
           'mapsSidebarContent': {
               templateUrl : 'views/map.html',
@@ -75,7 +75,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.addPlaces', {
-      url: '/addplaces/:mapId',
+      url: 'addplaces/:mapId/',
       views: {
           'mapsSidebarContent': {
               templateUrl : 'views/addPlacesOnMap.html',
@@ -85,7 +85,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.map.place', {
-      url: '/place/:placeId',
+      url: 'place/:placeId/',
       views: {
         'placeDetails' : {
           templateUrl : "views/placeDetails.html",
@@ -95,7 +95,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.place', {
-      url: '/place/:placeId',
+      url: 'place/:placeId/',
       views: {
         'mapsSidebarContent' : {
           templateUrl : "views/placeDetails.html",
@@ -105,7 +105,7 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.newPlace', {
-    url: 'newPlace',
+    url: 'newPlace/',
     views: {
       'content@': {
         templateUrl : 'views/addPlace.html',
@@ -118,9 +118,17 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
 })
 
 .directive('setHeight', function($window){
-  return{
-    link: function(scope, element, attrs){
-      element.height(element.parent().height() - element.position().top);
+  return {
+    link: function(scope, element, attrs) {
+      function setHightToBottom() {
+        var height = $(window).height() - element.offset().top;
+        element.height(height);
+      }
+
+      setHightToBottom();
+      $( window ).resize(function() {
+        setHightToBottom();
+      });
     }
   }
 })

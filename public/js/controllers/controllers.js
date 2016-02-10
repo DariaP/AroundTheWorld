@@ -3,36 +3,32 @@
 angular.module('aroundTheWorld')
 
 .controller('LayoutController',[
+  '$state',
   '$rootScope',
-  function ($rootScope) 
+  function ($state, $rootScope) 
   {
-  $rootScope.$on('$stateChangeStart',
-    function(event, toState, toParams, fromState, fromParams) {
-      var stateName = toState.name;
-
+    function setClasses(stateName) {
       if (stateName === "app") {
+        console.log('test');
         $rootScope.mapsSidebarClasses = "col-xs-hide";
         $rootScope.col1Classes = "col-xs-hide";
         $rootScope.col2Classes = "col-xs-hide";
         $rootScope.gmapClasses = "col-xs-12";
       }
 
-      if (stateName === "app.mapsSidebar.maps") {
-        $rootScope.mapsSidebarClasses = "col-xs-3";
+      if (stateName === "app.mapsSidebar.map" ||
+          stateName === "app.mapsSidebar.maps" ||
+          stateName === "app.mapsSidebar.login" ||
+          stateName === "app.mapsSidebar.addPlaces") {
+        $rootScope.mapsSidebarClasses = "sidebar col-xs-3";
         $rootScope.col1Classes = "col-xs-12";
         $rootScope.col2Classes = "col-xs-hide";
         $rootScope.gmapClasses = "col-xs-9";
       }
 
-      if (stateName === "app.mapsSidebar.map") {
-        $rootScope.mapsSidebarClasses = "col-xs-3";
-        $rootScope.col1Classes = "col-xs-12";
-        $rootScope.col2Classes = "col-xs-hide";
-        $rootScope.gmapClasses = "col-xs-9";
-      }
 
       if (stateName === "app.mapsSidebar.map.place") {
-        $rootScope.mapsSidebarClasses = "col-xs-6";
+        $rootScope.mapsSidebarClasses = "sidebar col-xs-6";
         $rootScope.col1Classes = "col-xs-6";
         $rootScope.col2Classes = "col-xs-6";
         $rootScope.gmapClasses = "col-xs-6";
@@ -44,6 +40,13 @@ angular.module('aroundTheWorld')
         $rootScope.col2Classes = "col-xs-12";
         $rootScope.gmapClasses = "col-xs-9";
       }
-      
+
+    }
+
+    setClasses($state.current.name);
+
+    $rootScope.$on('$stateChangeStart',
+      function(event, toState, toParams, fromState, fromParams) {
+        setClasses(toState.name);      
     });
 }])
