@@ -3,7 +3,7 @@
     <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
   </div>
 
-  <div ng-if="showMap && showPlaces" set-height>
+  <div ng-if="showMap && showPlaces" class="sidebar">
     <h4 ng-show="!showEditNameForm">
       <span ng-click="editName()">{{ map.name }}</span>
       <div class="btn-toolbar pull-right" role="toolbar">
@@ -27,7 +27,7 @@
       </div>
     </form>
 
-    <div ng-if="places.length !== 0" set-height>
+    <div ng-if="places.length !== 0" class="sidebar">
       <div class="panel panel-default scrollable">
 
         <div class="list-group">

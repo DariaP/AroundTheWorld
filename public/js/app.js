@@ -117,18 +117,4 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   $urlRouterProvider.otherwise('/');
 })
 
-.directive('setHeight', function($window){
-  return {
-    link: function(scope, element, attrs) {
-      function setHightToBottom() {
-        var height = $(window).height() - element.offset().top;
-        element.height(height);
-      }
-
-      setHightToBottom();
-      $( window ).resize(function() {
-        setHightToBottom();
-      });
-    }
-  }
-})
+;
