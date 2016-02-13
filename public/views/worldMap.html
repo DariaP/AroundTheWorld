@@ -1,9 +1,10 @@
-<div class="container-fluid map-container">
-  <div class="row row-content map-container">
+<div class="flex-item flex-row">
+    <div class="row row-content flex-item flex-row">
 
-    <div ui-view="mapsSidebar" ng-class="$root.mapsSidebarClasses" class="sidebar"></div>
+      <div ui-view="mapsSidebar" ng-class="$root.mapsSidebarClasses" class="flex-item flex-column"></div>
 
-    <div ng-class="$root.gmapClasses" class="map-container" id="map-canvas"></div>
+      <div ng-class="$root.gmapClasses" id="map-canvas" class="flex-item"></div>
 
-  </div>
+    </div>
+
 </div>

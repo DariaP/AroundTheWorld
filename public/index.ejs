@@ -18,11 +18,13 @@
 
 <body>
 
-  <div ui-view="header"></div>
-  <div ui-view="content" class="map-container"></div>
+  <div class="flex-column">
 
-  <div ui-view="layout"></div>
+    <div ui-view="header"></div>
+    <div ui-view="content" class="flex-item flex-column"></div>
 
+    <div ui-view="layout"></div>
+  <div>
 
   <script src="js/lib/jquery-1.11.1.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>

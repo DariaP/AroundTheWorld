@@ -9,7 +9,6 @@ angular.module('aroundTheWorld')
   {
     function setClasses(stateName) {
       if (stateName === "app") {
-        console.log('test');
         $rootScope.mapsSidebarClasses = "col-xs-hide";
         $rootScope.col1Classes = "col-xs-hide";
         $rootScope.col2Classes = "col-xs-hide";

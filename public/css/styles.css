@@ -135,10 +135,6 @@ li .parent-map {
 
 /* --- Maps ---------------------------- */
 
-/*div.maps {
-  width: 300px;
-  height: 300px;
-}*/
 
 .maps .content {
   padding-right: 20px;
@@ -172,11 +168,23 @@ div#new-place-tab {
   height:30px;
 }
 
-.sidebar {
+.flex-column {
   display: flex;
   height: 100%;
   flex-direction: column;
   overflow: hidden;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.flex-item {
+  flex: 1;
 }
 
 .sidebar-hr {
@@ -189,4 +197,8 @@ div#new-place-tab {
 
 .m-t-10 {
   margin-top: 10px;
+}
+
+.col-xs-hide {
+  max-height: 0px;
 }
