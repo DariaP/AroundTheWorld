@@ -170,29 +170,36 @@ div#new-place-tab {
 
 .flex-column {
   display: flex;
+  flex-direction: column;
   height: 100%;
-  flex-direction: column;
   overflow: hidden;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  width: 100%;
-  overflow: hidden;
-}
-
-.flex-item {
-  flex: 1;
 }
 
 .sidebar-hr {
-    margin: 5px -20px 5px -20px;
-    border: none;
-    height: 2px;
-    color: #eee;
-    background-color: #eee;
+  margin: 5px -20px 5px -20px;
+  border: none;
+  height: 2px;
+  color: #eee;
+  background-color: #eee;
+}
+
+.map-container {
+  height: 100%;
+}
+
+.header {
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  z-index: 2;
+}
+
+.content {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  padding-top: 52px;
+  z-index: 1;
 }
 
 .m-t-10 {
@@ -201,4 +208,13 @@ div#new-place-tab {
 
 .col-xs-hide {
   max-height: 0px;
+}
+
+#map-canvas {
+  height: 100%;
+}
+
+.sidebar {
+  height: 100%;
+  overflow: hidden;
 }
