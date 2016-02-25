@@ -142,8 +142,6 @@ function init(callback) {
             {}, 
             {w: 1}
           ).toArray ( function (err, res) {
-            console.log(res);
-            console.log(getId(mapId));
             if (err) {
               callback({err: err});
             } else {
