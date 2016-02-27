@@ -214,7 +214,14 @@ div#new-place-tab {
   height: 100%;
 }
 
+
 .sidebar {
   height: 100%;
   overflow: hidden;
+}
+
+.list-item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

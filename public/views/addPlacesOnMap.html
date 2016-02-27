@@ -19,13 +19,13 @@
       <div class="list-group">
         <a href="#" ng-click="placeLinkClick($event, place._id)" 
         class="list-group-item" ng-repeat="place in places">
-          {{place.name}}
           <div class="btn-toolbar pull-right" role="toolbar">
             <button type="button" class="btn btn-default btn-xs" 
               ng-click="addPlace(place._id, $index)">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
           </div>
+          <div class="list-item-text">{{place.name}}</div>
         </a>
       </div>
     </div>
