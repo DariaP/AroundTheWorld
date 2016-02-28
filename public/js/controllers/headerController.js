@@ -16,5 +16,12 @@ angular.module('aroundTheWorld')
       var searchText = document.querySelector(".search-form input").value;
       $rootScope.$emit('search', searchText);
     }
+
+    // Hide navbar on xs screens after menu item was clicked
+    $('.nav a').on('click', function() {
+      if ($(window).width() <= 768) {
+        $('.navbar-toggle').click()
+      }
+    });
   }
 ]);
