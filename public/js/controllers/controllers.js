@@ -19,25 +19,25 @@ angular.module('aroundTheWorld')
           stateName === "app.mapsSidebar.maps" ||
           stateName === "app.mapsSidebar.login" ||
           stateName === "app.mapsSidebar.addPlaces") {
-        $rootScope.mapsSidebarClasses = "sidebar col-xs-3";
+        $rootScope.mapsSidebarClasses = "sidebar col-xs-12 col-sm-3";
         $rootScope.col1Classes = "col-xs-12";
         $rootScope.col2Classes = "col-xs-hide";
-        $rootScope.gmapClasses = "col-xs-9";
+        $rootScope.gmapClasses = "col-xs-12 col-sm-9";
       }
 
 
       if (stateName === "app.mapsSidebar.map.place") {
-        $rootScope.mapsSidebarClasses = "sidebar col-xs-6";
-        $rootScope.col1Classes = "col-xs-6";
-        $rootScope.col2Classes = "col-xs-6";
-        $rootScope.gmapClasses = "col-xs-6";
+        $rootScope.mapsSidebarClasses = "sidebar col-xs-12 col-sm-6";
+        $rootScope.col1Classes = "col-xs-hide col-sm-6";
+        $rootScope.col2Classes = "col-xs-12 col-sm-6";
+        $rootScope.gmapClasses = "col-xs-12 col-sm-6";
       }
 
       if (stateName === "app.mapsSidebar.place") {
-        $rootScope.mapsSidebarClasses = "col-xs-3";
+        $rootScope.mapsSidebarClasses = "col-xs-12 col-sm-3";
         $rootScope.col1Classes = "col-xs-hide";
         $rootScope.col2Classes = "col-xs-12";
-        $rootScope.gmapClasses = "col-xs-9";
+        $rootScope.gmapClasses = "col-xs-12 col-sm-9";
       }
 
     }

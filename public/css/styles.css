@@ -168,12 +168,42 @@ div#new-place-tab {
   height:30px;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+@media (max-width: 767px) {
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    overflow: hidden;
+  }
+
+  .map-container {
+    height: 50vh;
+  }
+
+  .sidebar {
+    height: 50vh;
+    overflow: hidden;
+  }
 }
+
+@media (min-width: 768px) {
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .map-container {
+    height: 100%;
+  }
+
+  .sidebar {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
 
 .sidebar-hr {
   margin: 5px -20px 5px -20px;
@@ -181,10 +211,6 @@ div#new-place-tab {
   height: 2px;
   color: #eee;
   background-color: #eee;
-}
-
-.map-container {
-  height: 100%;
 }
 
 .header {
@@ -208,16 +234,6 @@ div#new-place-tab {
 
 .col-xs-hide {
   max-height: 0px;
-}
-
-#map-canvas {
-  height: 100%;
-}
-
-
-.sidebar {
-  height: 100%;
-  overflow: hidden;
 }
 
 .list-item-text {
