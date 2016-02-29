@@ -168,49 +168,26 @@ div#new-place-tab {
   height:30px;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar {
+  overflow: hidden;
+}
+
 @media (max-width: 767px) {
-  .flex-column {
-    display: flex;
-    flex-direction: column;
+  .column {
     height: 50vh;
-    overflow: hidden;
-  }
-
-  .map-container {
-    height: 50vh;
-  }
-
-  .sidebar {
-    height: 50vh;
-    overflow: hidden;
   }
 }
 
 @media (min-width: 768px) {
-  .flex-column {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .map-container {
+  .column {
     height: 100%;
   }
-
-  .sidebar {
-    height: 100%;
-    overflow: hidden;
-  }
-}
-
-
-.sidebar-hr {
-  margin: 5px -20px 5px -20px;
-  border: none;
-  height: 2px;
-  color: #eee;
-  background-color: #eee;
 }
 
 .header {
