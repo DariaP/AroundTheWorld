@@ -178,7 +178,7 @@ div#new-place-tab {
   overflow: hidden;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px) and (orientation: portrait){
   .column {
     height: 50vh;
   }
@@ -199,6 +199,20 @@ div#new-place-tab {
 @media (min-width: 768px) {
   .column {
     height: 100%;
+  }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .column {
+    height: 100%;
+  }
+
+  .xs-sidebar {
+    width: 50%;
+  }
+
+  .xs-map {
+    width: 50%; 
   }
 }
 
