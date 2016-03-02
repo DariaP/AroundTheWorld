@@ -28,6 +28,8 @@ function start(dbApi) {
   app.use(facebook.initialize());
   app.use(facebook.session());
 
+  var loginCallbacks = {};
+
   var callback = function(resp) {
     return function(result) {
       if(!result || result.err) resp.status(500).send(result);
@@ -43,15 +45,23 @@ function start(dbApi) {
     res.render('index', { user: req.user });
   });
 
-  app.get('/auth/facebook',
-    facebook.login(),
-    function(req, res){}
+  app.get('/auth/facebook/login/:url',  
+    function(req, res) {
+      loginCallbacks[req.sessionID] = req.params.url;
+      res.redirect('/auth/facebook/login');
+    }
   );
 
-  app.get('/auth/facebook/callback',
+  app.get('/auth/facebook/login',
+    facebook.login(),
+    function(req, res) {}
+  );
+
+  app.get('/auth/facebook/callback/',
     facebook.onFailure(),
     function(req, res) {
-      res.redirect('/');
+      var callbackUrl = decodeURIComponent(loginCallbacks[req.sessionID]);
+      res.redirect(callbackUrl);
     }
   );
 

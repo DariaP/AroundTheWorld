@@ -2,6 +2,22 @@
 
 angular.module('aroundTheWorld')
 
+.controller('LoginController', [
+  '$scope', 
+  '$window',
+  '$stateParams', 
+  function(
+    $scope,
+    $window,
+    $stateParams)
+  {
+    $scope.login = function(event) {
+      event.preventDefault();
+      $window.location.href = '/auth/facebook/login/' + encodeURIComponent($stateParams.url);
+    }
+  }
+])
+
 .controller('LayoutController',[
   '$state',
   '$rootScope',

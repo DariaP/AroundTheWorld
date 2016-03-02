@@ -36,10 +36,11 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
   })
 
   .state('app.mapsSidebar.login', {
-    url:'mapslogin/',
+    url:'mapslogin/:url',
     views: {
       'mapsSidebarContent': {
-        templateUrl : 'views/login.html'
+        templateUrl : 'views/login.html',
+        controller: 'LoginController'
       }
     }
   })
