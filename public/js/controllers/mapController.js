@@ -39,7 +39,11 @@ angular.module('aroundTheWorld')
               $rootScope.$emit('showMap', $scope.map._id);
           },
           function(response) {
-              $scope.message = "Error: "+response.status + " " + response.statusText;
+            if (response.data && response.data.err.login) {
+              $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+            } else
+              $scope.message = "Error: "+ response.status + " " + response.statusText;
+            }
           }
       );
 
@@ -47,16 +51,6 @@ angular.module('aroundTheWorld')
         $scope.places = places;
         $scope.showPlaces = true;        
       });
-
-     /* placesService.getPlaces().query({mapId: $stateParams.mapId},
-        function(response) {
-          $scope.places = response;
-          $scope.showPlaces = true;
-        },
-        function(response) {
-            //TODO
-        }
-      );*/
 
     } else {
       $state.go('app.mapsSidebar.login', {url: $location.absUrl()});

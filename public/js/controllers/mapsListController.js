@@ -28,7 +28,11 @@ angular.module('aroundTheWorld')
               $scope.showMaps = true;
           },
           function(response) {
+            if (response.data && response.data.err.login) {
+              $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+            } else {
               $scope.message = "Error: " + response.status + " " + response.statusText;
+            }
           });
     } else {
       $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
