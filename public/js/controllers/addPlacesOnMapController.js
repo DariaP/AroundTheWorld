@@ -7,6 +7,7 @@ angular.module('aroundTheWorld')
   '$rootScope',
   '$state',
   '$stateParams',
+  '$location',
   'mapsService',
   'placesService',
   'placesCachedService',
@@ -17,6 +18,7 @@ angular.module('aroundTheWorld')
     $rootScope,
     $state, 
     $stateParams, 
+    $location,
     mapsService,
     placesService,
     placesCachedService,
@@ -33,7 +35,7 @@ angular.module('aroundTheWorld')
         $scope.showPlaces = true;        
       });
     } else {
-      $state.go('app.mapsSidebar.login');
+      $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
     }
 
     $scope.addPlace = function(placeId, i) {

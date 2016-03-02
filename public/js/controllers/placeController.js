@@ -6,11 +6,24 @@ angular.module('aroundTheWorld')
   '$scope',
   '$state',
   '$stateParams',
+  '$location',
   'placesService',
   'placesCachedService',
   'userName',
-  function ($scope, $state, $stateParams, placesService, placesCachedService, userName) 
+  function (
+    $scope, 
+    $state, 
+    $stateParams, 
+    $location,
+    placesService, 
+    placesCachedService, 
+    userName) 
   {
+    if (!userName) {
+      $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+      return;
+    }
+
     $scope.showPlace = false;
     $scope.message="Loading ...";
     $scope.noWrapSlides = false;

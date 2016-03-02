@@ -5,11 +5,13 @@ angular.module('aroundTheWorld')
 .controller('MapsListController', [
   '$scope', 
   '$state',
+  '$location',
   'mapsService', 
   'userName', 
   function (
       $scope, 
       $state, 
+      $location,
       mapsService, 
       userName 
     ) 
@@ -29,7 +31,7 @@ angular.module('aroundTheWorld')
               $scope.message = "Error: " + response.status + " " + response.statusText;
           });
     } else {
-      $state.go('app.mapsSidebar.login');
+      $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
     }
 
     $scope.newMap = function() {
