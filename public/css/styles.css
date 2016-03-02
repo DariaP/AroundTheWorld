@@ -240,8 +240,15 @@ div#new-place-tab {
   max-height: 0px;
 }
 
+@media (min-width: 768px) {
+  .col-xs-hide {
+      max-height: 100%;
+  }
+}
+
 .list-item-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
