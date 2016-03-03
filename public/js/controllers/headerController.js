@@ -5,6 +5,11 @@ angular.module('aroundTheWorld')
 .controller('HeaderController', ['$scope', '$rootScope', 'userName', '$location',
   function ($scope, $rootScope, userName, $location) {
 
+    $scope.login = function(event) {
+      event.preventDefault();
+      console.log($location.absUrl());
+    }
+
     $scope.isActive = function (viewLocation) { 
       return viewLocation === $location.path();
     };

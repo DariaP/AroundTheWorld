@@ -117,7 +117,7 @@ function start(dbApi) {
     if (req.isAuthenticated()) {
       dbApi.getMap(req.params.id, userId(req.user), callback(res));
     } else {
-      callback(res)([]);
+      callback(res)({err: {login: true}});
     }
   });
 

@@ -45,7 +45,7 @@
             Hello, {{ userName }}
         </div>
         <div class="navbar-text" ng-if="!userName">
-            <a href="/auth/facebook">Login</a>
+            <a ng-click="login($event)">Login</a>
         </div>
       </div> 
 

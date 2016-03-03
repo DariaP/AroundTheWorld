@@ -236,13 +236,15 @@ div#new-place-tab {
   margin-top: 10px;
 }
 
-.col-xs-hide {
-  max-height: 0px;
+@media (max-width: 767px) {
+  .col-xs-hide {
+    max-height: 0px;
+  }
 }
 
 @media (min-width: 768px) {
-  .col-xs-hide {
-      max-height: 100%;
+  .col-sm-hide {
+    max-height: 0px;
   }
 }
 
