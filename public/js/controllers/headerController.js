@@ -2,12 +2,23 @@
 
 angular.module('aroundTheWorld')
 
-.controller('HeaderController', ['$scope', '$rootScope', 'userName', '$location',
-  function ($scope, $rootScope, userName, $location) {
-
+.controller('HeaderController', [
+  '$scope', 
+  '$rootScope', 
+  '$window', 
+  'userName', 
+  '$location',
+  function (
+    $scope, 
+    $rootScope, 
+    $window, 
+    userName, 
+    $location) 
+  {
     $scope.login = function(event) {
       event.preventDefault();
-      console.log($location.absUrl());
+      var url = $location.absUrl();
+      $window.location.href = '/auth/facebook/login/' + encodeURIComponent(url);
     }
 
     $scope.isActive = function (viewLocation) { 
