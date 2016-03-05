@@ -1,1 +1,1 @@
-protractor --params.login="$FACEBOOK_USERNAME" --params.password="$FACEBOOK_PASSWORD" conf.js
+protractor --params.login="$FACEBOOK_USERNAME" --params.password="$FACEBOOK_PASSWORD" conf.js --specs "$1"
