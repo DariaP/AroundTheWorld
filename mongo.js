@@ -214,7 +214,7 @@ function init(callback) {
             if (err) {
               callback({err: err});
             } else {
-              callback({_id: doc[0]._id});
+              callback({_id: doc.ops[0]._id});
             }
           });
         }
