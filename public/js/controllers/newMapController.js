@@ -4,10 +4,11 @@ angular.module('aroundTheWorld')
 
 .controller('NewMapController', [
   '$scope',
+  '$rootScope',
   '$state',
   'mapsService',
   'userName',
-  function ($scope, $state, mapsService, userName) 
+  function ($scope, $rootScope, $state, mapsService, userName) 
   {
     $scope.newMapName = "";
     $scope.addNewMap = function() {
@@ -15,8 +16,7 @@ angular.module('aroundTheWorld')
         mapsService.getMaps().save({
           name: $scope.newMapName
         }, function (result) {
-          console.log($scope)
-          $scope.$parent.$parent.maps.push({
+          $rootScope.$emit('newMap', {
             name: $scope.newMapName,
             _id: result._id
           });

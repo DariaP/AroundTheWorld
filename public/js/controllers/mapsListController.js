@@ -4,12 +4,14 @@ angular.module('aroundTheWorld')
 
 .controller('MapsListController', [
   '$scope', 
+  '$rootScope',
   '$state',
   '$location',
   'mapsService', 
   'userName', 
   function (
       $scope, 
+      $rootScope,
       $state, 
       $location,
       mapsService, 
@@ -26,6 +28,10 @@ angular.module('aroundTheWorld')
           function(response) {
               $scope.maps = response;
               $scope.showMaps = true;
+
+              $rootScope.$on('newMap', function(event, newMap) {
+                $scope.maps.push(newMap);
+              })
           },
           function(response) {
             if (response.data && response.data.err.login) {
