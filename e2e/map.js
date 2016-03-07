@@ -1,6 +1,6 @@
 var login = require('./login.js');
 
-var mapTitleSelector = 'h4 span',
+var mapTitleSelector = 'h4>span',
     buttonsSelector = 'h4 button';
 
 describe('map', function() {
