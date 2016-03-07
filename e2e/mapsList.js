@@ -4,7 +4,7 @@ var newMapButtonSelector = 'div[ui-view="mapsSidebarContent"] h4 button',
     newMapInputSelector = 'div[ui-view="mapsSidebarContent"] input',
     newMapFormSelector = 'div[ui-view="mapsSidebarContent"] form';
 
-describe('Around the world main page', function() {
+describe('list of maps', function() {
   it('should show maps list', function() {
     login(browser.driver);
 
