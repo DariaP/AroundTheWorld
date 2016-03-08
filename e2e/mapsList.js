@@ -1,50 +1,33 @@
-var login = require('./login.js');
-
-var newMapButtonSelector = 'div[ui-view="mapsSidebarContent"] h4 button',
-    newMapInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    newMapFormSelector = 'div[ui-view="mapsSidebarContent"] form';
+var Page = require('./aroundTheWorldPage.js');
 
 describe('list of maps', function() {
+
   it('should show maps list', function() {
-    login(browser.driver);
 
-    element(by.linkText('My maps')).click();
+    var page = new Page();
+    page.login();
 
-    var maps = element.all(by.repeater('map in maps'));
-    expect(maps.count()).toEqual(4);
+    page.openMapsList();
+    page.expectMapsNumberToBe(4);
 
-    var mapTitles = maps.map(function(map) {
-      return map.getText();
-    });
-    mapTitles.then(function (titles) {
-      expect(titles.indexOf('Chicago')).not.toEqual(-1);
-      expect(titles.indexOf('Washington D.C.')).not.toEqual(-1);
-      expect(titles.indexOf('USA')).not.toEqual(-1);
-      expect(titles.indexOf('Mountain trails')).not.toEqual(-1);
-    });
+    page.expectMapInList('Chicago');
+    page.expectMapInList('USA');
+    page.expectMapInList('Washington D.C.');
+    page.expectMapInList('Mountain trails');
+
   });
 
   it('should add new map', function() {
 
-    element(by.linkText('My maps')).click();
+    var page = new Page();
 
-    var maps = element.all(by.repeater('map in maps'));
-    expect(maps.count()).toEqual(4);
+    page.openMapsList();
+    page.expectMapsNumberToBe(4);
 
-    element(by.css(newMapButtonSelector)).click();
+    page.addMap("Test"); 
 
-    element(by.css(newMapInputSelector)).sendKeys("Test");
-    element(by.css(newMapFormSelector)).submit();
+    page.expectMapsNumberToBe(5);
+    page.expectMapInList("Test");
 
-    var maps = element.all(by.repeater('map in maps'));
-    expect(maps.count()).toEqual(5);
-
-    var mapTitles = maps.map(function(map) {
-      return map.getText();
-    });
-    mapTitles.then(function (titles) {
-      expect(titles.indexOf('Test')).not.toEqual(-1);
-    });
   });
-
 });
