@@ -1,92 +1,109 @@
-var login = require('./login.js');
-
-var editInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    newMapInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    saveChangesSelector = 'div[ui-view="mapsSidebarContent"] form button',
-    addMapButtonSelector = 'div[ui-view="mapsSidebarContent"] h4 button',
-    mapTitleSelector = 'h4>span',
-    buttonsSelector = 'h4 button';
+var Page = require('./aroundTheWorldPage.js');
 
 describe('map', function() {
   it('should add new map', function() {
-    login(browser.driver);
 
-    element(by.linkText('My maps')).click();
-    element(by.css(addMapButtonSelector)).click();
-    element(by.css(newMapInputSelector)).sendKeys("Test");
-    element(by.css(saveChangesSelector)).click();
+    var page = new Page();
+    page.login();
 
-    expect(element(by.linkText('Test')).isPresent()).toBe(true);
+    page.openMapsList();
+    page.expectMapsNumberToBe(4);
+
+    page.addMap("Test"); 
+
+    page.expectMapsNumberToBe(5);
+    page.expectMapInList("Test");
+
   });
 
-  it('should save new map', function() {
-    element(by.linkText('My maps')).click();
-    expect(element(by.linkText('Test')).isPresent()).toBe(true);
+  it('should edit map title', function() {
+    var page = new Page();
+
+    page.openMapsList();
+    page.openMap('Test');
+
+    page.editMapTitle("Test-edited");
+    page.expectMapTitleToBe('Test-edited');
+
+    page.openMapsList();
+    page.expectMapInList('Test-edited');
   });
 
-  it('should edit new map title', function() {
+  it('should save edited title', function() {
+    var page = new Page();
 
-    element(by.linkText('My maps')).click();
-    element(by.linkText('Test')).click();
-
-    element(by.css(mapTitleSelector)).click();
-    element(by.css(editInputSelector)).sendKeys("Test-edited");
-    element(by.css(saveChangesSelector)).click();
-
-    expect(element(by.css(mapTitleSelector)).getText()).toEqual("Test-edited");
+    page.openMapsList();
+    page.openMap('Test-edited');
+    page.expectMapTitleToBe('Test-edited');
   });
 
   it('should add and edit new map', function() {
 
-    element(by.linkText('My maps')).click();
-    element(by.css(addMapButtonSelector)).click();
-    element(by.css(newMapInputSelector)).sendKeys("Test2");
-    element(by.css(saveChangesSelector)).click();
+    var page = new Page();
 
-    expect(element(by.linkText('Test2')).isPresent()).toBe(true);
-    element(by.linkText('Test2')).click();
+    page.openMapsList();
+    page.addMap("Test2"); 
 
-    element(by.css(mapTitleSelector)).click();
-    element(by.css(editInputSelector)).sendKeys("Test2-edited");
-    element(by.css(saveChangesSelector)).click();
+    page.expectMapInList("Test2");
 
-    expect(element(by.css(mapTitleSelector)).getText()).toEqual("Test2-edited");
+    page.openMap('Test2');
+
+    page.editMapTitle("Test2-edited");
+    page.expectMapTitleToBe('Test2-edited');
+
+    page.openMapsList();
+    page.expectMapInList('Test2-edited');
   });
 
   it('should save all changes', function() {
-    element(by.linkText('My maps')).click();
-    expect(element(by.linkText('Test-edited')).isPresent()).toBe(true);
-    expect(element(by.linkText('Test2-edited')).isPresent()).toBe(true);
+    var page = new Page();
+
+    page.openMapsList();
+    page.expectMapInList("Test-edited");
+    page.expectMapInList("Test2-edited");
   });
 
   it('should delete new edited map', function() {
-    element(by.linkText('My maps')).click();
+    var page = new Page();
 
-    element(by.linkText('Test-edited')).click();
+    page.openMapsList();
+    page.expectMapsNumberToBe(6);
 
-    var deleteButton = element.all(by.css(buttonsSelector)).get(0);
-    deleteButton.click();
+    page.openMap('Test-edited');
+    page.deleteMap();
 
-    element(by.linkText('My maps')).click();
-
-    expect(element(by.linkText('Test-edited')).isPresent()).toBe(false);
+    page.openMapsList();
+    page.expectMapNotInList('Test-edited');
   });
 
   it('should add and delete new map', function() {
+    var page = new Page();
 
-    element(by.linkText('My maps')).click();
-    element(by.css(addMapButtonSelector)).click();
-    element(by.css(newMapInputSelector)).sendKeys("Test");
-    element(by.css(saveChangesSelector)).click();
+    page.openMapsList();
+    page.expectMapsNumberToBe(5);
 
-    element(by.linkText('Test')).click();
+    page.addMap("Test3"); 
+    page.openMap('Test3');
+    page.deleteMap();
 
-    var deleteButton = element.all(by.css(buttonsSelector)).get(0);
-    deleteButton.click();
+    page.openMapsList();
+    page.expectMapNotInList('Test3');
+  });
 
-    element(by.linkText('My maps')).click();
+  it('should add, edit and delete new map', function() {
+    var page = new Page();
 
-    expect(element(by.linkText('Test')).isPresent()).toBe(false);
+    page.openMapsList();
+    page.expectMapsNumberToBe(5);
+
+    page.addMap("Test4"); 
+    page.openMap('Test4');
+    page.editMapTitle("Test4-edited");
+    page.deleteMap();
+
+    page.openMapsList();
+    page.expectMapNotInList('Test4');
+    page.expectMapNotInList('Test4-edited');
   });
 
 });

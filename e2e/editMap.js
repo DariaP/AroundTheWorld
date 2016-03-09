@@ -1,64 +1,55 @@
-var login = require('./login.js');
-
-var editInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    saveChangesSelector = 'div[ui-view="mapsSidebarContent"] form button',
-    mapTitleSelector = 'h4>span',
-    buttonsSelector = 'h4 button';
+var Page = require('./aroundTheWorldPage.js');
 
 describe('map', function() {
   it('should edit map title', function() {
-    login(browser.driver);
+    var page = new Page();
+    page.login();
 
-    element(by.linkText('My maps')).click();
-    element(by.linkText('Chicago')).click();
+    page.openMapsList();
+    page.openMap('Chicago');
 
-    element(by.css(mapTitleSelector)).click();
-    element(by.css(editInputSelector)).sendKeys("Chicago-edited");
-    element(by.css(saveChangesSelector)).click();
+    page.editMapTitle("Chicago-edited");
+    page.expectMapTitleToBe('Chicago-edited');
 
-    expect(element(by.css(mapTitleSelector)).getText()).toEqual("Chicago-edited");
+    page.openMapsList();
+    page.expectMapInList('Chicago-edited');
   });
 
   it('should save edited title', function() {
+    var page = new Page();
 
-    element(by.linkText('My maps')).click();
-    element(by.linkText('Chicago-edited')).click();
-
-    expect(element(by.css(mapTitleSelector)).getText()).toEqual("Chicago-edited");
+    page.openMapsList();
+    page.openMap('Chicago-edited');
+    page.expectMapTitleToBe('Chicago-edited');
   });
 
   it('should delete edited map', function() {
+    var page = new Page();
 
-    element(by.linkText('My maps')).click();
-    element(by.linkText('Chicago-edited')).click();
+    page.openMapsList();
+    page.expectMapsNumberToBe(4);
 
-    var deleteButton = element.all(by.css(buttonsSelector)).get(0);
-    deleteButton.click();
+    page.openMap('Chicago-edited');
+    page.deleteMap();
 
-    element(by.linkText('My maps')).click();
-    element.all(by.linkText('Chicago-edited')).then(function(items) {
-        expect(items.length).toBe(0);
-    });
+    page.expectMapsNumberToBe(3);
+    page.expectMapNotInList('Chicago-edited');
   });
 
   it('should edit map title and delete edited map', function() {
 
-    element(by.linkText('My maps')).click();
-    element(by.linkText('USA')).click();
+    var page = new Page();
 
-    element(by.css(mapTitleSelector)).click();
-    element(by.css(editInputSelector)).sendKeys("USA-edited");
-    element(by.css(saveChangesSelector)).click();
+    page.openMapsList();
+    page.openMap('USA');
 
-    expect(element(by.css(mapTitleSelector)).getText()).toEqual("USA-edited");
+    page.editMapTitle("USA-edited");
+    page.expectMapTitleToBe('USA-edited');
 
-    var deleteButton = element.all(by.css(buttonsSelector)).get(0);
-    deleteButton.click();
+    page.deleteMap();
 
-    element(by.linkText('My maps')).click();
-    element.all(by.linkText('USA-edited')).then(function(items) {
-        expect(items.length).toBe(0);
-    });
+    page.expectMapsNumberToBe(2);
+    page.expectMapNotInList('USA-edited');
   });
 
 });

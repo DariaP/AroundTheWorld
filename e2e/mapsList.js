@@ -30,4 +30,13 @@ describe('list of maps', function() {
     page.expectMapInList("Test");
 
   });
+
+  it('should save new map', function() {
+    var page = new Page();
+
+    page.openMapsList();
+
+    page.expectMapsNumberToBe(5);
+    page.expectMapInList("Test");
+  });
 });
