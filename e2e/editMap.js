@@ -1,6 +1,6 @@
 var Page = require('./aroundTheWorldPage.js');
 
-describe('map', function() {
+describe('edit map', function() {
   it('should edit map title', function() {
     var page = new Page();
     page.login();

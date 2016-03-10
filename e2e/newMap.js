@@ -1,6 +1,6 @@
 var Page = require('./aroundTheWorldPage.js');
 
-describe('map', function() {
+describe('new map', function() {
   it('should add new map', function() {
 
     var page = new Page();
