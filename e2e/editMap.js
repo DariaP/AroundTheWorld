@@ -10,9 +10,18 @@ describe('map', function() {
 
     page.editMapTitle("Chicago-edited");
     page.expectMapTitleToBe('Chicago-edited');
+    page.expectPlacesNumberToBe(2);
+    page.expectPlaceInList('Bean');
+    page.expectPlaceInList('Skydeck');
 
     page.openMapsList();
     page.expectMapInList('Chicago-edited');
+
+    page.openMap('Chicago-edited');
+    page.expectMapTitleToBe('Chicago-edited');
+    page.expectPlacesNumberToBe(2);
+    page.expectPlaceInList('Bean');
+    page.expectPlaceInList('Skydeck');
   });
 
   it('should save edited title', function() {
