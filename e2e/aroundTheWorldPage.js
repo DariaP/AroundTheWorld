@@ -54,6 +54,10 @@ var AroundTheWorldPage = function() {
     expect(element(by.linkText(placeName)).isPresent()).toBe(true);
   };
 
+  this.expectPlaceNotInList = function(placeName) {
+    expect(element(by.linkText(placeName)).isPresent()).toBe(false);
+  };
+
   this.deleteMap = function() {
     var deleteButton = element.all(by.css(buttonsSelector)).get(0);
     deleteButton.click();
@@ -63,6 +67,15 @@ var AroundTheWorldPage = function() {
     element(by.css(mapTitleSelector)).click();
     element(by.css(editInputSelector)).sendKeys(newTitle);
     element(by.css(saveChangesSelector)).click();
+  }
+
+  this.removePlaceFromMap = function(placeTitle) {
+    var place = element(by.linkText(placeTitle));
+    browser.actions()
+      .mouseMove(place, {x: 1, y: 1})
+      .perform();
+
+    place.all(by.css('button')).get(0).click();
   }
 
   this.addMap = function(newMapName) {
