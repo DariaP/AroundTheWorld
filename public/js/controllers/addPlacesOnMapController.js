@@ -61,4 +61,11 @@ angular.module('aroundTheWorld')
       }
     }
 
+    //TODO - can go to map.place state
+    $scope.done = function() {
+      $state.go("app.mapsSidebar.map", {
+        mapId: $stateParams.mapId
+      });  
+    };
+
 }]);

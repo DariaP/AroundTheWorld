@@ -15,7 +15,7 @@ describe('add places', function() {
 
     page.openAddPlacesToMapList();
 
-    //page.expectPlacesNumberToBe(1);
+    page.expectPlacesNumberToBe(1);
     page.expectPlaceInList('Haiku Stairs');
 
     page.addPlace('Haiku Stairs');
@@ -40,7 +40,7 @@ describe('add places', function() {
 
     page.openAddPlacesToMapList();
 
-    //page.expectPlacesNumberToBe(2);
+    page.expectPlacesNumberToBe(2);
     page.expectPlaceInList('Bean');
     page.expectPlaceInList('Skydeck');
 
