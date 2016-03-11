@@ -78,6 +78,19 @@ var AroundTheWorldPage = function() {
     place.all(by.css('button')).get(0).click();
   }
 
+  this.openAddPlacesToMapList = function() {
+    var openListButton = element.all(by.css(buttonsSelector)).get(1);
+    openListButton.click();
+  };
+
+  this.addPlace = function(placeName) {
+    element(by.partialLinkText(placeName)).element(by.css('button')).click();
+  };
+
+  this.return = function() {
+    element(by.css('.done')).click();
+  };
+
   this.addMap = function(newMapName) {
     element(by.css(newMapButtonSelector)).click();
     element(by.css(newMapInputSelector)).sendKeys(newMapName);
