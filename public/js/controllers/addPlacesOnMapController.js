@@ -52,7 +52,7 @@ angular.module('aroundTheWorld')
     $scope.placeLinkClick = function(event, placeId) {
       event.preventDefault();
       // Need this workaround because link has buttons in it
-      var tag = console.log(event.target.tagName.toLowerCase());
+      var tag = event.target.tagName.toLowerCase();
       if(tag !== 'button' && tag !== 'span') {
         $state.go("app.mapsSidebar.place", {
           mapId: $stateParams.mapId, 
