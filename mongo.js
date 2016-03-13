@@ -71,7 +71,12 @@ function init(callback) {
         },
 
         getMap: function(mapId, user, callback) {
-          maps.find({ user:  { $eq : user }, _id: getId(mapId) }, 
+          maps.find({ 
+            user:  { $eq : user }, 
+            _id:  {
+              $in: [getId(mapId), mapId]
+              }
+            }, 
             {}, {w: 1}).toArray ( function (err, res) {
             if (err) {
               callback({err: err});
