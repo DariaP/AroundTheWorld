@@ -30,7 +30,7 @@ angular.module('aroundTheWorld')
     $scope.message="Loading ...";
 
     if (userName) {
-      placesCachedService.getAllPlaces(function(places) {
+      placesCachedService.getPlacesNotOnMap($scope.mapId, function(places) {
         $scope.places = places;
         $scope.showPlaces = true;        
       });

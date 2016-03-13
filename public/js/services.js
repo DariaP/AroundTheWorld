@@ -168,6 +168,24 @@ angular.module('aroundTheWorld')
     );
   }
 
+  this.getPlacesNotOnMap = function(mapId, callback) {
+    placesService.getPlaces().query(
+      function(response) {
+        var places = [];
+        for (var i = 0 ; i < response.length ; ++i) {
+          var place = response[i];
+          cache[place._id] = place;
+          if (place.parentMaps.indexOf(mapId) === -1)
+          places.push(place);
+        }
+        callback(places);
+      },
+      function(response) {
+          //TODO
+      }
+    );
+  }
+
 }])
 
 ;
