@@ -33,7 +33,7 @@
         <div class="list-group">
           <a href="#" ng-click="placeLinkClick($event, place._id)" 
           class="list-group-item" ng-repeat="place in places"
-          ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)">
+          ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)" title="{{place.name}}">
             <div class="btn-toolbar inline pull-right" role="toolbar" ng-show="showButtons[$index]">
               <button type="button" class="btn btn-default btn-xs" 
                 ng-click="removePlace(place._id, $index)">

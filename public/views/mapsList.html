@@ -15,7 +15,7 @@
     <div class="panel panel-default scrollable">
       <div class="list-group">
         <a ui-sref="app.mapsSidebar.map({mapId: map._id})" 
-        class="list-group-item list-item-text" ng-repeat="map in maps">
+        class="list-group-item list-item-text" ng-repeat="map in maps" title="{{map.name}}">
           {{ map.name }}
         </a>
       </div>

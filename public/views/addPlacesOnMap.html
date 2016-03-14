@@ -18,7 +18,7 @@
     <div class="panel panel-default scrollable">
       <div class="list-group">
         <a href="#" ng-click="placeLinkClick($event, place._id)" 
-        class="list-group-item" ng-repeat="place in places">
+        class="list-group-item" ng-repeat="place in places" title="{{place.name}}">
           <div class="btn-toolbar pull-right" role="toolbar">
             <button type="button" class="btn btn-default btn-xs" 
               ng-click="addPlace(place._id, $index)">
