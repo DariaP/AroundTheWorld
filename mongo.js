@@ -91,7 +91,11 @@ function init(callback) {
             place.user = user;
             addPlace(place, callback);
           } else {
-            places.find({_id: getId(placeId)}).limit(1).count(function (e, count) {
+            places.find({
+              _id:  {
+                $in: [getId(placeId), placeId]
+              }
+            }).limit(1).count(function (e, count) {
               if (count == 0) {
                 addPlace(place, callback);
               } else {
@@ -188,8 +192,12 @@ function init(callback) {
           });
         },
 
-        deleteMap: function(id, user, callback) {
-          maps.remove({_id: getId(id), user: user}, {w: 1}, function (err, result) {
+        deleteMap: function(mapId, user, callback) {
+          maps.remove({
+            _id:  {
+              $in: [getId(mapId), mapId]
+            }, 
+            user: user }, {w: 1}, function (err, result) {
             if (result == 1) {
               callback({});
             } else {
@@ -199,8 +207,11 @@ function init(callback) {
         },
 
         updateMap: function(mapId, map, user, callback) {
-          maps.update(
-            { _id:  getId(mapId), user: user },
+          maps.update({ 
+            _id:  {
+              $in: [getId(mapId), mapId]
+            }, 
+            user: user },
             { $set:  { name: map.name }
           },
           {w: 1},
