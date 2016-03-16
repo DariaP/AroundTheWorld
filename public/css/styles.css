@@ -13,64 +13,109 @@ body {
   margin-top: 0px;
 }
 
+#header {
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  z-index: 2;
+}
+
+#content {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  padding-top: 52px;
+  z-index: 1;
+}
+
 .map-container { 
   height: 100%;
-  /*width: 100%*/
 }
 
-/*.sidebar {
-  padding-left: 10px;
-  padding-right: 5px;
-  padding-bottom: 10px;
-  z-index: 1000;
-  position: fixed;
-  background-color: #fff;
-  border-color: #e7e7e7;
-  border-width: 1px;
-  border-style: solid;
+@media (max-width: 767px) and (orientation: portrait) {
+
+  .content-inner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  #sidebar {
+    height: 50vh;
+  }
+
+  #map-canvas {
+    height: 100%; 
+  }
+
 }
 
-.fixed-right {
-  right: 0;
-}*/
+@media (max-width: 767px) and (orientation: landscape) {
+  .content-inner {
+    height: 100%;
+  }
 
-/*.btn-right {
-  margin-left: 1px;
-  margin-right: 1px;
-  float: right;
+  #sidebar {
+    height: 100%;
+    overflow: hidden;
+    float: left;
+  }
+
+  .sidebar-1-col {
+    width: 50%;
+  }
+
+  .sidebar-2-cols {
+    width: 50%;
+  }
+
+  #map-canvas {
+    height: 100%; 
+  }
 }
 
-.chbx-right {
-  float: right;
-}*/
+@media (min-width: 768px) {
+  .content-inner {
+    height: 100%;
+  }
 
-/*ul {
-  list-style: none;
-  padding-left: 20px;
+  #sidebar {
+    height: 100%;
+    overflow: hidden;
+    float: left;
+  }
+
+  .sidebar-1-col {
+    width: 25%;
+  }
+
+  .sidebar-2-cols {
+    width: 50%;
+  }
+
+  #map-canvas {
+    height: 100%; 
+  }
 }
 
-li {
-  padding-bottom: 8px;
-}*/
+.hidden {
+  display: none;
+}
 
+
+/* --- Navbar ---------------------------- */
 h4 {
   padding-left: 20px;
   padding-bottom: 8px;
 }
 
-/*.bootstrap-style-link {
-  text-align: center;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 14px;
-  color: #333;
-}*/
 
 .scrollable {
   max-height: 100%;
   overflow: scroll; 
 }
-
-/* --- Navbar ---------------------------- */
 
 .navbar {
   margin-bottom: 0;
@@ -216,21 +261,7 @@ div#new-place-tab {
   }
 }
 
-.header {
-  position: absolute;
-  right: 0px;
-  left: 0px;
-  z-index: 2;
-}
 
-.content {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  padding-top: 52px;
-  z-index: 1;
-}
 
 .m-t-10 {
   margin-top: 10px;

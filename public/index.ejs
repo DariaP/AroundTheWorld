@@ -18,13 +18,11 @@
 
 <body>
 
-  <div class="map-container">
+  <div ui-view="header" id="header"></div>
+  <div ui-view="content" id="content" class="map-container"></div>
 
-    <div ui-view="header" class="header"></div>
-    <div ui-view="content" class="content"></div>
+  <div ui-view="layout"></div>
 
-    <div ui-view="layout"></div>
-  <div>
 
   <script src="js/lib/jquery-1.11.1.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>

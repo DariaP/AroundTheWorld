@@ -25,37 +25,27 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
     }
   })
 
-  .state('app.mapsSidebar', {
-    abstract: true,
-    views: {
-
-      'mapsSidebar': {
-        templateUrl : 'views/mapsSidebar.html'
-      }
-    }
-  })
-
-  .state('app.mapsSidebar.login', {
+  .state('app.login', {
     url:'mapslogin/:url',
     views: {
-      'mapsSidebarContent': {
+      'sidebar': {
         templateUrl : 'views/login.html',
         controller: 'LoginController'
       }
     }
   })
 
-  .state('app.mapsSidebar.maps', {
+  .state('app.maps', {
     url:'maps/',
     views: {
-      'mapsSidebarContent': {
+      'sidebar': {
         templateUrl : 'views/mapsList.html',
         controller  : 'MapsListController'
       }
     }
   })
 
-  .state('app.mapsSidebar.maps.add', {
+  .state('app.maps.add', {
     url:'add/',
     views: {
       'addMap': {
@@ -65,27 +55,27 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
     }
   })
 
-  .state('app.mapsSidebar.map', {
+  .state('app.map', {
       url: 'map/:mapId/',
       views: {
-          'mapsSidebarContent': {
+          'sidebar': {
               templateUrl : 'views/map.html',
               controller  : 'MapController'
          }
       }
   })
 
-  .state('app.mapsSidebar.addPlaces', {
+  .state('app.addPlaces', {
       url: 'addplaces/:mapId/',
       views: {
-          'mapsSidebarContent': {
+          'sidebar': {
               templateUrl : 'views/addPlacesOnMap.html',
               controller  : 'AddPlacesOnMapController'
          }
       }
   })
 
-  .state('app.mapsSidebar.map.place', {
+  .state('app.map.place', {
       url: 'place/:placeId/',
       views: {
         'placeDetails' : {
@@ -95,10 +85,10 @@ angular.module('aroundTheWorld', ['ui.router', 'user', 'ngResource', 'ui.bootstr
       }
   })
 
-  .state('app.mapsSidebar.place', {
+  .state('app.place', {
       url: 'place/:placeId/',
       views: {
-        'mapsSidebarContent' : {
+        'sidebar' : {
           templateUrl : "views/placeDetails.html",
           controller  : 'PlaceController'
         }

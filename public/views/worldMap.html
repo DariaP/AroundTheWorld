@@ -1,10 +1,4 @@
-<div class="map-container xs-content container-fluid">
-    <div class="row row-content map-container xs-content">
-
-      <div ui-view="mapsSidebar" ng-class="$root.mapsSidebarClasses" class="column sidebar xs-sidebar"></div>
-
-      <div ng-class="$root.gmapClasses" id="map-canvas" class="map-container xs-map"></div>
-
-    </div>
-
+<div class="content-inner">
+      <div id="sidebar" ng-class="$root.sidebarClasses" ui-view="sidebar"></div>
+      <div id="map-canvas" ng-class="$root.gmapClasses"></div>
 </div>

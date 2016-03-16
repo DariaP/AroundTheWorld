@@ -22,6 +22,6 @@ angular.module('aroundTheWorld')
           });
         });
       }
-      $state.go('app.mapsSidebar.maps');
+      $state.go('app.maps');
     }
 }]);

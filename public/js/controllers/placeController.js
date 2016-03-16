@@ -20,7 +20,7 @@ angular.module('aroundTheWorld')
     userName) 
   {
     if (!userName) {
-      $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+      $state.go('app.login', {url: $location.absUrl()});
       return;
     }
 
@@ -34,10 +34,10 @@ angular.module('aroundTheWorld')
     });
 
     $scope.close = function() {
-      if ($state.current.name === "app.mapsSidebar.place") {
+      if ($state.current.name === "app.place") {
         $state.go('app');
       } else {
-        $state.go('app.mapsSidebar.map', {mapId: $stateParams.mapId});
+        $state.go('app.map', {mapId: $stateParams.mapId});
       }
     }
 

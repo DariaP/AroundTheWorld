@@ -159,14 +159,14 @@ angular.module('aroundTheWorld')
     markers[place._id] = marker;
 
     marker.onClick(function(placeId) {
-      if ($state.current.name === "app.mapsSidebar.map.place" ||
-          $state.current.name === "app.mapsSidebar.map") {
-        $state.go('app.mapsSidebar.map.place', {
+      if ($state.current.name === "app.map.place" ||
+          $state.current.name === "app.map") {
+        $state.go('app.map.place', {
           placeId: placeId,
           mapId: $state.params.mapId
         });
       } else {
-        $state.go('app.mapsSidebar.place', {placeId: placeId});
+        $state.go('app.place', {placeId: placeId});
       }
     })
 

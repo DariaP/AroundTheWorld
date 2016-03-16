@@ -14,7 +14,7 @@
   <div ng-if="maps.length !== 0 && showMaps" class="flex-column column">
     <div class="panel panel-default scrollable">
       <div class="list-group">
-        <a ui-sref="app.mapsSidebar.map({mapId: map._id})" 
+        <a ui-sref="app.map({mapId: map._id})" 
         class="list-group-item list-item-text" ng-repeat="map in maps" title="{{map.name}}">
           {{ map.name }}
         </a>

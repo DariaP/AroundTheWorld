@@ -33,9 +33,9 @@ angular.module('aroundTheWorld')
           $scope.newPlace, 
           function (result) {
             if (query.parentMap) {
-              $state.go('app.mapsSidebar.map.place', {mapId: query.parentMap, placeId: result._id});
+              $state.go('app.map.place', {mapId: query.parentMap, placeId: result._id});
             } else {
-              $state.go('app.mapsSidebar.place', {placeId: result._id});              
+              $state.go('app.place', {placeId: result._id});              
             }
         });
     }

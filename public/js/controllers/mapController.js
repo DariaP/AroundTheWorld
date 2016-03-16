@@ -40,7 +40,7 @@ angular.module('aroundTheWorld')
           },
           function(response) {
             if (response.data && response.data.err.login) {
-              $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+              $state.go('app.login', {url: $location.absUrl()});
             } else {
               $scope.message = "Error: "+ response.status + " " + response.statusText;
             }
@@ -53,17 +53,17 @@ angular.module('aroundTheWorld')
       });
 
     } else {
-      $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+      $state.go('app.login', {url: $location.absUrl()});
     }
 
     $scope.delete = function() {
       mapsService.getMaps().delete({id:$scope.map._id}, function () {
-        $state.go('app.mapsSidebar.maps');
+        $state.go('app.maps');
       });
     }
 
     $scope.addPlace = function() {
-      $state.go('app.mapsSidebar.addPlaces', {mapId: $scope.map._id});
+      $state.go('app.addPlaces', {mapId: $scope.map._id});
     };
 
     $scope.showEditNameForm = false;
@@ -108,11 +108,11 @@ angular.module('aroundTheWorld')
     }
 
     $scope.close = function() {
-      if ($state.current.name === "app.mapsSidebar.map") {
+      if ($state.current.name === "app.map") {
         $state.go('app');
       } else {
         var placeId = $state.$current.locals.globals.$stateParams.placeId;
-        $state.go('app.mapsSidebar.place', {placeId: placeId});
+        $state.go('app.place', {placeId: placeId});
       }
     }
 
@@ -121,7 +121,7 @@ angular.module('aroundTheWorld')
       // Need this workaround because link has buttons in it
       var tag = event.target.tagName.toLowerCase();
       if(tag !== 'button' && tag !== 'span') {
-        $state.go("app.mapsSidebar.map.place", {
+        $state.go("app.map.place", {
           mapId: $stateParams.mapId, 
           placeId: placeId
         });
