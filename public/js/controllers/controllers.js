@@ -35,25 +35,25 @@ angular.module('aroundTheWorld')
           stateName === "app.maps" ||
           stateName === "app.login" ||
           stateName === "app.addPlaces") {
-        $rootScope.sidebarClasses = "sidebar-1-col";
-        $rootScope.col1Classes = "col-xs-12";
+        $rootScope.sidebarClasses = "narrow-sidebar";
+        $rootScope.col1Classes = "wide-col";
         $rootScope.col2Classes = "hidden";
         $rootScope.gmapClasses = "";
       }
 
 
       if (stateName === "app.map.place") {
-        $rootScope.sidebarClasses = "sidebar-2-cols";
-        $rootScope.col1Classes = "col-xs-hide col-sm-6";
-        $rootScope.col2Classes = "col-xs-12 col-sm-6";
-        $rootScope.gmapClasses = "column col-xs-6";
+        $rootScope.sidebarClasses = "wide-sidebar";
+        $rootScope.col1Classes = "narrow-col";
+        $rootScope.col2Classes = "narrow-col";
+        $rootScope.gmapClasses = "";
       }
 
       if (stateName === "app.place") {
-        $rootScope.sidebarClasses = "sidebar-1-col";
-        $rootScope.col1Classes = "col-xs-hide col-sm-hide";
-        $rootScope.col2Classes = "col-xs-12";
-        $rootScope.gmapClasses = "column col-xs-6 col-sm-9";
+        $rootScope.sidebarClasses = "narrow-sidebar";
+        $rootScope.col1Classes = "hidden";
+        $rootScope.col2Classes = "wide-col";
+        $rootScope.gmapClasses = "";
       }
 
     }

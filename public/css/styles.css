@@ -46,6 +46,11 @@ body {
     height: 50vh;
   }
 
+  .narrow-col {
+    position: absolute;
+    width: 100%;
+  }
+
   #map-canvas {
     height: 100%; 
   }
@@ -63,12 +68,17 @@ body {
     float: left;
   }
 
-  .sidebar-1-col {
+  .narrow-sidebar {
     width: 50%;
   }
 
-  .sidebar-2-cols {
+  .wide-sidebar {
     width: 50%;
+  }
+
+  .narrow-col {
+    position: absolute;
+    width: 100%;
   }
 
   #map-canvas {
@@ -87,12 +97,17 @@ body {
     float: left;
   }
 
-  .sidebar-1-col {
+  .narrow-sidebar {
     width: 25%;
   }
 
-  .sidebar-2-cols {
+  .wide-sidebar {
     width: 50%;
+  }
+
+  .narrow-col {
+    width: 50%;
+    float: left;
   }
 
   #map-canvas {
@@ -104,6 +119,9 @@ body {
   display: none;
 }
 
+.wide-col {
+  width: 100%;
+}
 
 /* --- Navbar ---------------------------- */
 h4 {
