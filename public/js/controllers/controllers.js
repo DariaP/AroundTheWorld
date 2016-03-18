@@ -44,8 +44,8 @@ angular.module('aroundTheWorld')
 
       if (stateName === "app.map.place") {
         $rootScope.sidebarClasses = "wide-sidebar";
-        $rootScope.col1Classes = "narrow-col";
-        $rootScope.col2Classes = "narrow-col";
+        $rootScope.col1Classes = "secondary-col";
+        $rootScope.col2Classes = "primary-col";
         $rootScope.gmapClasses = "";
       }
 

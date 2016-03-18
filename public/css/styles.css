@@ -1,5 +1,11 @@
 /* --- General ---------------------------- */
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 html {
   width: 100%;
   height: 100%
@@ -46,8 +52,11 @@ body {
     height: 50vh;
   }
 
-  .narrow-col {
-    position: absolute;
+  .secondary-col {
+    display: none;
+  }
+
+  .primary-col {
     width: 100%;
   }
 
@@ -76,8 +85,11 @@ body {
     width: 50%;
   }
 
-  .narrow-col {
-    position: absolute;
+  .secondary-col {
+    display: none;
+  }
+
+  .primary-col {
     width: 100%;
   }
 
@@ -105,7 +117,8 @@ body {
     width: 50%;
   }
 
-  .narrow-col {
+  .secondary-col,
+  .primary-col {
     width: 50%;
     float: left;
   }
@@ -231,11 +244,7 @@ div#new-place-tab {
   height:30px;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+
 
 .sidebar {
   overflow: hidden;
