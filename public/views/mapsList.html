@@ -1,4 +1,4 @@
-<div ng-class="$root.col1Classes" class="flex-column column">
+<div ng-class="$root.col1Classes" class="sidebar-inner">
   <div class="close-button-wrapper">
     <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
   </div>
@@ -11,8 +11,8 @@
 
   <div ui-view="addMap"></div>
   
-  <div ng-if="maps.length !== 0 && showMaps" class="flex-column column">
-    <div class="panel panel-default scrollable">
+  <div ng-if="maps.length !== 0 && showMaps" class="sidebar-inner">
+    <div class="panel panel-default sidebar-content-wrapper">
       <div class="list-group">
         <a ui-sref="app.map({mapId: map._id})" 
         class="list-group-item list-item-text" ng-repeat="map in maps" title="{{map.name}}">
@@ -26,7 +26,7 @@
       <p>You don't have any maps yet.</p>
   </div>
 
-  <div ng-if="!showMaps" class="flex-item">
+  <div ng-if="!showMaps">
     {{message}}
   </div>
 
