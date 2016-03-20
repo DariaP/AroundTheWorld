@@ -1,9 +1,13 @@
-<div ng-class="$root.col1Classes" class="flex-column column">
+<div ng-class="$root.col1Classes" class="sidebar-inner">
+  
   <div class="close-button-wrapper">
-    <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 
-  <div ng-if="showMap && showPlaces" class="flex-column column">
+  <div ng-if="showMap && showPlaces" class="sidebar-inner">
+
     <h4 ng-show="!showEditNameForm">
       <span ng-click="editName()">{{ map.name }}</span>
       <div class="btn-toolbar pull-right" role="toolbar">
@@ -16,7 +20,7 @@
       </div>
     </h4>
 
-    <form class="my-inline" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
+    <form class="inline-edit" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="New name..." ng-model="newName">
         <span class="input-group-btn">
@@ -27,14 +31,14 @@
       </div>
     </form>
 
-    <div ng-if="places.length !== 0" class="flex-column column">
-      <div class="panel panel-default scrollable">
+    <div ng-if="places.length !== 0" class="sidebar-inner">
+      <div class="panel panel-default sidebar-content-wrapper">
 
         <div class="list-group">
           <a href="#" ng-click="placeLinkClick($event, place._id)" 
           class="list-group-item" ng-repeat="place in places"
           ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)" title="{{place.name}}">
-            <div class="btn-toolbar inline pull-right" role="toolbar" ng-show="showButtons[$index]">
+            <div class="btn-toolbar pull-right" role="toolbar" ng-show="showButtons[$index]">
               <button type="button" class="btn btn-default btn-xs" 
                 ng-click="removePlace(place._id, $index)">
                 <span class="glyphicon glyphicon-minus"></span>
@@ -62,4 +66,4 @@
   </div>
 </div>
 
-<div ui-view="placeDetails" ng-class="$root.col2Classes" class="flex-column"></div>
+<div ui-view="placeDetails" ng-class="$root.col2Classes" class="sidebar-inner"></div>
