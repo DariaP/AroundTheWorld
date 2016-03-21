@@ -1,17 +1,17 @@
 var login = require('./login.js');
 
-var newMapButtonSelector = 'div[ui-view="mapsSidebarContent"] h4 button',
-    newMapInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    newMapFormSelector = 'div[ui-view="mapsSidebarContent"] form';
+var newMapButtonSelector = '#sidebar h4 button',
+    newMapInputSelector = '#sidebar input',
+    newMapFormSelector = '#sidebar form';
 
-var editInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    saveChangesSelector = 'div[ui-view="mapsSidebarContent"] form button',
+var editInputSelector = '#sidebar input',
+    saveChangesSelector = '#sidebar form button',
     mapTitleSelector = 'h4>span',
     buttonsSelector = 'h4 button';
 
-var editInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    newMapInputSelector = 'div[ui-view="mapsSidebarContent"] input',
-    addMapButtonSelector = 'div[ui-view="mapsSidebarContent"] h4 button';
+var editInputSelector = '#sidebar input',
+    newMapInputSelector = '#sidebar input',
+    addMapButtonSelector = '#sidebar h4 button';
 
 
 var AroundTheWorldPage = function() {

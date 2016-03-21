@@ -35,7 +35,7 @@ angular.module('aroundTheWorld')
         $scope.showPlaces = true;        
       });
     } else {
-      $state.go('app.mapsSidebar.login', {url: $location.absUrl()});
+      $state.go('app.login', {url: $location.absUrl()});
     }
 
     $scope.addPlace = function(placeId, i) {
@@ -54,7 +54,7 @@ angular.module('aroundTheWorld')
       // Need this workaround because link has buttons in it
       var tag = event.target.tagName.toLowerCase();
       if(tag !== 'button' && tag !== 'span') {
-        $state.go("app.mapsSidebar.place", {
+        $state.go("app.place", {
           mapId: $stateParams.mapId, 
           placeId: placeId
         });
@@ -63,7 +63,7 @@ angular.module('aroundTheWorld')
 
     //TODO - can go to map.place state
     $scope.done = function() {
-      $state.go("app.mapsSidebar.map", {
+      $state.go("app.map", {
         mapId: $stateParams.mapId
       });  
     };

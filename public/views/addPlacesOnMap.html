@@ -1,4 +1,4 @@
-<div ng-class="$root.col1Classes" class="flex-item flex-column column">
+<div ng-class="$root.col1Classes" class="sidebar-inner">
 
   <div class="close-button-wrapper">
     <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
@@ -14,8 +14,8 @@
     </div>
   </h4>
 
-  <div class="flex-item flex-column column">
-    <div class="panel panel-default scrollable">
+  <div class="sidebar-inner">
+    <div class="panel panel-default sidebar-content-wrapper">
       <div class="list-group">
         <a href="#" ng-click="placeLinkClick($event, place._id)" 
         class="list-group-item" ng-repeat="place in places" title="{{place.name}}">
