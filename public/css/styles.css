@@ -153,6 +153,20 @@ body {
   overflow: scroll;
 }
 
+h4 {
+  padding-left: 20px;
+  padding-bottom: 8px;
+}
+
+form#add-map,
+form.edit-map-title,
+form.edit-place-title,
+form.edit-place-location {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
+
 .inline-edit {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -165,32 +179,8 @@ body {
   white-space: nowrap;
 }
 
-/* --- Navbar ---------------------------- */
-
-h4 {
-  padding-left: 20px;
-  padding-bottom: 8px;
-}
-
-.navbar {
-  margin-bottom: 0;
-}
-
-.search-form input {
-  width: 350px;
-}
-
-/* --- Map tab ---------------------------- */
-
-div#map-tab {
-  padding-top: 0;
-}
-
-/* --- Place details ----------------------- */
-
-
-.place-details {
-  margin-left: 10px;
+button.done {
+  float: right;
 }
 
 .pic-frame {
@@ -199,20 +189,22 @@ div#map-tab {
 }
 
 .pic-frame a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-position: center center;
-    background-size: cover;
-  }
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: cover;
+}
 
+.search-result-menu h5 {
+  text-align: center;
+}
 
+form#add-new-place {
+  margin-top: 10px;
+}
 
-
-
-
-
-.modal-header {
+/*.modal-header {
   border-bottom: 0;
 }
 
@@ -231,40 +223,5 @@ li .parent-map {
 
 .place-details .done {
   margin-left: 46px;
-}
-
-/* --- Maps ---------------------------- */
-
-
-.maps .content {
-  padding-right: 20px;
-}
-
-
-
-/* --- New place tab -------------------- */
-
-div#new-place-tab {
-  padding-top: 10px;
-}
-
-/* --- Search res menu ------------------- */
-
-.search-res-menu h5 {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.one-line {
-  width: 100%;
-}
-
-
-
-.m-t-10 {
-  margin-top: 10px;
-}
-
-
-
+}*/
 

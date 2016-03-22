@@ -29,7 +29,7 @@ angular.module('aroundTheWorld')
 
     $scope.search = function() {
       // Google autocomplete doesn't work with angular models
-      var searchText = document.querySelector(".search-form input").value;
+      var searchText = document.querySelector("#nav-search input").value;
       $rootScope.$emit('search', searchText);
     }
 

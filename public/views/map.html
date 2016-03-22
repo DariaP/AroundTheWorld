@@ -11,16 +11,16 @@
     <h4 ng-show="!showEditNameForm">
       <span ng-click="editName()">{{ map.name }}</span>
       <div class="btn-toolbar pull-right" role="toolbar">
-        <button type="button" class="btn btn-default btn-xs" ng-click="delete()">
+        <button type="button" class="btn btn-default btn-xs delete" ng-click="delete()">
           <span class="glyphicon glyphicon-remove"></span>
         </button>
-        <button type="button" class="btn btn-default btn-xs" ng-click="addPlace()">
+        <button type="button" class="btn btn-default btn-xs add" ng-click="addPlace()">
           <span class="glyphicon glyphicon-plus"> place</span>
         </button>
       </div>
     </h4>
 
-    <form class="inline-edit" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
+    <form class="edit-map-title" ng-show="showEditNameForm" ng-submit='saveNewName(newName)'>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="New name..." ng-model="newName">
         <span class="input-group-btn">
@@ -39,11 +39,11 @@
           class="list-group-item" ng-repeat="place in places"
           ng-mouseover="placeHoverIn($index)" ng-mouseleave="placeHoverOut($index)" title="{{place.name}}">
             <div class="btn-toolbar pull-right" role="toolbar" ng-show="showButtons[$index]">
-              <button type="button" class="btn btn-default btn-xs" 
+              <button type="button" class="btn btn-default btn-xs remove" 
                 ng-click="removePlace(place._id, $index)">
                 <span class="glyphicon glyphicon-minus"></span>
               </button>
-              <button type="button" class="btn btn-default btn-xs" 
+              <button type="button" class="btn btn-default btn-xs lookup" 
                 ng-click="lookUpPlace(place._id)">
                 <span class="glyphicon glyphicon-search"></span>
               </button>

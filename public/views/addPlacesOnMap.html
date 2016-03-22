@@ -5,16 +5,17 @@
   </div>
 
   <h4>
-    <span ng-click="editName()">Add places:</span>
+    Add places:
     <div class="btn-toolbar pull-right" role="toolbar">
       <a href="/#/newPlace?parentMap={{mapId}}"
-       class="btn btn-default btn-xs">
+       class="btn btn-default btn-xs new">
         <span class="glyphicon glyphicon-plus"> New</span>
       </a>
     </div>
   </h4>
 
   <div class="sidebar-inner">
+
     <div class="panel panel-default sidebar-content-wrapper">
       <div class="list-group">
         <a href="#" ng-click="placeLinkClick($event, place._id)" 
@@ -30,10 +31,12 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-default done" 
-      ng-click="done()">
-      done
-    </button>
+    <form>
+      <button type="button" class="btn btn-default done" 
+        ng-click="done()">
+        done
+      </button>
+    </form>
 
   </div>
 

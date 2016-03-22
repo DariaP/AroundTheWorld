@@ -1,11 +1,13 @@
+<div class="sidebar-inner">
+
 <div class="close-button-wrapper">
   <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
 </div>
 
-<div ng-if="showPlace" class="flex-column column">
-  <div class="panel panel-default scrollable">
+<div ng-if="showPlace" class="sidebar-inner">
+  <div class="panel panel-default sidebar-content-wrapper">
 
-        <div class="place-pics"  ng-if="place.pics.length !== 0">
+        <div ng-if="place.pics.length !== 0">
           <uib-carousel no-wrap="noWrapSlides">
             <uib-slide ng-repeat="pic in place.pics">
               <div class='pic-frame'>
@@ -20,7 +22,7 @@
 
           <h4 ng-click="edit('name')" ng-show="!showEdit['name']">{{ place.name }}</h4>
 
-          <form class="my-inline" 
+          <form class="edit-place-title" 
           ng-show="showEdit['name']" 
           ng-submit="save('name')">
             <div class="input-group">
@@ -37,12 +39,12 @@
             </div>
           </form>
 
-        <p ng-show="!showEdit['location']"
-         ng-click="edit('location')">
-          <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
-        </p>
+          <p ng-show="!showEdit['location']"
+           ng-click="edit('location')">
+            <small> {{ place.location.lat }}, {{ place.location.lng }} </small>
+          </p>
 
-          <form class="my-inline" 
+          <form class="edit-place-location" 
           ng-show="showEdit['location']" 
           ng-submit="save('location')">
             <div class="input-group">
@@ -70,4 +72,6 @@
 
 <div ng-if="!showPlace">
   {{message}}
+</div>
+
 </div>

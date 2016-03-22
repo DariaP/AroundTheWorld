@@ -29,7 +29,7 @@
         </li>
       </ul>
 
-      <form class="navbar-form navbar-left search-form" role="search" ng-submit="search()">
+      <form id="nav-search" class="navbar-form navbar-left" role="search" ng-submit="search()">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search">
           <span class="input-group-btn">
@@ -40,7 +40,7 @@
         </div><!-- /input-group -->
       </form><!-- /search-form -->
 
-      <div class="nav navbar-right">
+      <div id="nav-login" class="nav navbar-right">
         <div class="navbar-text" ng-if="userName">
             Hello, {{ userName }}
         </div>

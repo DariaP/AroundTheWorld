@@ -1,18 +1,13 @@
 var login = require('./login.js');
 
-var newMapButtonSelector = '#sidebar h4 button',
-    newMapInputSelector = '#sidebar input',
-    newMapFormSelector = '#sidebar form';
-
-var editInputSelector = '#sidebar input',
-    saveChangesSelector = '#sidebar form button',
-    mapTitleSelector = 'h4>span',
-    buttonsSelector = 'h4 button';
-
-var editInputSelector = '#sidebar input',
-    newMapInputSelector = '#sidebar input',
-    addMapButtonSelector = '#sidebar h4 button';
-
+var addMapButtonSelector = '#sidebar button.add-new',
+    addMapInputSelector = '#sidebar #add-map input',
+    addMapFormSelector = '#sidebar #add-map',
+    mapTitleSelector = '#sidebar h4>span',
+    deleteMapButtonSelector = '#sidebar .delete',
+    addPlacesToMapButtonSelector = '#sidebar .add',
+    editMapTitleInputSelector = '#sidebar form.edit-map-title input',
+    saveMapTitleButtonSelector = '#sidebar form.edit-map-title button';
 
 var AroundTheWorldPage = function() {
 
@@ -59,14 +54,14 @@ var AroundTheWorldPage = function() {
   };
 
   this.deleteMap = function() {
-    var deleteButton = element.all(by.css(buttonsSelector)).get(0);
+    var deleteButton = element(by.css(deleteMapButtonSelector));
     deleteButton.click();
   };
 
   this.editMapTitle = function(newTitle) {
     element(by.css(mapTitleSelector)).click();
-    element(by.css(editInputSelector)).sendKeys(newTitle);
-    element(by.css(saveChangesSelector)).click();
+    element(by.css(editMapTitleInputSelector)).sendKeys(newTitle);
+    element(by.css(saveMapTitleButtonSelector)).click();
   }
 
   this.removePlaceFromMap = function(placeTitle) {
@@ -79,7 +74,7 @@ var AroundTheWorldPage = function() {
   }
 
   this.openAddPlacesToMapList = function() {
-    var openListButton = element.all(by.css(buttonsSelector)).get(1);
+    var openListButton = element(by.css(addPlacesToMapButtonSelector));
     openListButton.click();
   };
 
@@ -92,9 +87,9 @@ var AroundTheWorldPage = function() {
   };
 
   this.addMap = function(newMapName) {
-    element(by.css(newMapButtonSelector)).click();
-    element(by.css(newMapInputSelector)).sendKeys(newMapName);
-    element(by.css(newMapFormSelector)).submit();
+    element(by.css(addMapButtonSelector)).click();
+    element(by.css(addMapInputSelector)).sendKeys(newMapName);
+    element(by.css(addMapFormSelector)).submit();
   }
 };
 
