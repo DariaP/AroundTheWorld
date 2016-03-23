@@ -33,6 +33,7 @@ angular.module('aroundTheWorld')
 
       if (stateName === "app.map" ||
           stateName === "app.maps" ||
+          stateName === "app.maps.add" ||
           stateName === "app.login" ||
           stateName === "app.addPlaces") {
         $rootScope.sidebarClasses = "narrow-sidebar";
